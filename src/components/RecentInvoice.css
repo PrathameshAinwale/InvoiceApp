@@ -1,0 +1,86 @@
+.recent-invoice {
+  background: white;
+  border-radius: 16px;
+  padding: 1rem;
+  margin: 1rem 0;
+}
+
+.recent-invoice-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 1rem;
+}
+
+.recent-invoice-header h5 {
+  font-size: 16px;
+  font-weight: 600;
+  margin: 0;
+  color: #333;
+}
+
+.recent-invoice-header span {
+  font-size: 13px;
+  color: #667eea;
+  cursor: pointer;
+}
+
+.invoice-item {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 10px 0;
+  border-bottom: 1px solid #f1f1f1;
+}
+
+.invoice-item:last-child {
+  border-bottom: none;
+}
+
+.invoice-avatar {
+  width: 42px;
+  height: 42px;
+  border-radius: 50%;
+  background: #667eea;
+  color: white;
+  font-size: 13px;
+  font-weight: 600;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+}
+
+.invoice-info {
+  flex: 1;
+}
+
+.invoice-name {
+  font-size: 14px;
+  font-weight: 600;
+  color: #333;
+  margin: 0 0 3px;
+}
+
+.invoice-id {
+  font-size: 12px;
+  color: #aaa;
+  margin: 0;
+}
+
+.invoice-right {
+  text-align: right;
+}
+
+.invoice-amount {
+  font-size: 14px;
+  font-weight: 700;
+  color: #333;
+  margin: 0 0 3px;
+}
+
+.invoice-date {
+  font-size: 12px;
+  color: #aaa;
+  margin: 0;
+}

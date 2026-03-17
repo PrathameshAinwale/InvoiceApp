@@ -1,0 +1,122 @@
+[
+  {
+    "id": "INV-2024-079",
+    "customerName": "Shopify Inc.",
+    "avatar": "SI",
+    "avatarColor": "#667eea",
+    "amount": 2240,
+    "currency": "USD",
+    "date": "Jan 26, 2025",
+    "time": "11:45 AM",
+    "status": "paid",
+    "email": "billing@shopify.com"
+  },
+  {
+    "id": "INV-2024-078",
+    "customerName": "Sarah Johnson",
+    "avatar": "SJ",
+    "avatarColor": "#f093fb",
+    "amount": 780,
+    "currency": "USD",
+    "date": "Jan 25, 2025",
+    "time": "1:15 PM",
+    "status": "pending",
+    "email": "sarah.j@gmail.com"
+  },
+  {
+    "id": "INV-2024-077",
+    "customerName": "David Miller",
+    "avatar": "DM",
+    "avatarColor": "#4facfe",
+    "amount": 6980,
+    "currency": "USD",
+    "date": "Jan 16, 2025",
+    "time": "3:00 PM",
+    "status": "overdue",
+    "email": "david.miller@outlook.com"
+  },
+  {
+    "id": "INV-2024-076",
+    "customerName": "Emma Thompson",
+    "avatar": "ET",
+    "avatarColor": "#43e97b",
+    "amount": 4200,
+    "currency": "USD",
+    "date": "Jan 13, 2025",
+    "time": "10:30 AM",
+    "status": "paid",
+    "email": "emma.t@yahoo.com"
+  },
+  {
+    "id": "INV-2024-075",
+    "customerName": "Michael Chen",
+    "avatar": "MC",
+    "avatarColor": "#fa709a",
+    "amount": 12400,
+    "currency": "USD",
+    "date": "Jan 10, 2025",
+    "time": "2:45 PM",
+    "status": "overdue",
+    "email": "m.chen@protonmail.com"
+  },
+  {
+    "id": "INV-2024-074",
+    "customerName": "Priya Sharma",
+    "avatar": "PS",
+    "avatarColor": "#f7971e",
+    "amount": 8750,
+    "currency": "USD",
+    "date": "Jan 8, 2025",
+    "time": "9:15 AM",
+    "status": "pending",
+    "email": "priya.sharma@gmail.com"
+  },
+  {
+    "id": "INV-2024-073",
+    "customerName": "Carlos Rivera",
+    "avatar": "CR",
+    "avatarColor": "#ee0979",
+    "amount": 3200,
+    "currency": "USD",
+    "date": "Jan 5, 2025",
+    "time": "4:00 PM",
+    "status": "overdue",
+    "email": "carlos.r@hotmail.com"
+  },
+  {
+    "id": "INV-2024-072",
+    "customerName": "Aisha Patel",
+    "avatar": "AP",
+    "avatarColor": "#17ead9",
+    "amount": 19800,
+    "currency": "USD",
+    "date": "Jan 3, 2025",
+    "time": "11:00 AM",
+    "status": "paid",
+    "email": "aisha.patel@gmail.com"
+  },
+  {
+    "id": "INV-2024-071",
+    "customerName": "James Wilson",
+    "avatar": "JW",
+    "avatarColor": "#6a11cb",
+    "amount": 5500,
+    "currency": "USD",
+    "date": "Dec 28, 2024",
+    "time": "3:30 PM",
+    "status": "draft",
+    "email": "james.w@gmail.com"
+  },
+  {
+    "id": "INV-2024-070",
+    "customerName": "Lisa Park",
+    "avatar": "LP",
+    "avatarColor": "#2575fc",
+    "amount": 9100,
+    "currency": "USD",
+    "date": "Dec 25, 2024",
+    "time": "12:00 PM",
+    "status": "paid",
+    "email": "lisa.park@icloud.com"
+  }
+]

@@ -1,0 +1,232 @@
+.invoice-page {
+  background: #f8f9fa;
+  min-height: 100vh;
+}
+
+/* Header */
+.invoice-page-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 1rem;
+  background: white;
+  position: sticky;
+  top: 0;
+  z-index: 100;
+  box-shadow: 0 2px 10px rgba(0,0,0,0.05);
+}
+
+.invoice-page-title {
+  font-size: 18px;
+  font-weight: 700;
+  color: #333;
+  margin: 0;
+}
+
+.back-btn {
+  background: #f8f9fa;
+  border: none;
+  border-radius: 10px;
+  width: 36px;
+  height: 36px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  color: #333;
+}
+
+.add-invoice-btn {
+  background: #667eea;
+  border: none;
+  border-radius: 10px;
+  width: 36px;
+  height: 36px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  color: white;
+}
+
+/* Summary */
+.invoice-summary {
+  display: flex;
+  gap: 8px;
+  padding: 1rem;
+}
+
+.inv-summary-card {
+  flex: 1;
+  border-radius: 12px;
+  padding: 10px 8px;
+  text-align: center;
+}
+
+.paid-card    { background: #e6f4ea; }
+.pending-card { background: #fff8e1; }
+.overdue-card { background: #fce4ec; }
+.draft-card   { background: #e8f0fe; }
+
+.inv-summary-label {
+  font-size: 11px;
+  font-weight: 500;
+  color: #666;
+  margin: 0 0 4px;
+}
+
+.inv-summary-count {
+  font-size: 18px;
+  font-weight: 700;
+  color: #333;
+  margin: 0;
+}
+
+/* Search */
+.invoice-search-wrapper {
+  position: relative;
+  margin: 0 1rem 1rem;
+}
+
+.invoice-search-icon {
+  position: absolute;
+  left: 14px;
+  top: 50%;
+  transform: translateY(-50%);
+  color: #aaa;
+}
+
+.invoice-search {
+  width: 100%;
+  padding: 10px 16px 10px 38px;
+  border: 2px solid #e9ecef;
+  border-radius: 12px;
+  font-size: 14px;
+  background: white;
+  outline: none;
+}
+
+.invoice-search:focus {
+  border-color: #667eea;
+}
+
+/* Filter Tabs */
+.invoice-filters {
+  display: flex;
+  gap: 8px;
+  padding: 0 1rem 1rem;
+  overflow-x: auto;
+}
+
+.invoice-filters::-webkit-scrollbar {
+  display: none;
+}
+
+.filter-tab {
+  padding: 6px 14px;
+  border-radius: 20px;
+  border: 1.5px solid #e9ecef;
+  background: white;
+  font-size: 13px;
+  font-weight: 500;
+  color: #666;
+  cursor: pointer;
+  white-space: nowrap;
+  transition: all 0.2s;
+}
+
+.filter-tab.active {
+  background: #667eea;
+  color: white;
+  border-color: #667eea;
+}
+
+/* List */
+.invoice-list {
+  padding: 0 1rem;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.invoice-card {
+  background: white;
+  border-radius: 14px;
+  padding: 14px;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  box-shadow: 0 1px 4px rgba(0,0,0,0.06);
+}
+
+.inv-avatar {
+  width: 44px;
+  height: 44px;
+  border-radius: 50%;
+  color: white;
+  font-size: 13px;
+  font-weight: 700;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+}
+
+.inv-info {
+  flex: 1;
+}
+
+.inv-name {
+  font-size: 14px;
+  font-weight: 600;
+  color: #333;
+  margin: 0 0 2px;
+}
+
+.inv-id {
+  font-size: 12px;
+  color: #aaa;
+  margin: 0 0 2px;
+}
+
+.inv-date {
+  font-size: 12px;
+  color: #aaa;
+  margin: 0;
+}
+
+.inv-right {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  gap: 6px;
+}
+
+.inv-amount {
+  font-size: 14px;
+  font-weight: 700;
+  color: #333;
+  margin: 0;
+}
+
+/* Status Badges */
+.inv-badge {
+  font-size: 11px;
+  font-weight: 600;
+  padding: 3px 8px;
+  border-radius: 20px;
+  text-transform: capitalize;
+}
+
+.inv-badge.paid    { background: #e6f4ea; color: #2e7d32; }
+.inv-badge.pending { background: #fff8e1; color: #f57f17; }
+.inv-badge.overdue { background: #fce4ec; color: #c62828; }
+.inv-badge.draft   { background: #e8f0fe; color: #1565c0; }
+
+/* Empty */
+.empty-state {
+  text-align: center;
+  padding: 3rem 1rem;
+  color: #aaa;
+  font-size: 14px;
+}

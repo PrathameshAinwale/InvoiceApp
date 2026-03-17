@@ -1,0 +1,275 @@
+.sales-page {
+  background: #f8f9fa;
+  min-height: 100vh;
+}
+
+/* Header */
+.sales-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 1rem;
+  background: white;
+  position: sticky;
+  top: 0;
+  z-index: 100;
+  box-shadow: 0 2px 10px rgba(0,0,0,0.05);
+}
+
+.sales-title {
+  font-size: 18px;
+  font-weight: 700;
+  color: #333;
+  margin: 0;
+}
+
+.back-btn {
+  background: #f8f9fa;
+  border: none;
+  border-radius: 10px;
+  width: 36px;
+  height: 36px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  color: #333;
+}
+
+/* Summary */
+.sales-summary {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 10px;
+  padding: 1rem;
+}
+
+.sales-summary-card {
+  border-radius: 14px;
+  padding: 14px;
+}
+
+.revenue-card   { background: #e8f0fe; }
+.completed-card { background: #e6f4ea; }
+.refunded-card  { background: #fff8e1; }
+.cancelled-card { background: #fce4ec; }
+
+.sales-summary-label {
+  font-size: 12px;
+  font-weight: 500;
+  color: #666;
+  margin: 0 0 6px;
+}
+
+.sales-summary-value {
+  font-size: 20px;
+  font-weight: 700;
+  color: #333;
+  margin: 0;
+}
+
+/* Search */
+.sales-search-wrapper {
+  padding: 0 1rem 0.5rem;
+}
+
+.sales-search {
+  width: 100%;
+  padding: 10px 16px;
+  border: 2px solid #e9ecef;
+  border-radius: 12px;
+  font-size: 14px;
+  background: white;
+  outline: none;
+  box-sizing: border-box;
+}
+
+.sales-search:focus {
+  border-color: #667eea;
+}
+
+/* Filters */
+.sales-filters {
+  display: flex;
+  gap: 8px;
+  padding: 0.5rem 1rem;
+  overflow-x: auto;
+}
+
+.sales-filters::-webkit-scrollbar {
+  display: none;
+}
+
+.filter-tab {
+  padding: 6px 14px;
+  border-radius: 20px;
+  border: 1.5px solid #e9ecef;
+  background: white;
+  font-size: 13px;
+  font-weight: 500;
+  color: #666;
+  cursor: pointer;
+  white-space: nowrap;
+  transition: all 0.2s;
+}
+
+.filter-tab.active {
+  background: #667eea;
+  color: white;
+  border-color: #667eea;
+}
+
+/* Count */
+.sales-count {
+  font-size: 13px;
+  color: #aaa;
+  padding: 0 1rem 0.5rem;
+  margin: 0;
+}
+
+/* List */
+.sales-list {
+  padding: 0 1rem;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+/* Sale Card */
+.sale-card {
+  background: white;
+  border-radius: 16px;
+  padding: 14px;
+  box-shadow: 0 1px 4px rgba(0,0,0,0.06);
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+/* Top Row */
+.sale-top {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.sale-avatar-name {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.sale-avatar {
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  color: white;
+  font-size: 13px;
+  font-weight: 700;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+}
+
+.sale-customer {
+  font-size: 14px;
+  font-weight: 600;
+  color: #333;
+  margin: 0 0 2px;
+}
+
+.sale-id {
+  font-size: 12px;
+  color: #aaa;
+  margin: 0;
+}
+
+/* Status Badge */
+.sale-badge {
+  font-size: 11px;
+  font-weight: 600;
+  padding: 4px 10px;
+  border-radius: 20px;
+  text-transform: capitalize;
+}
+
+.sale-badge.completed { background: #e6f4ea; color: #2e7d32; }
+.sale-badge.refunded  { background: #fff8e1; color: #f57f17; }
+.sale-badge.cancelled { background: #fce4ec; color: #c62828; }
+
+/* Divider */
+.sale-divider {
+  height: 1px;
+  background: #f1f1f1;
+}
+
+/* Product Row */
+.sale-product-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  gap: 10px;
+}
+
+.sale-product-name {
+  font-size: 14px;
+  font-weight: 600;
+  color: #333;
+  margin: 0 0 4px;
+}
+
+.sale-product-meta {
+  font-size: 12px;
+  color: #aaa;
+  margin: 0;
+}
+
+.sale-amounts {
+  text-align: right;
+}
+
+.sale-final-amount {
+  font-size: 15px;
+  font-weight: 700;
+  color: #333;
+  margin: 0 0 2px;
+}
+
+.sale-base-amount {
+  font-size: 12px;
+  color: #aaa;
+  text-decoration: line-through;
+  margin: 0;
+}
+
+/* Bottom Row */
+.sale-bottom {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.sale-date {
+  font-size: 12px;
+  color: #aaa;
+  margin: 0;
+}
+
+.sale-payment {
+  font-size: 12px;
+  font-weight: 500;
+  color: #667eea;
+  background: #e8f0fe;
+  padding: 3px 10px;
+  border-radius: 20px;
+  margin: 0;
+}
+
+/* Empty */
+.empty-state {
+  text-align: center;
+  padding: 3rem 1rem;
+  color: #aaa;
+  font-size: 14px;
+}

@@ -1,0 +1,301 @@
+.followups-page {
+  background: #f8f9fa;
+  min-height: 100vh;
+}
+
+/* Header */
+.followups-header {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 1rem;
+  background: white;
+  position: sticky;
+  top: 0;
+  z-index: 100;
+  box-shadow: 0 2px 10px rgba(0,0,0,0.05);
+}
+
+.back-btn {
+  background: #f8f9fa;
+  border: none;
+  border-radius: 10px;
+  width: 36px;
+  height: 36px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  color: #333;
+}
+
+.followups-title {
+  font-size: 18px;
+  font-weight: 700;
+  color: #333;
+  margin: 0;
+}
+
+/* Summary Cards */
+.followups-summary {
+  display: flex;
+  gap: 10px;
+  padding: 1rem;
+}
+
+.summary-card {
+  flex: 1;
+  border-radius: 12px;
+  padding: 12px 10px;
+  text-align: center;
+}
+
+.overdue-card {
+  background: #fce4ec;
+}
+
+.pending-card  {
+  background: #fff8e1;
+}
+
+.total-card {
+  background: #e8f0fe;
+}
+
+.summary-label {
+  font-size: 11px;
+  font-weight: 500;
+  color: #666;
+  margin: 0 0 4px;
+}
+
+.summary-count {
+  font-size: 16px;
+  font-weight: 700;
+  color: #333;
+  margin: 0;
+}
+
+/* Filter Tabs */
+.followups-filters {
+  display: flex;
+  gap: 8px;
+  padding: 0 1rem 1rem;
+}
+
+.filter-tab {
+  padding: 6px 16px;
+  border-radius: 20px;
+  border: 1.5px solid #e9ecef;
+  background: white;
+  font-size: 13px;
+  font-weight: 500;
+  color: #666;
+  cursor: pointer;
+  transition: all 0.2s;
+}
+
+.filter-tab.active {
+  background: #667eea;
+  color: white;
+  border-color: #667eea;
+}
+
+/* List */
+.followups-list {
+  padding: 0 1rem;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.followup-card {
+  background: white;
+  border-radius: 14px;
+  padding: 14px;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  box-shadow: 0 1px 4px rgba(0,0,0,0.06);
+}
+
+.followup-avatar {
+  width: 44px;
+  height: 44px;
+  border-radius: 50%;
+  color: white;
+  font-size: 14px;
+  font-weight: 700;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+}
+
+.followup-info {
+  flex: 1;
+}
+
+.followup-name {
+  font-size: 14px;
+  font-weight: 600;
+  color: #333;
+  margin: 0 0 2px;
+}
+
+.followup-invoice {
+  font-size: 12px;
+  color: #aaa;
+  margin: 0 0 5px;
+}
+
+.followup-badge {
+  font-size: 11px;
+  font-weight: 600;
+  padding: 3px 8px;
+  border-radius: 20px;
+}
+
+.followup-badge.overdue {
+  background: #fce4ec;
+  color: #c62828;
+}
+
+.followup-badge.pending {
+  background: #fff8e1;
+  color: #f57f17;
+}
+
+.followup-right {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  gap: 6px;
+}
+
+.followup-amount {
+  font-size: 14px;
+  font-weight: 700;
+  color: #333;
+  margin: 0;
+}
+
+/* Call Button */
+.call-btn {
+  background: #e8f0fe;
+  border: none;
+  border-radius: 50%;
+  width: 32px;
+  height: 32px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  color: #667eea;
+  transition: background 0.2s;
+}
+
+.call-btn:hover {
+  background: #667eea;
+  color: white;
+}
+
+/* Empty State */
+.empty-state {
+  text-align: center;
+  padding: 2rem;
+  color: #aaa;
+  font-size: 14px;
+}
+
+/* Overlay */
+.phone-overlay {
+  position: fixed;
+  top: 0; left: 0; right: 0; bottom: 0;
+  background: rgba(0,0,0,0.5);
+  z-index: 2000;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+/* Popup */
+.phone-popup {
+  background: white;
+  border-radius: 20px;
+  padding: 2rem 1.5rem;
+  width: 85%;
+  max-width: 320px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  position: relative;
+  gap: 8px;
+}
+
+.popup-close {
+  position: absolute;
+  top: 12px;
+  right: 12px;
+  background: #f8f9fa;
+  border: none;
+  border-radius: 50%;
+  width: 32px;
+  height: 32px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  color: #333;
+}
+
+.popup-avatar {
+  width: 64px;
+  height: 64px;
+  border-radius: 50%;
+  color: white;
+  font-size: 22px;
+  font-weight: 700;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-bottom: 8px;
+}
+
+.popup-name {
+  font-size: 18px;
+  font-weight: 700;
+  color: #333;
+  margin: 0;
+}
+
+.popup-label {
+  font-size: 12px;
+  color: #aaa;
+  margin: 0;
+}
+
+.popup-phone {
+  font-size: 20px;
+  font-weight: 700;
+  color: #667eea;
+  margin: 4px 0 12px;
+}
+
+.popup-call-btn {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  background: #667eea;
+  color: white;
+  padding: 12px 28px;
+  border-radius: 12px;
+  font-size: 15px;
+  font-weight: 600;
+  text-decoration: none;
+  transition: background 0.2s;
+}
+
+.popup-call-btn:hover {
+  background: #5a6fd6;
+}

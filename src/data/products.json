@@ -1,0 +1,122 @@
+[
+  {
+    "id": "PRD-001",
+    "name": "Web Design Package",
+    "category": "Design",
+    "price": 25000,
+    "unit": "project",
+    "gst": 18,
+    "stock": 999,
+    "status": "active",
+    "icon": "WD",
+    "iconColor": "#667eea"
+  },
+  {
+    "id": "PRD-002",
+    "name": "UI/UX Consultation",
+    "category": "Design",
+    "price": 5000,
+    "unit": "hr",
+    "gst": 18,
+    "stock": 999,
+    "status": "active",
+    "icon": "UX",
+    "iconColor": "#f093fb"
+  },
+  {
+    "id": "PRD-003",
+    "name": "Logo Design",
+    "category": "Design",
+    "price": 8000,
+    "unit": "project",
+    "gst": 18,
+    "stock": 999,
+    "status": "active",
+    "icon": "LD",
+    "iconColor": "#4facfe"
+  },
+  {
+    "id": "PRD-004",
+    "name": "SEO Optimization",
+    "category": "Marketing",
+    "price": 12000,
+    "unit": "month",
+    "gst": 18,
+    "stock": 999,
+    "status": "active",
+    "icon": "SE",
+    "iconColor": "#43e97b"
+  },
+  {
+    "id": "PRD-005",
+    "name": "Social Media Management",
+    "category": "Marketing",
+    "price": 15000,
+    "unit": "month",
+    "gst": 18,
+    "stock": 999,
+    "status": "inactive",
+    "icon": "SM",
+    "iconColor": "#fa709a"
+  },
+  {
+    "id": "PRD-006",
+    "name": "React Development",
+    "category": "Development",
+    "price": 50000,
+    "unit": "project",
+    "gst": 18,
+    "stock": 999,
+    "status": "active",
+    "icon": "RD",
+    "iconColor": "#f7971e"
+  },
+  {
+    "id": "PRD-007",
+    "name": "Node.js Backend",
+    "category": "Development",
+    "price": 45000,
+    "unit": "project",
+    "gst": 18,
+    "stock": 999,
+    "status": "active",
+    "icon": "NB",
+    "iconColor": "#ee0979"
+  },
+  {
+    "id": "PRD-008",
+    "name": "Mobile App Development",
+    "category": "Development",
+    "price": 80000,
+    "unit": "project",
+    "gst": 18,
+    "stock": 999,
+    "status": "active",
+    "icon": "MA",
+    "iconColor": "#17ead9"
+  },
+  {
+    "id": "PRD-009",
+    "name": "Content Writing",
+    "category": "Content",
+    "price": 2000,
+    "unit": "hr",
+    "gst": 18,
+    "stock": 999,
+    "status": "active",
+    "icon": "CW",
+    "iconColor": "#6a11cb"
+  },
+  {
+    "id": "PRD-010",
+    "name": "Video Editing",
+    "category": "Content",
+    "price": 3000,
+    "unit": "hr",
+    "gst": 18,
+    "stock": 10,
+    "status": "inactive",
+    "icon": "VE",
+    "iconColor": "#2575fc"
+  }
+]

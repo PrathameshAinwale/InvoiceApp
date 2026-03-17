@@ -1,0 +1,41 @@
+
+.currency-select-wrapper {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  margin: 1rem 0;
+}
+
+.currency-label {
+  font-size: 13px;
+  font-weight: 500;
+  color: #555;
+}
+
+.currency-select {
+  width: 100%;
+  padding: 12px 16px;
+  border: 2px solid #e9ecef;
+  border-radius: 12px;
+  font-size: 15px;
+  background: #f8f9fa;
+  color: #333;
+  outline: none;
+  cursor: pointer;
+  transition: border 0.2s;
+}
+
+.currency-select:focus {
+  border-color: #667eea;
+  background: white;
+}
+
+.currency-loading {
+  font-size: 13px;
+  color: #aaa;
+}
+
+.currency-error {
+  font-size: 13px;
+  color: red;
+}

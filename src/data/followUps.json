@@ -1,0 +1,74 @@
+[
+  {
+    "id": "FU-001",
+    "customerName": "David Miller",
+    "avatar": "DM",
+    "avatarColor": "#4facfe",
+    "phone": "+44 7700-555-0134",
+    "amountPending": 6980,
+    "currency": "USD",
+    "overdueBy": 45,
+    "invoiceId": "INV-2024-077",
+    "status": "overdue"
+  },
+  {
+    "id": "FU-002",
+    "customerName": "Carlos Rivera",
+    "avatar": "CR",
+    "avatarColor": "#ee0979",
+    "phone": "+52 55-5555-0143",
+    "amountPending": 3200,
+    "currency": "USD",
+    "overdueBy": 32,
+    "invoiceId": "INV-2024-073",
+    "status": "overdue"
+  },
+  {
+    "id": "FU-003",
+    "customerName": "Sarah Johnson",
+    "avatar": "SJ",
+    "avatarColor": "#f093fb",
+    "phone": "+1 312-555-0192",
+    "amountPending": 1500,
+    "currency": "USD",
+    "overdueBy": 15,
+    "invoiceId": "INV-2024-078",
+    "status": "pending"
+  },
+  {
+    "id": "FU-004",
+    "customerName": "Priya Sharma",
+    "avatar": "PS",
+    "avatarColor": "#f7971e",
+    "phone": "+91 98765-55043",
+    "amountPending": 8750,
+    "currency": "USD",
+    "overdueBy": 60,
+    "invoiceId": "INV-2024-074",
+    "status": "overdue"
+  },
+  {
+    "id": "FU-005",
+    "customerName": "Emma Thompson",
+    "avatar": "ET",
+    "avatarColor": "#43e97b",
+    "phone": "+44 7911-555-0167",
+    "amountPending": 2100,
+    "currency": "USD",
+    "overdueBy": 10,
+    "invoiceId": "INV-2024-076",
+    "status": "pending"
+  },
+  {
+    "id": "FU-006",
+    "customerName": "Michael Chen",
+    "avatar": "MC",
+    "avatarColor": "#fa709a",
+    "phone": "+86 138-555-0189",
+    "amountPending": 12400,
+    "currency": "USD",
+    "overdueBy": 75,
+    "invoiceId": "INV-2024-075",
+    "status": "overdue"
+  }
+]

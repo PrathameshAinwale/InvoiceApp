@@ -1,0 +1,271 @@
+.products-page {
+  background: #f8f9fa;
+  min-height: 100vh;
+}
+
+/* Header */
+.products-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 1rem;
+  background: white;
+  position: sticky;
+  top: 0;
+  z-index: 100;
+  box-shadow: 0 2px 10px rgba(0,0,0,0.05);
+}
+
+.products-title {
+  font-size: 18px;
+  font-weight: 700;
+  color: #333;
+  margin: 0;
+}
+
+.back-btn {
+  background: #f8f9fa;
+  border: none;
+  border-radius: 10px;
+  width: 36px;
+  height: 36px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  color: #333;
+}
+
+.add-product-btn {
+  background: #667eea;
+  border: none;
+  border-radius: 10px;
+  width: 36px;
+  height: 36px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  color: white;
+}
+
+/* Summary */
+.products-summary {
+  display: flex;
+  gap: 10px;
+  padding: 1rem;
+}
+
+.prod-summary-card {
+  flex: 1;
+  border-radius: 12px;
+  padding: 12px 10px;
+  text-align: center;
+}
+
+.total-card    { background: #e8f0fe; }
+.active-card   { background: #e6f4ea; }
+.inactive-card { background: #fce4ec; }
+
+.prod-summary-label {
+  font-size: 11px;
+  font-weight: 500;
+  color: #666;
+  margin: 0 0 4px;
+}
+
+.prod-summary-count {
+  font-size: 20px;
+  font-weight: 700;
+  color: #333;
+  margin: 0;
+}
+
+/* Status Filter */
+.products-status-filter {
+  display: flex;
+  gap: 8px;
+  padding: 0 1rem 0.5rem;
+}
+
+/* Category Filter */
+.products-category-filter {
+  display: flex;
+  gap: 8px;
+  padding: 0 1rem 1rem;
+  overflow-x: auto;
+}
+
+.products-category-filter::-webkit-scrollbar {
+  display: none;
+}
+
+.filter-tab {
+  padding: 6px 14px;
+  border-radius: 20px;
+  border: 1.5px solid #e9ecef;
+  background: white;
+  font-size: 13px;
+  font-weight: 500;
+  color: #666;
+  cursor: pointer;
+  white-space: nowrap;
+  transition: all 0.2s;
+}
+
+.filter-tab.active {
+  background: #667eea;
+  color: white;
+  border-color: #667eea;
+}
+
+.category-tab {
+  padding: 6px 14px;
+  border-radius: 20px;
+  border: 1.5px solid #e9ecef;
+  background: white;
+  font-size: 13px;
+  font-weight: 500;
+  color: #666;
+  cursor: pointer;
+  white-space: nowrap;
+  transition: all 0.2s;
+}
+
+.category-tab.active {
+  background: #333;
+  color: white;
+  border-color: #333;
+}
+
+/* Product List */
+.products-list {
+  padding: 0 1rem;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.product-card {
+  background: white;
+  border-radius: 14px;
+  padding: 14px;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  box-shadow: 0 1px 4px rgba(0,0,0,0.06);
+}
+
+/* Product Icon */
+.product-icon {
+  width: 46px;
+  height: 46px;
+  border-radius: 12px;
+  color: white;
+  font-size: 13px;
+  font-weight: 700;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+}
+
+/* Product Info */
+.product-info {
+  flex: 1;
+}
+
+.product-name {
+  font-size: 14px;
+  font-weight: 600;
+  color: #333;
+  margin: 0 0 2px;
+}
+
+.product-category {
+  font-size: 12px;
+  color: #aaa;
+  margin: 0 0 4px;
+}
+
+.product-meta {
+  display: flex;
+  gap: 6px;
+}
+
+.product-unit,
+.product-gst {
+  font-size: 11px;
+  padding: 2px 8px;
+  border-radius: 20px;
+  background: #f0f3ff;
+  color: #667eea;
+  font-weight: 500;
+}
+
+/* Product Right */
+.product-right {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  gap: 4px;
+}
+
+.product-price {
+  font-size: 14px;
+  font-weight: 700;
+  color: #333;
+  margin: 0;
+}
+
+.product-status {
+  font-size: 11px;
+  font-weight: 600;
+  padding: 2px 8px;
+  border-radius: 20px;
+  text-transform: capitalize;
+}
+
+.product-status.active   { background: #e6f4ea; color: #2e7d32; }
+.product-status.inactive { background: #fce4ec; color: #c62828; }
+
+/* Action Buttons */
+.product-actions {
+  display: flex;
+  gap: 6px;
+  margin-top: 2px;
+}
+
+.edit-btn {
+  background: #e8f0fe;
+  border: none;
+  border-radius: 8px;
+  width: 28px;
+  height: 28px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  color: #667eea;
+}
+
+.delete-btn {
+  background: #fce4ec;
+  border: none;
+  border-radius: 8px;
+  width: 28px;
+  height: 28px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  color: #c62828;
+}
+
+/* Empty State */
+.empty-state {
+  text-align: center;
+  padding: 3rem 1rem;
+  color: #aaa;
+  font-size: 14px;
+}
