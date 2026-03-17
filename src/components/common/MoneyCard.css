@@ -1,0 +1,51 @@
+
+.money-card {
+  background: white;
+  border-radius: 16px;
+  padding: 1.5rem;
+  box-shadow: 0 4px 20px rgba(0,0,0,0.08);
+  height: 120px;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  transition: transform 0.3s ease;
+}
+.card-header h3 {
+  margin: 0 0 0.5rem 0;
+  font-size: 14px;
+  font-weight: 600;
+  color: #6c757d;
+}
+
+.card-amount {
+  font-size: 24px;
+  font-weight: 700;
+  color: #1a1a1a;
+}
+
+.trend {
+  font-size: 12px;
+  font-weight: 600;
+  padding: 4px 8px;
+  border-radius: 12px;
+}
+
+.trend.positive {
+  background: #d4edda;
+  color: #155724;
+}
+
+.trend.negative {
+  background: #f8d7da;
+  color: #721c24;
+}
+
+
+.money-card.incoming .card-amount {
+  color: #28a745;
+}
+
+
+.money-card.pending .card-amount {
+  color: #ffc107;
+}

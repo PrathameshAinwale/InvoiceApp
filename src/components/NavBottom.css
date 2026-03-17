@@ -1,0 +1,56 @@
+.bottom-nav {
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  background: white;
+  box-shadow: 2px -3px rgba(0, 0, 0, 0.1);
+  padding: 12px 0;
+  z-index: 1000;
+  border-radius: 100px;
+}
+
+.bottom-nav ul {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  justify-content: space-evenly;
+  align-items: center;
+}
+
+.bottom-nav ul li {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  padding: 8px;
+  border-radius: 10px;
+  transition: background 0.2s;
+  color: #000000;
+  font-size: 24px;   
+}
+
+.bottom-nav ul li:hover {
+  background: #f8f9fa;
+  color: #667eea;
+}
+
+
+.circle {
+ width: 45px;
+  height: 45px;
+  background: #667eea;
+  border-radius: 50%;
+  position: absolute;
+  left: 50%;
+  transform: translateX(-50%);
+  z-index: 1; 
+}
+
+.plus{
+    position: relative;
+    z-index: 2;        /* ← icon sits above circle */
+    color: white;
+    font-size: 22px;
+}
