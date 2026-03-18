@@ -13,7 +13,7 @@ const FollowUp = () => {
 
       {/* Header */}
       <div className="followup-header">
-        <h5>Follow-ups</h5>
+        <h5>Follow-up</h5>
         <span onClick={() => navigate("/follow-up")}>see all</span>
       </div>
 

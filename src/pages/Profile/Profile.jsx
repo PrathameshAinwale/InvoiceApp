@@ -106,7 +106,7 @@ const handleSubmit = (e) => {
   };
 
   return (
-    <div className="profile-page page">
+    <div className="profile-page">
       <div className="profile-avatar-section">
         <div className="profile-avatar-wrapper">
           {image ? (

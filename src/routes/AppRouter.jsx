@@ -9,6 +9,7 @@ import Products      from '../pages/Products/Products';
 import Customers     from '../pages/Customer/Customers';
 import FollowUps     from '../pages/FollowUps/FollowUps';
 import NavBottom     from '../components/NavBottom';
+import PreviewInvoice from '../pages/PreviewInvoice/PreviewInvoice';
 
 const AppRouter = () => {
   return (
@@ -22,6 +23,7 @@ const AppRouter = () => {
         <Route path="/products"      element={<Products />} />
         <Route path="/customers"     element={<Customers />} />
         <Route path="/follow-up"     element={<FollowUps />} />
+        <Route path='invoice/:id'    element={<PreviewInvoice/>}/>
       </Routes>
       <NavBottom />
     </>

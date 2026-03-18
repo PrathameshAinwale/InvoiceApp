@@ -5,23 +5,53 @@ import { FaFile } from "react-icons/fa";
 import { IoStatsChart } from "react-icons/io5";
 import { IoSettingsSharp } from "react-icons/io5";
 import './NavBottom.css'
-import {useNavigate} from "react-router-dom";
+import { useNavigate, useLocation } from "react-router-dom";
 
 const NavBottom = () => {
   const navigate = useNavigate();
-  return (
-      <div className='bottom-nav'>
-        <ul>
-            <li onClick={() => navigate("/")}><IoMdHome/></li>
-            <li onClick={() => navigate("/invoice")}><FaFile/></li>
-            <li style={{ position: "relative" }}>
-            <div className="circle"></div>
-            <FiPlus className="plus" onClick={() => navigate("/createinvoice")}/></li>
-            <li onClick={()=>navigate ("/sales")}><IoStatsChart/></li>
-            <li onClick={()=> navigate ("/profile")}><IoSettingsSharp/></li>
-        </ul>
-      </div>
-  )
-}
+  const location = useLocation();
 
-export default NavBottom
+  // ← check which path is active
+  const isActive = (path) => location.pathname === path;
+
+  return (
+    <div className='bottom-nav'>
+      <ul>
+        <li
+          onClick={() => navigate("/")}
+          className={isActive("/") ? "active" : ""}
+        >
+          <IoMdHome size={25} />
+        </li>
+
+        <li
+          onClick={() => navigate("/invoice")}
+          className={isActive("/invoice") ? "active" : ""}
+        >
+          <FaFile size={20} />
+        </li>
+
+        <li style={{ position: "relative" }}>
+          <div className={`circle ${isActive("/createinvoice")? "active": ""}`}></div>
+          <FiPlus className={`plus ${isActive("/createinvoice")? "active": ""}`} onClick={() => navigate("/createinvoice")} />
+        </li>
+
+        <li
+          onClick={() => navigate("/sales")}
+          className={isActive("/sales") ? "active" : ""}
+        >
+          <IoStatsChart size={20} />
+        </li>
+
+        <li
+          onClick={() => navigate("/profile")}
+          className={isActive("/profile") ? "active" : ""}
+        >
+          <IoSettingsSharp size={20} />
+        </li>
+      </ul>
+    </div>
+  );
+};
+
+export default NavBottom;

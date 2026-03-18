@@ -1,0 +1,5 @@
+{
+  "appId": "com.invoice.app",
+  "appName": "invoiceapp",
+  "webDir": "dist"
+}

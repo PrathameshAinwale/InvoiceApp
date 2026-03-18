@@ -131,7 +131,7 @@
   outline: none;
   resize: vertical;
   min-height: 80px;
-  font-family: inherit;
+
 }
 
 .form-textarea:focus {
@@ -296,13 +296,13 @@
   padding: 14px;
   background: #667eea;
   color: white;
+    margin-bottom: 70px;
   border: none;
   border-radius: 12px;
   font-size: 16px;
   font-weight: 600;
   cursor: pointer;
   transition: background 0.2s;
-  margin-bottom: 1rem;
 }
 
 .ci-submit-btn:hover {

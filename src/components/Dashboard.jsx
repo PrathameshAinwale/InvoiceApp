@@ -11,20 +11,7 @@ const Dashboard = () => {
       <TopNav />                                     
 
       <main className="dashboard-main">
-        <div className="stats-grid">
-          <MoneyCard
-            title="Incoming Money"
-            amount={125000}
-            type="incoming"
-            trend={12.5}
-          />
-          <MoneyCard
-            title="Pending Money"
-            amount={45000}
-            type="pending"
-            trend={-3.2}
-          />
-        </div>
+        <MoneyCard />     
       </main>
 
       <RecentInvoice />

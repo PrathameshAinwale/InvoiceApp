@@ -1,28 +1,68 @@
-
-.money-card {
+/* Outer wrapper — clips the sliding content */
+.money-card-wrapper {
+  position: relative;
   background: white;
   border-radius: 16px;
   padding: 1.5rem;
   box-shadow: 0 4px 20px rgba(0,0,0,0.08);
-  height: 120px;
+  height: 100px;
+  overflow: hidden;           /* ← clips cards outside the boundary */
   display: flex;
   flex-direction: column;
   justify-content: space-between;
-  transition: transform 0.3s ease;
+  transition: background-color 0.4s ease;   
 }
+
+/* Inner content block */
+.money-card-inner {
+  position: absolute;
+  top: 1.5rem;
+  left: 1.5rem;
+  right: 1.5rem;
+}
+
+/* Current card slides out to the left */
+.money-card-inner.slide-out {
+  animation: slideOut 0.4s ease forwards;
+}
+
+/* Next card slides in from the right */
+.money-card-inner.slide-in {
+  animation: slideIn 0.4s ease forwards;
+}
+
+@keyframes slideOut {
+  from { transform: translateX(0);    opacity: 1; }
+  to   { transform: translateX(-100%); opacity: 0; }
+}
+
+@keyframes slideIn {
+  from { transform: translateX(100%); opacity: 0; }
+  to   { transform: translateX(0);    opacity: 1; }
+}
+
+/* Header */
+.card-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 0.8rem;
+}
+
 .card-header h3 {
-  margin: 0 0 0.5rem 0;
+  margin: 0;
   font-size: 14px;
   font-weight: 600;
-  color: #6c757d;
+  color: #000000;
 }
 
+/* Amount */
 .card-amount {
-  font-size: 24px;
+  font-size: 20px;
   font-weight: 700;
-  color: #1a1a1a;
 }
 
+/* Trend badge */
 .trend {
   font-size: 12px;
   font-weight: 600;
@@ -30,22 +70,11 @@
   border-radius: 12px;
 }
 
-.trend.positive {
-  background: #d4edda;
-  color: #155724;
-}
+.trend.positive { background: #baffca; color: #155724; }
+.trend.negative { background: #f8d7da; color: #721c24; }
 
-.trend.negative {
-  background: #f8d7da;
-  color: #721c24;
-}
-
-
-.money-card.incoming .card-amount {
-  color: #28a745;
-}
-
-
-.money-card.pending .card-amount {
-  color: #ffc107;
-}
+/* Amount colors per type */
+.money-card-wrapper.received  { color: #28a745; background: #c1fbce }
+.money-card-wrapper.pending   { color: #ff6607;  background: #ffd4b3;}
+.money-card-wrapper.revenue  { color: #667eea; ;background:  hsl(206.47deg 94.44% 92.94%)}
+.money-card-wrapper.overdue   { color: #ff0019; background: hsl(0, 100%, 83%);}

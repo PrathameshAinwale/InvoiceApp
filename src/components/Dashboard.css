@@ -4,9 +4,9 @@
 
 .dashboard {
   min-height: 100vh;
-  background: #f8f9fa;
+  background: #ffffff;
   padding-bottom: 100px; 
-  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+  font-family: Arial, Helvetica, sans-serif;
 }
 
 /* FIXED MOBILE NAVBAR */
@@ -144,6 +144,7 @@
   display: flex;
   align-items: flex-start;
   padding-top: 8px; 
+  font-family: Arial, Helvetica, sans-serif;
 }
 
 .mobile-menu {
@@ -185,9 +186,9 @@
 
 .stats-grid {
     display: flex;
-  align-items: stretch;
-  justify-content: space-between;
-
+    gap: 13px;
+    align-items: stretch;
+    justify-content: center;
 }
 
 @media (min-width: 700px) {

@@ -8,7 +8,8 @@
   min-height: 100vh;
   background: #f8f9fa;
   padding: 1.5rem 1rem 6rem;
-  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+  padding-top: 0;
+
 }
 
 /* ── AVATAR SECTION ── */
@@ -132,7 +133,6 @@
   outline: none;
   resize: vertical;
   min-height: 100px;
-  font-family: inherit;
   transition: border 0.2s, background 0.2s;
 }
 
