@@ -67,14 +67,16 @@
   font-size: 12px;
   font-weight: 600;
   padding: 4px 8px;
-  border-radius: 12px;
+  border-radius: 12px ;
 }
 
-.trend.positive { background: #baffca; color: #155724; }
-.trend.negative { background: #f8d7da; color: #721c24; }
+.trend.positive.received { background: #baffca; color: #155724; }
+.trend.negative.pending { background: #ff6607; color: #ff6607; }
+.trend.negative.revenue { background: #667eea; color: #ff6607; }
+.trend.negative.overdue { background: #ff0019; color: #ff6607; }
 
 /* Amount colors per type */
-.money-card-wrapper.received  { color: #28a745; background: #c1fbce }
+.money-card-wrapper.received  { color: #28a745; background: #baffca }
 .money-card-wrapper.pending   { color: #ff6607;  background: #ffd4b3;}
 .money-card-wrapper.revenue  { color: #667eea; ;background:  hsl(206.47deg 94.44% 92.94%)}
 .money-card-wrapper.overdue   { color: #ff0019; background: hsl(0, 100%, 83%);}

@@ -147,7 +147,7 @@
 }
 
 .product-card {
-  background: white;
+  background: #f8f8f8;
   border-radius: 14px;
   padding: 14px;
   display: flex;
@@ -180,17 +180,22 @@
   font-weight: 600;
   color: #333;
   margin: 0 0 2px;
+  display: flex;
+  justify-content: center;
 }
 
 .product-category {
   font-size: 12px;
   color: #aaa;
   margin: 0 0 4px;
+  display: flex;
+  justify-content: center;
 }
 
 .product-meta {
   display: flex;
   gap: 6px;
+  justify-content: center;
 }
 
 .product-unit,
@@ -216,6 +221,8 @@
   font-weight: 700;
   color: #333;
   margin: 0;
+  display: flex;
+  justify-content: center;
 }
 
 .product-status {

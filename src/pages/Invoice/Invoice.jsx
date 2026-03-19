@@ -6,12 +6,13 @@ import "./Invoice.css";
 import TopNav from "../../components/common/TopNav";
 
 // ── Swipeable Card ─────────────────────────────────────────
-const SwipeableCard = ({ item, onView, onEdit, onDelete }) => {  // ← added onView
-  const [swipeX, setSwipeX]       = useState(0);
+const SwipeableCard = ({ item, onView, onEdit, onDelete }) => {
+  // ← added onView
+  const [swipeX, setSwipeX] = useState(0);
   const [isSwiping, setIsSwiping] = useState(false);
   const touchStartX = useRef(null);
-  const cardRef     = useRef(null);
-  const THRESHOLD   = 60;
+  const cardRef = useRef(null);
+  const THRESHOLD = 60;
 
   // ── Reset on outside click/touch ──────────────────────────
   useEffect(() => {
@@ -42,22 +43,26 @@ const SwipeableCard = ({ item, onView, onEdit, onDelete }) => {  // ← added on
   const handleTouchEnd = () => {
     setIsSwiping(false);
     touchStartX.current = null;
-    if (swipeX > THRESHOLD)       setSwipeX(80);
+    if (swipeX > THRESHOLD) setSwipeX(80);
     else if (swipeX < -THRESHOLD) setSwipeX(-80);
-    else                          setSwipeX(0);
+    else setSwipeX(0);
   };
 
   const handleClose = () => setSwipeX(0);
 
   return (
     <div className="swipe-wrapper" ref={cardRef}>
-
       {/* Edit — revealed on right swipe */}
       <div
         className="swipe-action swipe-edit"
         style={{ opacity: swipeX > 0 ? swipeX / 80 : 0 }}
       >
-        <button onClick={() => { onEdit(item); handleClose(); }}>
+        <button
+          onClick={() => {
+            onEdit(item);
+            handleClose();
+          }}
+        >
           <FiEdit2 size={18} />
           <span>Edit</span>
         </button>
@@ -68,7 +73,12 @@ const SwipeableCard = ({ item, onView, onEdit, onDelete }) => {  // ← added on
         className="swipe-action swipe-delete"
         style={{ opacity: swipeX < 0 ? -swipeX / 80 : 0 }}
       >
-        <button onClick={() => { onDelete(item); handleClose(); }}>
+        <button
+          onClick={() => {
+            onDelete(item);
+            handleClose();
+          }}
+        >
           <FiTrash2 size={18} />
           <span>Delete</span>
         </button>
@@ -82,8 +92,11 @@ const SwipeableCard = ({ item, onView, onEdit, onDelete }) => {  // ← added on
         onTouchMove={handleTouchMove}
         onTouchEnd={handleTouchEnd}
         onClick={() => {
-          if (swipeX !== 0) { setSwipeX(0); return; }  // reset if swiped
-          onView(item);                                 // navigate if not swiped
+          if (swipeX !== 0) {
+            setSwipeX(0);
+            return;
+          } // reset if swiped
+          onView(item); // navigate if not swiped
         }}
       >
         <div className="inv-avatar" style={{ background: item.avatarColor }}>
@@ -101,7 +114,6 @@ const SwipeableCard = ({ item, onView, onEdit, onDelete }) => {  // ← added on
           <span className={`inv-badge ${item.status}`}>{item.status}</span>
         </div>
       </div>
-
     </div>
   );
 };
@@ -109,8 +121,8 @@ const SwipeableCard = ({ item, onView, onEdit, onDelete }) => {  // ← added on
 // ── Main Page ──────────────────────────────────────────────
 const Invoice = () => {
   const navigate = useNavigate();
-  const [filter, setFilter]     = useState("all");
-  const [search, setSearch]     = useState("");
+  const [filter, setFilter] = useState("all");
+  const [search, setSearch] = useState("");
   const [invoices, setInvoices] = useState(invoice);
 
   const filtered = invoices.filter((item) => {
@@ -122,22 +134,25 @@ const Invoice = () => {
   });
 
   // ── Handlers ───────────────────────────────────────────────
-  const handleView   = (item) => navigate(`/invoice/${item.id}`);
-  const handleEdit   = (item) => navigate(`/createinvoice?edit=${item.id}`);
-  const handleDelete = (item) => setInvoices((prev) => prev.filter((i) => i.id !== item.id));
+  const handleView = (item) => navigate(`/invoice/${item.id}`);
+  const handleEdit = (item) => navigate(`/editinvoice/${item.id}`);
+  const handleDelete = (item) =>
+    setInvoices((prev) => prev.filter((i) => i.id !== item.id));
 
   return (
     <>
       <TopNav />
       <div className="invoice-page page">
-
         {/* Header */}
         <div className="invoice-page-header">
           <button className="back-btn" onClick={() => navigate("/")}>
             <FiArrowLeft size={20} />
           </button>
           <h2 className="invoice-page-title">Invoices</h2>
-          <button className="add-invoice-btn" onClick={() => navigate("/createinvoice")}>
+          <button
+            className="add-invoice-btn"
+            onClick={() => navigate("/createinvoice")}
+          >
             <FiPlus size={20} />
           </button>
         </div>
@@ -145,23 +160,55 @@ const Invoice = () => {
         {/* Filter Tabs */}
         <div className="invoice-filters">
           {[
-            { key: "all",     label: "All",     count: invoices.length,                                      color: "#667eea" },
-            { key: "paid",    label: "Paid",    count: invoices.filter((i) => i.status === "paid").length,   color: "#2e7d32" },
-            { key: "pending", label: "Pending", count: invoices.filter((i) => i.status === "pending").length,color: "#f57f17" },
-            { key: "overdue", label: "Overdue", count: invoices.filter((i) => i.status === "overdue").length,color: "#c62828" },
-            { key: "draft",   label: "Draft",   count: invoices.filter((i) => i.status === "draft").length,  color: "#1565c0" },
+            {
+              key: "all",
+              label: "All",
+              count: invoices.length,
+              color: "#667eea",
+            },
+            {
+              key: "paid",
+              label: "Paid",
+              count: invoices.filter((i) => i.status === "paid").length,
+              color: "#2e7d32",
+            },
+            {
+              key: "pending",
+              label: "Pending",
+              count: invoices.filter((i) => i.status === "pending").length,
+              color: "#f57f17",
+            },
+            {
+              key: "overdue",
+              label: "Overdue",
+              count: invoices.filter((i) => i.status === "overdue").length,
+              color: "#c62828",
+            },
+            {
+              key: "draft",
+              label: "Draft",
+              count: invoices.filter((i) => i.status === "draft").length,
+              color: "#1565c0",
+            },
           ].map((tab) => (
             <button
               key={tab.key}
               className={`filter-tab ${filter === tab.key ? "active" : ""}`}
-              style={filter === tab.key ? { background: tab.color, borderColor: tab.color } : {}}
+              style={
+                filter === tab.key
+                  ? { background: tab.color, borderColor: tab.color }
+                  : {}
+              }
               onClick={() => setFilter(tab.key)}
             >
               {tab.label}
               <span
                 className="filter-count"
                 style={{
-                  background: filter === tab.key ? "rgba(255,255,255,0.25)" : tab.color + "20",
+                  background:
+                    filter === tab.key
+                      ? "rgba(255,255,255,0.25)"
+                      : tab.color + "20",
                   color: filter === tab.key ? "white" : tab.color,
                 }}
               >
@@ -180,6 +227,7 @@ const Invoice = () => {
               onView={handleView}
               onEdit={handleEdit}
               onDelete={handleDelete}
+              
             />
           ))}
 
@@ -189,10 +237,9 @@ const Invoice = () => {
             </div>
           )}
         </div>
-
       </div>
     </>
   );
 };
 
-export default Invoice; 
+export default Invoice;

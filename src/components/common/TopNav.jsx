@@ -5,9 +5,11 @@ import customers from "../../data/customer.json";
 import products from "../../data/products.json";
 import { IoIosSearch } from "react-icons/io";
 import { IoClose } from "react-icons/io5";
+import { useAuth } from "../../context/AuthContext";
 
 const TopNav = () => {
   const navigate = useNavigate();
+   const { user, logout } = useAuth(); 
   const [isClosing, setIsClosing] = useState(false);
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [isSearchOpen, setIsSearchOpen] = useState(false);
@@ -75,6 +77,13 @@ const TopNav = () => {
     setIsSearchOpen(false);
     navigate("/products");
   };
+
+   const handleLogout = () => {
+    logout();
+    setIsMenuOpen(false);
+    navigate('/login');
+  };
+
 
   return (
     <>

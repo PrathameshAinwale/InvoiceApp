@@ -4,6 +4,7 @@ import './App.css';
 import { StatusBar, Style } from '@capacitor/status-bar';
 import { Capacitor } from '@capacitor/core';   // ← add this import
 import { useEffect } from 'react';
+import { AuthProvider } from './context/AuthContext';
 const App = () => {
    useEffect(() => {
     const setStatusBar = async () => {
@@ -16,7 +17,10 @@ const App = () => {
     setStatusBar();
   }, []);
   return (
-      <AppRouter />
+      <AuthProvider>
+        <AppRouter />
+      </AuthProvider>
+ 
   );
 };
 

@@ -123,10 +123,10 @@
 
 /* Container */
 .followup-container {
-  background: white;
+ background: #f8f8f8;
   border-radius: 16px;
-  padding: 1rem;
-  margin: 1rem 0;
+  padding: 1rem ;
+  margin: 1rem 1rem;
 }
 
 /* Header */

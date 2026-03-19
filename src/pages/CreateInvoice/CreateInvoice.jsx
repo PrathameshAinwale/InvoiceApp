@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, useParams } from 'react-router-dom';  
+import invoices from '../../data/invoice.json';  
 import { FiArrowLeft, FiPlus, FiTrash2 } from 'react-icons/fi';
 import './CreateInvoice.css';
 
@@ -19,6 +20,8 @@ const emptyProduct = {
 
 const CreateInvoice = () => {
   const navigate = useNavigate();
+  const { id }    = useParams();          // ← id exists = edit mode
+  const isEdit    = Boolean(id);
 
   const [formData, setFormData] = useState({
     customerName: '',
@@ -122,10 +125,10 @@ const CreateInvoice = () => {
 
       {/* Header */}
       <div className="ci-header">
-        <button className="back-btn" onClick={() => navigate('/invoice')}>
+        <button className="back-btn" onClick={() => navigate(-1)}>
           <FiArrowLeft size={20} />
         </button>
-        <h2 className="ci-title">Create Invoice</h2>
+        <h2 className="ci-title">{isEdit ? 'Edit Invoice' : 'Create Invoice'}</h2>
       </div>
 
       <form className="ci-form" onSubmit={handleSubmit}>

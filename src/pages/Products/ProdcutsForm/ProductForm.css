@@ -1,0 +1,314 @@
+.product-form-page {
+  background: #f8f9fa;
+  min-height: 100vh;
+}
+
+/* Header */
+.product-form-header {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 1rem;
+  background: white;
+  position: sticky;
+  top: 0;
+  z-index: 100;
+  box-shadow: 0 2px 10px rgba(0,0,0,0.05);
+}
+
+.product-form-title {
+  font-size: 18px;
+  font-weight: 700;
+  color: #333;
+  margin: 0;
+}
+
+.back-btn {
+  background: #f8f9fa;
+  border: none;
+  border-radius: 10px;
+  width: 36px;
+  height: 36px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  color: #333;
+}
+
+/* Form */
+.product-form {
+  padding: 1.25rem 1rem;
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+
+/* Fix form-row alignment */
+.form-row {
+  display: flex;
+  gap: 10px;
+  align-items: flex-start;  /* ← both start from top */
+}
+
+.form-row .float-field {
+  flex: 1;
+  position: relative;
+}
+
+/* Unit select same height as float-input */
+.unit-select {
+  width: 100%;
+  height: 56px;             /* ← matches float-input height */
+  padding: 20px 14px 6px;  /* ← same padding as float-input */
+  border: 2px solid #e9ecef;
+  border-radius: 12px;
+  font-size: 15px;
+  background: #f8f9fa;
+  color: #333;
+  outline: none;
+  cursor: pointer;
+  appearance: none;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 12 12'%3E%3Cpath fill='%23555' d='M6 8L1 3h10z'/%3E%3C/svg%3E");
+  background-repeat: no-repeat;
+  background-position: right 12px center;
+  transition: border 0.2s;
+}
+
+.unit-select:focus {
+  border-color: #667eea;
+  box-shadow: 0 0 0 3px rgba(102,126,234,0.1);
+}
+
+/* Floating label for unit select */
+.unit-float-label {
+  position: absolute;
+  left: 14px;
+  top: 6px;
+  font-size: 11px;
+  color: #667eea;
+  font-weight: 600;
+  pointer-events: none;
+}
+
+.form-row .float-field {
+  flex: 1;
+}
+
+/* Floating Field */
+.float-field {
+  position: relative;
+}
+
+.float-input {
+  width: 100%;
+  height: 56px;
+  padding: 20px 14px 6px;
+  border: 2px solid #e9ecef;
+  border-radius: 12px;
+  font-size: 15px;
+  background: #f8f9fa;
+  color: #333;
+  outline: none;
+  transition: border 0.2s, background 0.2s;
+  box-sizing: border-box;
+}
+
+.float-input:focus {
+  border-color: #667eea;
+  background: white;
+  box-shadow: 0 0 0 3px rgba(102,126,234,0.1);
+}
+
+.float-input.input-error {
+  border-color: #e74c3c;
+  background: #fff5f5;
+}
+
+.float-textarea {
+  width: 100%;
+  padding: 24px 14px 8px;
+  border: 2px solid #e9ecef;
+  border-radius: 12px;
+  font-size: 15px;
+  background: #f8f9fa;
+  color: #333;
+  outline: none;
+  resize: vertical;
+  min-height: 100px;
+  font-family: inherit;
+  transition: border 0.2s, background 0.2s;
+  box-sizing: border-box;
+}
+
+.float-textarea:focus {
+  border-color: #667eea;
+  background: white;
+}
+
+.float-label {
+  position: absolute;
+  left: 14px;
+  top: 18px;
+  font-size: 15px;
+  color: #aaa;
+  pointer-events: none;
+  transition: top 0.2s ease, font-size 0.2s ease, color 0.2s ease;
+}
+
+.float-input:focus + .float-label,
+.float-input.has-value + .float-label {
+  top: 6px;
+  font-size: 11px;
+  color: #667eea;
+  font-weight: 600;
+}
+
+.float-textarea:focus + .float-label,
+.float-textarea.has-value + .float-label {
+  top: 6px;
+  font-size: 11px;
+  color: #667eea;
+  font-weight: 600;
+}
+
+.float-label-static {
+  display: block;
+  font-size: 13px;
+  font-weight: 500;
+  color: #555;
+  margin-bottom: 6px;
+}
+
+/* Select */
+.form-select {
+  width: 100%;
+  padding: 14px 16px;
+  border: 2px solid #e9ecef;
+  border-radius: 12px;
+  font-size: 15px;
+  background: #f8f9fa;
+  color: #333;
+  outline: none;
+  cursor: pointer;
+  appearance: none;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 12 12'%3E%3Cpath fill='%23555' d='M6 8L1 3h10z'/%3E%3C/svg%3E");
+  background-repeat: no-repeat;
+  background-position: right 16px center;
+  transition: border 0.2s;
+}
+
+.form-select:focus {
+  border-color: #667eea;
+  box-shadow: 0 0 0 3px rgba(102,126,234,0.1);
+}
+
+.form-select.input-error {
+  border-color: #e74c3c;
+}
+
+/* Icon wrapper */
+.input-with-icon {
+  position: relative;
+  display: flex;
+  align-items: center;
+}
+
+.input-icon {
+  position: absolute;
+  left: 14px;
+  color: #667eea;
+  z-index: 1;
+  pointer-events: none;
+}
+
+.float-input.has-icon  { padding-left: 42px; }
+.float-label.icon-label { left: 42px; }
+.float-textarea.has-icon { padding-left: 42px; }
+
+.textarea-icon-wrapper { align-items: flex-start; }
+.textarea-icon { top: 18px; position: absolute; left: 14px; }
+
+/* GST Options */
+.gst-options {
+  display: flex;
+  gap: 8px;
+  flex-wrap: wrap;
+}
+
+.gst-option-btn {
+  padding: 8px 16px;
+  border-radius: 20px;
+  border: 1.5px solid #e9ecef;
+  background: white;
+  font-size: 13px;
+  font-weight: 600;
+  color: #666;
+  cursor: pointer;
+  transition: all 0.2s;
+}
+
+.gst-option-btn.active {
+  background: #667eea;
+  color: white;
+  border-color: #667eea;
+}
+
+/* Status Options */
+.status-options {
+  display: flex;
+  gap: 10px;
+}
+
+.status-option-btn {
+  flex: 1;
+  padding: 10px;
+  border-radius: 12px;
+  border: 1.5px solid #e9ecef;
+  background: white;
+  font-size: 14px;
+  font-weight: 600;
+  color: #666;
+  cursor: pointer;
+  transition: all 0.2s;
+}
+
+.status-option-btn.active.active   { background: #e6f4ea; color: #2e7d32; border-color: #2e7d32; }
+.status-option-btn.active.inactive { background: #fce4ec; color: #c62828; border-color: #c62828; }
+
+/* Errors */
+.field-error {
+  font-size: 12px;
+  color: #e74c3c;
+  margin-top: 4px;
+}
+
+/* Success */
+.success-message {
+  background: #e6f4ea;
+  color: #2e7d32;
+  border: 1px solid #a5d6a7;
+  border-radius: 12px;
+  padding: 12px 16px;
+  font-size: 14px;
+  font-weight: 500;
+  text-align: center;
+}
+
+/* Submit */
+.product-submit-btn {
+  width: 100%;
+  padding: 14px;
+  background: #667eea;
+  color: white;
+  border: none;
+  border-radius: 12px;
+  font-size: 16px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background 0.2s, transform 0.1s;
+  margin-bottom: 1rem;
+}
+
+.product-submit-btn:hover  { background: #5a6fd6; }
+.product-submit-btn:active { transform: scale(0.98); }

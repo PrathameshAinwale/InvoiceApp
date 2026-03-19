@@ -3,7 +3,7 @@
   min-height: 100vh;
 }
 
-/* Header */
+/* ── Header ── */
 .customers-header {
   display: flex;
   align-items: center;
@@ -49,7 +49,7 @@
   color: white;
 }
 
-/* Summary */
+/* ── Summary Cards ── */
 .customers-summary {
   display: flex;
   gap: 8px;
@@ -61,12 +61,24 @@
   border-radius: 12px;
   padding: 10px 8px;
   text-align: center;
+  cursor: pointer;
+  transition: all 0.2s;
+  border: 2px solid transparent;
+}
+
+.cust-summary-card:hover {
+  transform: scale(1.03);
 }
 
 .total-card   { background: #e8f0fe; }
 .paid-card    { background: #e6f4ea; }
 .pending-card { background: #fff8e1; }
 .overdue-card { background: #fce4ec; }
+
+.total-card.card-active   { border-color: #1565c0; }
+.paid-card.card-active    { border-color: #2e7d32; }
+.pending-card.card-active { border-color: #f57f17; }
+.overdue-card.card-active { border-color: #c62828; }
 
 .cust-summary-label {
   font-size: 11px;
@@ -82,64 +94,7 @@
   margin: 0;
 }
 
-/* Status Filter */
-.customers-status-filter {
-  display: flex;
-  gap: 8px;
-  padding: 0 1rem 0.5rem;
-  overflow-x: auto;
-}
-
-.customers-status-filter::-webkit-scrollbar {
-  display: none;
-}
-
-/* Category Filter */
-.customers-category-filter {
-  display: flex;
-  gap: 8px;
-  padding: 0 1rem 1rem;
-}
-
-.filter-tab {
-  padding: 6px 14px;
-  border-radius: 20px;
-  border: 1.5px solid #e9ecef;
-  background: white;
-  font-size: 13px;
-  font-weight: 500;
-  color: #666;
-  cursor: pointer;
-  white-space: nowrap;
-  transition: all 0.2s;
-}
-
-.filter-tab.active {
-  background: #667eea;
-  color: white;
-  border-color: #667eea;
-}
-
-.category-tab {
-  padding: 6px 14px;
-  border-radius: 20px;
-  border: 1.5px solid #e9ecef;
-  background: white;
-  font-size: 13px;
-  font-weight: 500;
-  color: #666;
-  cursor: pointer;
-  white-space: nowrap;
-  transition: all 0.2s;
-}
-
-.category-tab.active {
-  background: #333;
-  color: white;
-  border-color: #333;
-}
-
-/* Customer List */
+/* ── Customer List ── */
 .customers-list {
   padding: 0 1rem;
   display: flex;
@@ -147,17 +102,73 @@
   gap: 10px;
 }
 
+/* ── Swipe Wrapper ── */
+.swipe-wrapper {
+  position: relative;
+  border-radius: 14px;
+  overflow: hidden;
+}
+
+/* ── Swipe Actions ── */
+.swipe-action {
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  width: 80px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 0;
+}
+
+.swipe-action button {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 4px;
+  border: none;
+  background: transparent;
+  color: white;
+  font-size: 11px;
+  font-weight: 600;
+  cursor: pointer;
+  width: 100%;
+  height: 100%;
+}
+
+.swipe-edit {
+  left: 0;
+  background: #667eea;
+  border-radius: 14px 0 0 14px;
+}
+
+.swipe-delete {
+  right: 0;
+  background: #e74c3c;
+  border-radius: 0 14px 14px 0;
+}
+
+/* ── Customer Card ── */
 .customer-card {
-  background: white;
+  position: relative;
+  z-index: 1;
+  background: #f8f8f8;
   border-radius: 14px;
   padding: 14px;
   display: flex;
   align-items: center;
   gap: 12px;
   box-shadow: 0 1px 4px rgba(0,0,0,0.06);
+  transition: transform 0.3s ease;
+  will-change: transform;
 }
 
-/* Avatar */
+.customer-card.swiping {
+  transition: none;
+}
+
+/* ── Avatar ── */
 .customer-avatar {
   width: 46px;
   height: 46px;
@@ -171,7 +182,7 @@
   flex-shrink: 0;
 }
 
-/* Info */
+/* ── Info ── */
 .customer-info {
   flex: 1;
   min-width: 0;
@@ -196,15 +207,10 @@
   text-overflow: ellipsis;
 }
 
-.customer-country {
-  font-size: 11px;
-  color: #bbb;
-  margin: 0 0 4px;
-}
-
 .customer-meta {
   display: flex;
   gap: 6px;
+  margin-top: 6px;
 }
 
 .customer-invoices {
@@ -226,7 +232,7 @@
 .customer-category.business   { background: #e8f0fe; color: #1565c0; }
 .customer-category.individual { background: #f3e8ff; color: #6a11cb; }
 
-/* Right */
+/* ── Right ── */
 .customer-right {
   display: flex;
   flex-direction: column;
@@ -254,13 +260,6 @@
 .customer-status.pending { background: #fff8e1; color: #f57f17; }
 .customer-status.overdue { background: #fce4ec; color: #c62828; }
 
-/* Action Buttons */
-.customer-actions {
-  display: flex;
-  gap: 5px;
-  margin-top: 2px;
-}
-
 .call-action-btn {
   background: #e8f0fe;
   border: none;
@@ -274,33 +273,7 @@
   color: #667eea;
 }
 
-.edit-btn {
-  background: #fff8e1;
-  border: none;
-  border-radius: 8px;
-  width: 28px;
-  height: 28px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  cursor: pointer;
-  color: #f57f17;
-}
-
-.delete-btn {
-  background: #fce4ec;
-  border: none;
-  border-radius: 8px;
-  width: 28px;
-  height: 28px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  cursor: pointer;
-  color: #c62828;
-}
-
-/* Phone Popup */
+/* ── Phone Popup ── */
 .phone-overlay {
   position: fixed;
   top: 0; left: 0; right: 0; bottom: 0;
@@ -392,7 +365,7 @@
   background: #5a6fd6;
 }
 
-/* Empty State */
+/* ── Empty State ── */
 .empty-state {
   text-align: center;
   padding: 3rem 1rem;

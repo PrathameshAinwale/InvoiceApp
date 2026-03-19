@@ -4,6 +4,7 @@ import TopNav from '../components/common/TopNav';
 import MoneyCard from './common/MoneyCard';
 import RecentInvoice from './RecentInvoice';
 import FollowUp from './common/FollowUp';
+import InfoSlider from './common/InfoCard/InfoSlider';
 
 const Dashboard = () => {
   return (
@@ -11,7 +12,8 @@ const Dashboard = () => {
       <TopNav />                                     
 
       <main className="dashboard-main">
-        <MoneyCard />     
+        <MoneyCard />  
+        <InfoSlider/>   
       </main>
 
       <RecentInvoice />

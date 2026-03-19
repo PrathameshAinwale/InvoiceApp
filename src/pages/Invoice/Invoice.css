@@ -323,7 +323,7 @@
   position: relative;
   z-index: 1;
   transition: transform 0.2s ease;
-  background: white;
+  background: #f8f8f8;
   border-radius: 14px;
   padding: 14px;
   display: flex;

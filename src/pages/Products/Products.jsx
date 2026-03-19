@@ -56,7 +56,7 @@ const Products = () => {
             <FiFilter size={18} />
             {isFiltered && <span className="filter-dot" />}
           </button>
-          <button className="add-product-btn">
+          <button className="add-product-btn" onClick={()=>navigate('/productform')}>
             <FiPlus size={20} />
           </button>
         </div>
@@ -100,7 +100,7 @@ const Products = () => {
                 <p className="product-price">₹{product.price.toLocaleString()}</p>
                 <span className={`product-status ${product.status}`}>{product.status}</span>
                 <div className="product-actions">
-                  <button className="edit-btn"><FiEdit2 size={13} /></button>
+                  <button className="edit-btn" onClick={()=>navigate(`/product/edit/${product.id}`)}><FiEdit2 size={13} /></button>
                   <button className="delete-btn" onClick={() => handleDelete(product.id)}>
                     <FiTrash2 size={13} />
                   </button>
