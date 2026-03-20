@@ -7,11 +7,12 @@ import './Products.css';
 
 const Products = () => {
   const navigate = useNavigate();
-  const [search, setSearch]             = useState('');
-  const [filter, setFilter]             = useState('all');
-  const [statusFilter, setStatusFilter] = useState('all');
-  const [productList, setProductList]   = useState(products);
-  const [showFilter, setShowFilter]     = useState(false);
+  const [search, setSearch]              = useState('');
+  const [filter, setFilter]              = useState('all');
+  const [statusFilter, setStatusFilter]  = useState('all');
+  const [selectedCard, setSelectedCard]  = useState('total'); // Add selected card state
+  const [productList, setProductList]    = useState(products);
+  const [showFilter, setShowFilter]      = useState(false);
 
   // ── Dynamic categories from data ──────────────────────────
   const categories = ['all', ...new Set(products.map(p => p.category))];
@@ -27,6 +28,11 @@ const Products = () => {
   });
 
   const handleDelete = (id) => setProductList(productList.filter(p => p.id !== id));
+
+  // ── Handle card selection ────────────────────────────────
+  const handleCardSelect = (cardType) => {
+    setSelectedCard(cardType);
+  };
 
   // ── Check if any filter is active ─────────────────────────
   const isFiltered = filter !== 'all' || statusFilter !== 'all';
@@ -62,54 +68,73 @@ const Products = () => {
         </div>
       </div>
 
-      {/* Summary Cards */}
+      {/* Summary Cards - NOW SELECTABLE */}
       <div className="products-summary">
-        <div className="prod-summary-card total-card">
+        <div 
+          className={`prod-summary-card total-card ${selectedCard === 'total' ? 'card-active' : ''}`}
+          onClick={() => handleCardSelect('total')}
+        >
           <p className="prod-summary-label">Total</p>
           <p className="prod-summary-count">{productList.length}</p>
         </div>
-        <div className="prod-summary-card active-card">
+        <div 
+          className={`prod-summary-card active-card ${selectedCard === 'active' ? 'card-active' : ''}`}
+          onClick={() => handleCardSelect('active')}
+        >
           <p className="prod-summary-label">Active</p>
           <p className="prod-summary-count">{productList.filter(p => p.status === 'active').length}</p>
         </div>
-        <div className="prod-summary-card inactive-card">
+        <div 
+          className={`prod-summary-card inactive-card ${selectedCard === 'inactive' ? 'card-active' : ''}`}
+          onClick={() => handleCardSelect('inactive')}
+        >
           <p className="prod-summary-label">Inactive</p>
           <p className="prod-summary-count">{productList.filter(p => p.status === 'inactive').length}</p>
         </div>
       </div>
 
       {/* Product List */}
-      <div className="products-list">
-        {filtered.length === 0 ? (
-          <div className="empty-state"><p>No products found</p></div>
-        ) : (
-          filtered.map((product) => (
-            <div key={product.id} className="product-card">
-              <div className="product-icon" style={{ background: product.iconColor }}>
-                {product.icon}
-              </div>
-              <div className="product-info">
-                <p className="product-name">{product.name}</p>
-                <p className="product-category">{product.category}</p>
-                <div className="product-meta">
-                  <span className="product-unit">{product.unit}</span>
-                  <span className="product-gst">GST {product.gst}%</span>
-                </div>
-              </div>
-              <div className="product-right">
-                <p className="product-price">₹{product.price.toLocaleString()}</p>
-                <span className={`product-status ${product.status}`}>{product.status}</span>
-                <div className="product-actions">
-                  <button className="edit-btn" onClick={()=>navigate(`/product/edit/${product.id}`)}><FiEdit2 size={13} /></button>
-                  <button className="delete-btn" onClick={() => handleDelete(product.id)}>
-                    <FiTrash2 size={13} />
-                  </button>
-                </div>
-              </div>
-            </div>
-          ))
-        )}
+<div className="products-list">
+  {filtered.length === 0 ? (
+    <div className="empty-state"><p>No products found</p></div>
+  ) : (
+    filtered.map((product) => (
+      <div key={product.id} className="product-card">
+        {/* Left Top: Status */}
+        <span className={`product-status-badge ${product.status}`} style={{position: 'absolute', top: '12px', left: '12px'}}>
+          {product.status}
+        </span>
+        
+        {/* Icon */}
+        <div className="product-icon" style={{ background: product.iconColor }}>
+          {product.icon}
+        </div>
+        
+        {/* Center Content */}
+        <div className="product-center-content">
+          <p className="product-name">{product.name}</p>
+          <p className="product-price">₹{product.price.toLocaleString()}</p>
+          <p className="product-category">{product.category}</p>
+        </div>
+        
+        {/* Right Top: GST */}
+        <div className="product-gst-top" style={{position: 'absolute', top: '12px', right: '12px'}}>
+          <span className="product-gst">GST {product.gst}%</span>
+        </div>
+        
+        {/* Bottom Actions */}
+        <div className="product-actions-bottom" style={{position: 'absolute', bottom: '12px', left: '50%', transform: 'translateX(-50%)'}}>
+          <button className="action-btn edit-btn" onClick={()=>navigate(`/product/edit/${product.id}`)}>
+            <FiEdit2 size={12} /> Edit
+          </button>
+          <button className="action-btn delete-btn" onClick={() => handleDelete(product.id)}>
+            <FiTrash2 size={12} /> Delete
+          </button>
+        </div>
       </div>
+    ))
+  )}
+</div>
 
       {/* ── Filter Bottom Sheet ────────────────────────────── */}
       {/* Overlay */}
@@ -120,7 +145,6 @@ const Products = () => {
 
       {/* Sheet */}
       <div className={`filter-sheet ${showFilter ? 'open' : ''}`}>
-
         {/* Sheet Header */}
         <div className="filter-sheet-header">
           <p className="filter-sheet-title">Filter Products</p>
@@ -170,7 +194,6 @@ const Products = () => {
         >
           Show {filtered.length} Product{filtered.length !== 1 ? 's' : ''}
         </button>
-
       </div>
     </div>
   );

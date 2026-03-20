@@ -1,8 +1,9 @@
 .recent-invoice {
-  background: #f8f8f8;
+  background: var(--bg-secondary);          /* was: #f8f8f8 */
   border-radius: 16px;
-  padding: 1rem ;
+  padding: 1rem;
   margin: 1rem 1rem;
+  box-shadow: 0px 0px 20px 0px rgba(0, 0, 0, 0.2);  
 }
 
 .recent-invoice-header {
@@ -16,12 +17,12 @@
   font-size: 16px;
   font-weight: 600;
   margin: 0;
-  color: #333;
+  color: var(--text-primary);               /* was: #333 */
 }
 
 .recent-invoice-header span {
   font-size: 13px;
-  color: #667eea;
+  color: var(--accent);                     /* was: #667eea */
   cursor: pointer;
 }
 
@@ -30,7 +31,7 @@
   align-items: center;
   gap: 12px;
   padding: 10px 0;
-  border-bottom: 1px solid #f1f1f1;
+  border-bottom: 1px solid var(--border);   /* was: #f1f1f1 */
 }
 
 .invoice-item:last-child {
@@ -41,8 +42,8 @@
   width: 42px;
   height: 42px;
   border-radius: 50%;
-  background: #667eea;
-  color: white;
+  background: var(--accent);               /* was: #667eea */
+  color: var(--btn-text);                  /* was: white */
   font-size: 13px;
   font-weight: 600;
   display: flex;
@@ -58,13 +59,13 @@
 .invoice-name {
   font-size: 14px;
   font-weight: 600;
-  color: #333;
+  color: var(--text-primary);              /* was: #333 */
   margin: 0 0 3px;
 }
 
 .invoice-id {
   font-size: 12px;
-  color: #aaa;
+  color: var(--text-secondary);            /* was: #aaa */
   margin: 0;
 }
 
@@ -75,12 +76,12 @@
 .invoice-amount {
   font-size: 14px;
   font-weight: 700;
-  color: #333;
+  color: var(--text-primary);              /* was: #333 */
   margin: 0 0 3px;
 }
 
 .invoice-date {
   font-size: 12px;
-  color: #aaa;
+  color: var(--text-secondary);            /* was: #aaa */
   margin: 0;
 }

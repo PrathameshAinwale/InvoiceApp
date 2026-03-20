@@ -1,5 +1,5 @@
 .sales-page {
-  background: #f8f9fa;
+  background: var(--bg-secondary);               /* was: #f8f9fa */
   min-height: 100vh;
 }
 
@@ -9,22 +9,22 @@
   align-items: center;
   justify-content: space-between;
   padding: 1rem;
-  background: white;
+  background: var(--bg-nav);                     /* was: white */
   position: sticky;
   top: 0;
   z-index: 100;
-  box-shadow: 0 2px 10px rgba(0,0,0,0.05);
+  box-shadow: var(--shadow);                     /* was: 0 2px 10px rgba(0,0,0,0.05) */
 }
 
 .sales-title {
   font-size: 18px;
   font-weight: 700;
-  color: #333;
+  color: var(--text-primary);                    /* was: #333 */
   margin: 0;
 }
 
 .back-btn {
-  background: #f8f9fa;
+  background: var(--bg-secondary);               /* was: #f8f9fa */
   border: none;
   border-radius: 10px;
   width: 36px;
@@ -33,7 +33,7 @@
   align-items: center;
   justify-content: center;
   cursor: pointer;
-  color: #333;
+  color: var(--text-primary);                    /* was: #333 */
 }
 
 /* Summary */
@@ -49,22 +49,22 @@
   padding: 14px;
 }
 
-.revenue-card   { background: #e8f0fe; }
-.completed-card { background: #e6f4ea; }
-.refunded-card  { background: #fff8e1; }
-.cancelled-card { background: #fce4ec; }
+.revenue-card   { background: color-mix(in srgb, var(--accent)  15%, transparent); }  /* was: #e8f0fe */
+.completed-card { background: color-mix(in srgb, var(--success) 15%, transparent); }  /* was: #e6f4ea */
+.refunded-card  { background: color-mix(in srgb, var(--warning) 15%, transparent); }  /* was: #fff8e1 */
+.cancelled-card { background: color-mix(in srgb, var(--danger)  15%, transparent); }  /* was: #fce4ec */
 
 .sales-summary-label {
   font-size: 12px;
   font-weight: 500;
-  color: #666;
+  color: var(--text-secondary);                  /* was: #666 */
   margin: 0 0 6px;
 }
 
 .sales-summary-value {
   font-size: 20px;
   font-weight: 700;
-  color: #333;
+  color: var(--text-primary);                    /* was: #333 */
   margin: 0;
 }
 
@@ -76,16 +76,21 @@
 .sales-search {
   width: 100%;
   padding: 10px 16px;
-  border: 2px solid #e9ecef;
+  border: 2px solid var(--border);               /* was: #e9ecef */
   border-radius: 12px;
   font-size: 14px;
-  background: white;
+  background: var(--bg-card);                    /* was: white */
+  color: var(--text-primary);                    /* added for text visibility */
   outline: none;
   box-sizing: border-box;
 }
 
+.sales-search::placeholder {
+  color: var(--text-secondary);                  /* added for placeholder visibility */
+}
+
 .sales-search:focus {
-  border-color: #667eea;
+  border-color: var(--accent);                   /* was: #667eea */
 }
 
 /* Filters */
@@ -103,26 +108,26 @@
 .filter-tab {
   padding: 6px 14px;
   border-radius: 20px;
-  border: 1.5px solid #e9ecef;
-  background: white;
+  border: 1.5px solid var(--border);             /* was: #e9ecef */
+  background: var(--bg-card);                    /* was: white */
   font-size: 13px;
   font-weight: 500;
-  color: #666;
+  color: var(--text-secondary);                  /* was: #666 */
   cursor: pointer;
   white-space: nowrap;
   transition: all 0.2s;
 }
 
 .filter-tab.active {
-  background: #667eea;
-  color: white;
-  border-color: #667eea;
+  background: var(--accent);                     /* was: #667eea */
+  color: var(--btn-text);                        /* was: white */
+  border-color: var(--accent);                   /* was: #667eea */
 }
 
 /* Count */
 .sales-count {
   font-size: 13px;
-  color: #aaa;
+  color: var(--text-secondary);                  /* was: #aaa */
   padding: 0 1rem 0.5rem;
   margin: 0;
 }
@@ -137,10 +142,10 @@
 
 /* Sale Card */
 .sale-card {
-  background: #f8f8f8;
+  background: var(--bg-card);                    /* was: #f8f8f8 */
   border-radius: 16px;
   padding: 14px;
-  box-shadow: 0 1px 4px rgba(0,0,0,0.06);
+  box-shadow: 0px 0px 5px 0px rgba(0, 0, 0, 0.2);                    /* was: 0 1px 4px rgba(0,0,0,0.06) */
   display: flex;
   flex-direction: column;
   gap: 10px;
@@ -163,7 +168,7 @@
   width: 40px;
   height: 40px;
   border-radius: 50%;
-  color: white;
+  color: var(--btn-text);                        /* was: white */
   font-size: 13px;
   font-weight: 700;
   display: flex;
@@ -175,13 +180,13 @@
 .sale-customer {
   font-size: 14px;
   font-weight: 600;
-  color: #333;
+  color: var(--text-primary);                    /* was: #333 */
   margin: 0 0 2px;
 }
 
 .sale-id {
   font-size: 12px;
-  color: #aaa;
+  color: var(--text-secondary);                  /* was: #aaa */
   margin: 0;
 }
 
@@ -194,14 +199,14 @@
   text-transform: capitalize;
 }
 
-.sale-badge.completed { background: #e6f4ea; color: #2e7d32; }
-.sale-badge.refunded  { background: #fff8e1; color: #f57f17; }
-.sale-badge.cancelled { background: #fce4ec; color: #c62828; }
+.sale-badge.completed { background: color-mix(in srgb, var(--success) 15%, transparent); color: gainsboro; }  /* was: #e6f4ea / #2e7d32 */
+.sale-badge.refunded  { background: color-mix(in srgb, var(--warning) 15%, transparent); color: gainsboro }  /* was: #fff8e1 / #f57f17 */
+.sale-badge.cancelled { background: color-mix(in srgb, var(--danger)  15%, transparent); color: gainsboro  }  /* was: #fce4ec / #c62828 */
 
 /* Divider */
 .sale-divider {
   height: 1px;
-  background: #f1f1f1;
+  background: var(--border);                     /* was: #f1f1f1 */
 }
 
 /* Product Row */
@@ -215,13 +220,13 @@
 .sale-product-name {
   font-size: 14px;
   font-weight: 600;
-  color: #333;
+  color: var(--text-primary);                    /* was: #333 */
   margin: 0 0 4px;
 }
 
 .sale-product-meta {
   font-size: 12px;
-  color: #aaa;
+  color: var(--text-secondary);                  /* was: #aaa */
   margin: 0;
 }
 
@@ -232,13 +237,13 @@
 .sale-final-amount {
   font-size: 15px;
   font-weight: 700;
-  color: #333;
+  color: var(--text-primary);                    /* was: #333 */
   margin: 0 0 2px;
 }
 
 .sale-base-amount {
   font-size: 12px;
-  color: #aaa;
+  color: var(--text-secondary);                  /* was: #aaa */
   text-decoration: line-through;
   margin: 0;
 }
@@ -252,15 +257,15 @@
 
 .sale-date {
   font-size: 12px;
-  color: #aaa;
+  color: var(--text-secondary);                  /* was: #aaa */
   margin: 0;
 }
 
 .sale-payment {
   font-size: 12px;
   font-weight: 500;
-  color: #667eea;
-  background: #e8f0fe;
+  color: var(--accent);                          /* was: #667eea */
+  background: color-mix(in srgb, var(--accent) 15%, transparent); /* was: #e8f0fe */
   padding: 3px 10px;
   border-radius: 20px;
   margin: 0;
@@ -270,16 +275,17 @@
 .empty-state {
   text-align: center;
   padding: 3rem 1rem;
-  color: #aaa;
+  color: var(--text-secondary);                  /* was: #aaa */
   font-size: 14px;
 }
+
 /* Chart Card */
 .chart-card {
-  background: #f8f8f8;
+  background: var(--bg-card);                    /* was: #f8f8f8 */
   border-radius: 16px;
   padding: 1rem;
   margin-bottom: 1.2rem;
-  box-shadow: 0 2px 12px rgba(0,0,0,0.07);
+  box-shadow: var(--shadow);                     /* was: 0 2px 12px rgba(0,0,0,0.07) */
 }
 
 /* Chart Toggle Tabs */
@@ -296,15 +302,15 @@
   border-radius: 20px;
   font-size: 13px;
   font-weight: 600;
-  background: #f1f3f5;
-  color: #888;
+  background: var(--bg-secondary);               /* was: #f1f3f5 */
+  color: var(--text-secondary);                  /* was: #888 */
   cursor: pointer;
   transition: all 0.2s ease;
 }
 
 .chart-tab.active {
-  background: #667eea;
-  color: white;
+  background: var(--accent);                     /* was: #667eea */
+  color: var(--btn-text);                        /* was: white */
 }
 
 /* Chart Meta */
@@ -315,15 +321,16 @@
 .chart-title {
   font-size: 15px;
   font-weight: 700;
-  color: #333;
+  color: var(--text-primary);                    /* was: #333 */
   margin: 0;
 }
 
 .chart-sub {
   font-size: 12px;
-  color: #aaa;
+  color: var(--text-secondary);                  /* was: #aaa */
   margin: 2px 0 0;
 }
+
 .chart-meta-row {
   display: flex;
   align-items: center;
@@ -333,6 +340,6 @@
 .chart-total {
   font-size: 18px;
   font-weight: 800;
-  color: #667eea;
+  color: var(--accent);                          /* was: #667eea */
   margin: 0;
 }

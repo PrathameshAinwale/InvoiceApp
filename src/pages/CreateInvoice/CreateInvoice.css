@@ -1,5 +1,5 @@
 .ci-page {
-  background: #f8f9fa;
+  background: var(--bg-secondary);            /* was: #f8f9fa */
   min-height: 100vh;
 }
 
@@ -9,22 +9,22 @@
   align-items: center;
   gap: 12px;
   padding: 1rem;
-  background: white;
+  background: var(--bg-nav);                  /* was: white */
   position: sticky;
   top: 0;
   z-index: 100;
-  box-shadow: 0 2px 10px rgba(0,0,0,0.05);
+  box-shadow: var(--shadow);                  /* was: 0 2px 10px rgba(0,0,0,0.05) */
 }
 
 .ci-title {
   font-size: 18px;
   font-weight: 700;
-  color: #333;
+  color: var(--text-primary);                 /* was: #333 */
   margin: 0;
 }
 
 .back-btn {
-  background: #f8f9fa;
+  background: var(--bg-secondary);            /* was: #f8f9fa */
   border: none;
   border-radius: 10px;
   width: 36px;
@@ -33,7 +33,7 @@
   align-items: center;
   justify-content: center;
   cursor: pointer;
-  color: #333;
+  color: var(--text-primary);                 /* was: #333 */
 }
 
 /* Form */
@@ -46,7 +46,7 @@
 
 /* Section */
 .ci-section {
-  background: white;
+  background: var(--bg-card);                 /* was: white */
   border-radius: 16px;
   padding: 1.25rem;
   display: flex;
@@ -57,10 +57,10 @@
 .ci-section-title {
   font-size: 15px;
   font-weight: 700;
-  color: #333;
+  color: var(--text-primary);                 /* was: #333 */
   margin: 0 0 4px;
   padding-bottom: 8px;
-  border-bottom: 2px solid #667eea;
+  border-bottom: 2px solid var(--accent);     /* was: #667eea */
 }
 
 /* Two column row */
@@ -82,80 +82,80 @@
 
 .form-label {
   font-size: 13px;
-  font-weight: 500;
-  color: #555;
+  font-weight: 500;;
+  color: var(--text-secondary);               /* was: #555 */
+}
+
+.product-label{
+  width: 70vw !important;
 }
 
 .form-input {
   width: 100%;
   padding: 10px 14px;
-  border: 2px solid #e9ecef;
+  border: 2px solid var(--border);            /* was: #e9ecef */
   border-radius: 10px;
   font-size: 14px;
-  background: #f8f9fa;
-  color: #333;
+  background: var(--bg-secondary);            /* was: #f8f9fa */
+  color: var(--text-primary);                 /* was: #333 */
   outline: none;
   transition: border 0.2s;
   box-sizing: border-box;
 }
 
 .form-input:focus {
-  border-color: #667eea;
-  background: white;
+  border-color: var(--accent);                /* was: #667eea */
+  background: var(--bg-card);                 /* was: white */
 }
 
-.form-select {
-  width: 100%;
-  padding: 10px 14px;
-  border: 2px solid #e9ecef;
-  border-radius: 10px;
-  font-size: 14px;
-  background: #f8f9fa;
-  color: #333;
-  outline: none;
-  cursor: pointer;
+.form-input::placeholder {
+  color: var(--text-secondary);               /* added for visibility */
 }
+
 
 .form-select:focus {
-  border-color: #667eea;
+  border-color: var(--accent);                /* was: #667eea */
 }
 
 .form-textarea {
   width: 100%;
   padding: 10px 14px;
-  border: 2px solid #e9ecef;
+  border: 2px solid var(--border);            /* was: #e9ecef */
   border-radius: 10px;
   font-size: 14px;
-  background: #f8f9fa;
-  color: #333;
+  background: var(--bg-secondary);            /* was: #f8f9fa */
+  color: var(--text-primary);                 /* was: #333 */
   outline: none;
   resize: vertical;
   min-height: 80px;
-
 }
 
 .form-textarea:focus {
-  border-color: #667eea;
-  background: white;
+  border-color: var(--accent);                /* was: #667eea */
+  background: var(--bg-card);                 /* was: white */
+}
+
+.form-textarea::placeholder {
+  color: var(--text-secondary);               /* added for visibility */
 }
 
 .input-error {
-  border-color: #e74c3c !important;
-  background: #fff5f5 !important;
+  border-color: var(--danger) !important;     /* was: #e74c3c */
+  background: color-mix(in srgb, var(--danger) 8%, var(--bg-card)) !important; /* was: #fff5f5 */
 }
 
 .field-error {
   font-size: 12px;
-  color: #e74c3c;
+  color: var(--danger);                       /* was: #e74c3c */
   margin: 2px 0 0;
 }
 
 /* Product Card */
 .product-card {
-  background: #f8f9fa;
+  background: var(--bg-secondary);            /* was: #f8f9fa */
   border-radius: 12px;
   padding: 1rem;
-  border: 1.5px solid #e9ecef;
+  border: 1.5px solid var(--border);          /* was: #e9ecef */
   display: flex;
   flex-direction: column;
   gap: 10px;
@@ -170,12 +170,12 @@
 .product-number {
   font-size: 13px;
   font-weight: 700;
-  color: #667eea;
+  color: var(--accent);                       /* was: #667eea */
   margin: 0;
 }
 
 .remove-btn {
-  background: #fce4ec;
+  background: color-mix(in srgb, var(--danger) 15%, transparent); /* was: #fce4ec */
   border: none;
   border-radius: 8px;
   width: 30px;
@@ -184,7 +184,7 @@
   align-items: center;
   justify-content: center;
   cursor: pointer;
-  color: #c62828;
+  color: var(--danger);                       /* was: #c62828 */
 }
 
 /* GST Buttons */
@@ -198,19 +198,19 @@
 .gst-btn {
   padding: 6px 12px;
   border-radius: 20px;
-  border: 1.5px solid #e9ecef;
-  background: white;
+  border: 1.5px solid var(--border);          /* was: #e9ecef */
+  background: var(--bg-card);                 /* was: white */
   font-size: 12px;
   font-weight: 600;
-  color: #666;
+  color: var(--text-secondary);              /* was: #666 */
   cursor: pointer;
   transition: all 0.2s;
 }
 
 .gst-btn.active {
-  background: #667eea;
-  color: white;
-  border-color: #667eea;
+  background: var(--accent);                  /* was: #667eea */
+  color: var(--btn-text);                     /* was: white */
+  border-color: var(--accent);               /* was: #667eea */
 }
 
 .gst-custom {
@@ -225,15 +225,16 @@
   justify-content: space-between;
   align-items: center;
   padding-top: 8px;
-  border-top: 1px dashed #ddd;
+  gap: 6px;
+  border-top: 1px dashed var(--border);       /* was: #ddd */
   font-size: 13px;
-  color: #555;
+  color: var(--text-secondary);               /* was: #555 */
 }
 
 .product-total-amount {
   font-size: 15px;
   font-weight: 700;
-  color: #667eea;
+  color: var(--accent);                       /* was: #667eea */
 }
 
 /* Add Item Button */
@@ -244,10 +245,10 @@
   gap: 8px;
   width: 100%;
   padding: 12px;
-  border: 2px dashed #667eea;
+  border: 2px dashed var(--accent);           /* was: #667eea */
   border-radius: 12px;
   background: transparent;
-  color: #667eea;
+  color: var(--accent);                       /* was: #667eea */
   font-size: 14px;
   font-weight: 600;
   cursor: pointer;
@@ -256,12 +257,12 @@
 }
 
 .add-item-btn:hover {
-  background: #f0f3ff;
+  background: color-mix(in srgb, var(--accent) 10%, transparent); /* was: #f0f3ff */
 }
 
 /* Summary */
 .ci-summary {
-  background: white;
+  background: var(--bg-card);                 /* was: white */
   border-radius: 16px;
   padding: 1.25rem;
 }
@@ -272,31 +273,31 @@
   align-items: center;
   padding: 8px 0;
   font-size: 14px;
-  color: #555;
+  color: var(--text-secondary);               /* was: #555 */
 }
 
-.summary-row.discount span:last-child { color: #e74c3c; }
-.summary-row.gst      span:last-child { color: #2e7d32; }
+.summary-row.discount span:last-child { color: var(--danger); }   /* was: #e74c3c */
+.summary-row.gst      span:last-child { color: var(--success); }  /* was: #2e7d32 */
 
 .summary-divider {
   height: 1px;
-  background: #eee;
+  background: var(--border);                  /* was: #eee */
   margin: 8px 0;
 }
 
 .summary-row.grand-total {
   font-size: 17px;
   font-weight: 700;
-  color: #333;
+  color: var(--text-primary);                 /* was: #333 */
 }
 
 /* Submit */
 .ci-submit-btn {
   width: 100%;
   padding: 14px;
-  background: #667eea;
-  color: white;
-    margin-bottom: 70px;
+  background: var(--btn-primary);             /* was: #667eea */
+  color: var(--btn-text);                     /* was: white */
+  margin-bottom: 70px;
   border: none;
   border-radius: 12px;
   font-size: 16px;
@@ -306,5 +307,63 @@
 }
 
 .ci-submit-btn:hover {
-  background: #5a6fd6;
+  background: var(--accent-hover);            /* was: #5a6fd6 */
+}
+
+/* GST Section Styles - Same as ProductForm */
+.gst-container {
+  position: relative;
+}
+
+.gst-select-wrapper {
+  position: relative;
+}
+
+.gst-select {
+  appearance: none;
+  background-image: url("data:image/svg+xml;charset=UTF-8,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='currentColor' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3e%3cpolyline points='6,9 12,15 18,9'%3e%3c/polyline%3e%3c/svg%3e");
+  background-repeat: no-repeat;
+  background-position: right 12px center;
+  background-size: 16px;
+}
+
+.input-with-icon {
+  position: relative;
+}
+
+.input-icon {
+  position: absolute;
+  left: 12px;
+  top: 50%;
+  transform: translateY(-50%);
+  z-index: 1;
+  pointer-events: none;
+}
+.gst-input{
+  padding-left: 42px !important;
+  overflow: auto;
+}
+
+.float-label.icon-label {
+  left: 40px;
+}
+
+.float-input, .float-textarea {
+  position: relative;
+  width: 100%;
+  padding: 20px 12px 6px;
+  border: 1px solid var(--border, #e1e5e9);
+  border-radius: 12px;
+  font-size: 16px;
+  background: var(--bg-card, white);
+  transition: all 0.2s;
+  box-sizing: border-box;
+}
+
+.float-input.has-value + .float-label.icon-label,
+.float-input:focus + .float-label.icon-label {
+  top: 6px;
+  font-size: 11px;
+  color: #667eea;
+  font-weight: 600;
 }

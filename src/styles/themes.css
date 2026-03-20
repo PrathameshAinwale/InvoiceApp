@@ -1,0 +1,38 @@
+/* ── DARK THEME (default) ── */
+[data-theme="dark"] {
+  --bg-primary:     #0F0F1A;
+  --bg-secondary:   #1A1A2E;
+  --bg-card:        #1E1E30;
+  --bg-nav:         #13131F;
+  --text-primary:   #F9FAFB;
+  --text-secondary: #ffffff;
+  --accent:         #818CF8;
+  --accent-hover:   #6366F1;
+  --border:         #2D2D4E;
+  --btn-primary:    #818CF8;
+  --btn-text:       #FFFFFF;
+  --shadow:         0 2px 12px rgba(0,0,0,0.4);
+  --tab-active:     #818CF8;
+  --tab-inactive:   #A0AEC0;
+  font-family: Arial, Helvetica, sans-serif
+}
+
+/* ── LIGHT THEME ── */
+[data-theme="light"] {
+  --bg-primary:     #F9FAFB;
+  --bg-secondary:   #F3F4F6;
+  --bg-card:        #FFFFFF;
+  --bg-nav:         #FFFFFF;
+  --text-primary:   #111827;
+  --text-secondary: #6B7280;
+  --accent:         #6366F1;
+  --accent-hover:   #4F46E5;
+  --border:         #E5E7EB;
+  --btn-primary:    #6366F1;
+  --btn-text:       #FFFFFF;
+  --shadow:         0 2px 12px rgba(0,0,0,0.08);
+  --tab-active:     #6366F1;
+  --tab-inactive:   #6B7280;
+  font-family: Arial, Helvetica, sans-serif;
+}
+

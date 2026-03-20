@@ -1,5 +1,5 @@
 .products-page {
-  background: #f8f9fa;
+  background: var(--bg-secondary);               /* was: #f8f9fa */
   min-height: 100vh;
 }
 
@@ -9,22 +9,22 @@
   align-items: center;
   justify-content: space-between;
   padding: 1rem;
-  background: white;
+  background: var(--bg-nav);                     /* was: white */
   position: sticky;
   top: 0;
   z-index: 100;
-  box-shadow: 0 2px 10px rgba(0,0,0,0.05);
+  box-shadow: var(--shadow);                     /* was: 0 2px 10px rgba(0,0,0,0.05) */
 }
 
 .products-title {
   font-size: 18px;
   font-weight: 700;
-  color: #333;
+  color: var(--text-primary);                    /* was: #333 */
   margin: 0;
 }
 
 .back-btn {
-  background: #f8f9fa;
+  background: var(--bg-secondary);               /* was: #f8f9fa */
   border: none;
   border-radius: 10px;
   width: 36px;
@@ -33,11 +33,11 @@
   align-items: center;
   justify-content: center;
   cursor: pointer;
-  color: #333;
+  color: var(--text-primary);                    /* was: #333 */
 }
 
 .add-product-btn {
-  background: #667eea;
+  background: var(--btn-primary);                /* was: #667eea */
   border: none;
   border-radius: 10px;
   width: 36px;
@@ -46,7 +46,7 @@
   align-items: center;
   justify-content: center;
   cursor: pointer;
-  color: white;
+  color: var(--btn-text);                        /* was: white */
 }
 
 /* Summary */
@@ -63,21 +63,21 @@
   text-align: center;
 }
 
-.total-card    { background: #e8f0fe; }
-.active-card   { background: #e6f4ea; }
-.inactive-card { background: #fce4ec; }
+.total-card    { background: color-mix(in srgb, var(--accent)  15%, transparent); }  /* was: #e8f0fe */
+.active-card   { background: color-mix(in srgb, var(--success) 15%, transparent); }  /* was: #e6f4ea */
+.inactive-card { background: color-mix(in srgb, var(--danger)  15%, transparent); }  /* was: #fce4ec */
 
 .prod-summary-label {
   font-size: 11px;
   font-weight: 500;
-  color: #666;
+  color: var(--text-secondary);                  /* was: #666 */
   margin: 0 0 4px;
 }
 
 .prod-summary-count {
   font-size: 20px;
   font-weight: 700;
-  color: #333;
+  color: var(--text-primary);                    /* was: #333 */
   margin: 0;
 }
 
@@ -103,39 +103,39 @@
 .filter-tab {
   padding: 6px 14px;
   border-radius: 20px;
-  border: 1.5px solid #e9ecef;
-  background: white;
+  border: 1.5px solid var(--border);             /* was: #e9ecef */
+  background: var(--bg-card);                    /* was: white */
   font-size: 13px;
   font-weight: 500;
-  color: #666;
+  color: var(--text-secondary);                  /* was: #666 */
   cursor: pointer;
   white-space: nowrap;
   transition: all 0.2s;
 }
 
 .filter-tab.active {
-  background: #667eea;
-  color: white;
-  border-color: #667eea;
+  background: var(--accent);                     /* was: #667eea */
+  color: var(--btn-text);                        /* was: white */
+  border-color: var(--accent);                   /* was: #667eea */
 }
 
 .category-tab {
   padding: 6px 14px;
   border-radius: 20px;
-  border: 1.5px solid #e9ecef;
-  background: white;
+  border: 1.5px solid var(--border);             /* was: #e9ecef */
+  background: var(--bg-card);                    /* was: white */
   font-size: 13px;
   font-weight: 500;
-  color: #666;
+  color: var(--text-secondary);                  /* was: #666 */
   cursor: pointer;
   white-space: nowrap;
   transition: all 0.2s;
 }
 
 .category-tab.active {
-  background: #333;
-  color: white;
-  border-color: #333;
+  background: var(--text-primary);               /* was: #333 */
+  color: var(--bg-primary);                      /* was: white — inverted for contrast */
+  border-color: var(--text-primary);             /* was: #333 */
 }
 
 /* Product List */
@@ -146,14 +146,18 @@
   gap: 10px;
 }
 
+/* Product Card - New Layout */
 .product-card {
-  background: #f8f8f8;
+  position: relative; /* Important for absolute positioning */
+  background: var(--bg-card);
   border-radius: 14px;
-  padding: 14px;
+  padding: 50px 16px 50px; /* Extra padding for top/bottom absolute elements */
   display: flex;
   align-items: center;
+  justify-content: center;
   gap: 12px;
-  box-shadow: 0 1px 4px rgba(0,0,0,0.06);
+  box-shadow: var(--shadow);
+  min-height: 120px;
 }
 
 /* Product Icon */
@@ -161,7 +165,7 @@
   width: 46px;
   height: 46px;
   border-radius: 12px;
-  color: white;
+  color: var(--btn-text);                        /* was: white */
   font-size: 13px;
   font-weight: 700;
   display: flex;
@@ -170,59 +174,40 @@
   flex-shrink: 0;
 }
 
-/* Product Info */
-.product-info {
-  flex: 1;
-}
-
 .product-name {
-  font-size: 14px;
-  font-weight: 600;
-  color: #333;
-  margin: 0 0 2px;
-  display: flex;
-  justify-content: center;
+  font-size: 16px;
+  font-weight: 700;
+  color: var(--text-primary);
+  margin: 0 0 4px;
 }
 
 .product-category {
   font-size: 12px;
-  color: #aaa;
-  margin: 0 0 4px;
-  display: flex;
-  justify-content: center;
+  color: var(--text-secondary);
+  margin: 0;
 }
 
-.product-meta {
-  display: flex;
-  gap: 6px;
-  justify-content: center;
+.product-gst-top {
+  position: absolute;
+  top: 12px;
+  right: 12px;
 }
 
-.product-unit,
 .product-gst {
   font-size: 11px;
-  padding: 2px 8px;
-  border-radius: 20px;
-  background: #f0f3ff;
-  color: #667eea;
-  font-weight: 500;
+  padding: 4px 8px;
+  border-radius: 12px;
+  background: color-mix(in srgb, var(--accent) 15%, transparent);
+  color: var(--accent);
+  font-weight: 600;
 }
 
-/* Product Right */
-.product-right {
-  display: flex;
-  flex-direction: column;
-  align-items: flex-end;
-  gap: 4px;
-}
 
 .product-price {
-  font-size: 14px;
+  font-size: 16px;
   font-weight: 700;
-  color: #333;
-  margin: 0;
-  display: flex;
-  justify-content: center;
+  color: var(--text-primary);
+  margin: 0 0 2px;
 }
 
 .product-status {
@@ -232,48 +217,74 @@
   border-radius: 20px;
   text-transform: capitalize;
 }
-
-.product-status.active   { background: #e6f4ea; color: #2e7d32; }
-.product-status.inactive { background: #fce4ec; color: #c62828; }
+/* Status Badge - Top Left */
+.product-status-badge {
+  font-size: 10px;
+  font-weight: 700;
+  padding: 2px 6px;
+  border-radius: 12px;
+  text-transform: uppercase;
+}
+.product-status-badge.active { 
+  background: color-mix(in srgb, var(--success) 20%, transparent); 
+  color: var(--success); 
+}
+.product-status-badge.inactive { 
+  background: color-mix(in srgb, var(--danger) 20%, transparent); 
+  color: var(--danger); 
+}
+.product-center-content {
+  text-align: center;
+  flex: 1;
+}
+.product-status.active   { background: color-mix(in srgb, var(--success) 15%, transparent); color: var(--success); }  /* was: #e6f4ea / #2e7d32 */
+.product-status.inactive { background: color-mix(in srgb, var(--danger)  15%, transparent); color: var(--danger);  }  /* was: #fce4ec / #c62828 */
 
 /* Action Buttons */
-.product-actions {
+.product-actions-bottom {
   display: flex;
-  gap: 6px;
-  margin-top: 2px;
+  gap: 12px;
+}
+.action-btn.delete-btn {
+  background: #ff4444;
+  color: white !important;
+}
+
+.action-btn:hover {
+  transform: translateY(-1px);
 }
 
 .edit-btn {
-  background: #e8f0fe;
+  background: color-mix(in srgb, var(--accent) 15%, transparent);  /* was: #e8f0fe */
   border: none;
   border-radius: 8px;
-  width: 28px;
+  width: 55px;
   height: 28px;
   display: flex;
   align-items: center;
   justify-content: center;
   cursor: pointer;
-  color: #667eea;
+  color: var(--accent);                          /* was: #667eea */
 }
 
 .delete-btn {
-  background: #fce4ec;
+  background: color-mix(in srgb, var(--danger) 15%, transparent);  /* was: #fce4ec */
   border: none;
   border-radius: 8px;
-  width: 28px;
+  width: 65px;
   height: 28px;
   display: flex;
   align-items: center;
   justify-content: center;
   cursor: pointer;
-  color: #c62828;
+  color: var(--danger);                          /* was: #c62828 */
 }
 
 /* Empty State */
 .empty-state {
   text-align: center;
   padding: 3rem 1rem;
-  color: #aaa;
+  color: var(--text-secondary);                  /* was: #aaa */
   font-size: 14px;
 }
 
@@ -287,7 +298,7 @@
 /* Filter icon button */
 .filter-icon-btn {
   position: relative;
-  background: #f8f9fa;
+  background: var(--bg-secondary);               /* was: #f8f9fa */
   border: none;
   border-radius: 10px;
   width: 36px;
@@ -296,17 +307,15 @@
   align-items: center;
   justify-content: center;
   cursor: pointer;
-  color: #333;
+  color: var(--text-primary);                    /* was: #333 */
   transition: all 0.2s;
 }
 
-/* Turns purple when filters are active */
 .filter-icon-btn.filtered {
-  background: #eeefff;
-  color: #667eea;
+  background: color-mix(in srgb, var(--accent) 12%, transparent);  /* was: #eeefff */
+  color: var(--accent);                          /* was: #667eea */
 }
 
-/* Red dot indicator on the icon */
 .filter-dot {
   position: absolute;
   top: 6px;
@@ -314,38 +323,38 @@
   width: 7px;
   height: 7px;
   border-radius: 50%;
-  background: #f5576c;
-  border: 1.5px solid white;
+  background: #f5576c;                           /* kept — universal alert red */
+  border: 1.5px solid var(--bg-nav);             /* was: white — matches nav bg */
 }
 
-/* ── Filter Overlay ───────────────────────────────────────── */
+/* ── Filter Overlay ── */
 .filter-overlay {
   position: fixed;
   inset: 0;
-  background: rgba(0,0,0,0);
+  background: rgba(0, 0, 0, 0);
   z-index: 998;
   pointer-events: none;
   transition: background 0.3s ease;
 }
 
 .filter-overlay.open {
-  background: rgba(0,0,0,0.4);
+  background: rgba(0, 0, 0, 0.4);               /* kept — overlay always dark */
   pointer-events: all;
 }
 
-/* ── Filter Bottom Sheet ──────────────────────────────────── */
+/* ── Filter Bottom Sheet ── */
 .filter-sheet {
   position: fixed;
   bottom: 0;
   left: 0;
   right: 0;
-  background: white;
+  background: var(--bg-card);                    /* was: white */
   border-radius: 24px 24px 0 0;
   padding: 1.5rem 1rem 2rem;
   z-index: 999;
   transform: translateY(100%);
   transition: transform 0.35s cubic-bezier(0.4, 0, 0.2, 1);
-  box-shadow: 0 -4px 24px rgba(0,0,0,0.1);
+  box-shadow: var(--shadow);                     /* was: 0 -4px 24px rgba(0,0,0,0.1) */
 }
 
 .filter-sheet.open {
@@ -363,7 +372,7 @@
 .filter-sheet-title {
   font-size: 16px;
   font-weight: 700;
-  color: #333;
+  color: var(--text-primary);                    /* was: #333 */
   margin: 0;
 }
 
@@ -372,7 +381,7 @@
   border: none;
   font-size: 13px;
   font-weight: 600;
-  color: #f5576c;
+  color: #f5576c;                                /* kept — universal clear/reset red */
   cursor: pointer;
 }
 
@@ -384,7 +393,7 @@
 .filter-section-label {
   font-size: 12px;
   font-weight: 700;
-  color: #aaa;
+  color: var(--text-secondary);                  /* was: #aaa */
   text-transform: uppercase;
   letter-spacing: 0.5px;
   margin: 0 0 0.8rem;
@@ -400,27 +409,27 @@
 .filter-option-btn {
   padding: 7px 16px;
   border-radius: 20px;
-  border: 1.5px solid #e9ecef;
-  background: white;
+  border: 1.5px solid var(--border);             /* was: #e9ecef */
+  background: var(--bg-card);                    /* was: white */
   font-size: 13px;
   font-weight: 500;
-  color: #666;
+  color: var(--text-secondary);                  /* was: #666 */
   cursor: pointer;
   transition: all 0.2s;
 }
 
 .filter-option-btn.selected {
-  background: #667eea;
-  color: white;
-  border-color: #667eea;
+  background: var(--accent);                     /* was: #667eea */
+  color: var(--btn-text);                        /* was: white */
+  border-color: var(--accent);                   /* was: #667eea */
 }
 
 /* Apply button */
 .filter-apply-btn {
   width: 100%;
   padding: 14px;
-  background: #667eea;
-  color: white;
+  background: var(--btn-primary);                /* was: #667eea */
+  color: var(--btn-text);                        /* was: white */
   border: none;
   border-radius: 14px;
   font-size: 15px;
@@ -432,5 +441,18 @@
 }
 
 .filter-apply-btn:active {
-  background: #5567d4;
+  background: var(--accent-hover);               /* was: #5567d4 */
+}
+.prod-summary-card {
+  cursor: pointer;
+  background: var(--bg-card);
+  box-shadow: 0px 0px 1px 0px rgba(0, 0, 0, 0.1);
+}
+.prod-summary-card.card-active {
+  background: color-mix(in srgb, var(--accent) 20%, transparent);
+  border: 2px solid var(--accent);
+}
+.delete-btn {
+  background: red !important;
+  color: white !important;
 }

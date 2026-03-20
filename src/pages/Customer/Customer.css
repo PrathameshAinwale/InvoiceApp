@@ -1,5 +1,5 @@
 .customers-page {
-  background: #f8f9fa;
+  background: var(--bg-secondary);               /* was: #f8f9fa */
   min-height: 100vh;
 }
 
@@ -9,22 +9,22 @@
   align-items: center;
   justify-content: space-between;
   padding: 1rem;
-  background: white;
+  background: var(--bg-nav);                     /* was: white */
   position: sticky;
   top: 0;
   z-index: 100;
-  box-shadow: 0 2px 10px rgba(0,0,0,0.05);
+  box-shadow: var(--shadow);                     /* was: 0 2px 10px rgba(0,0,0,0.05) */
 }
 
 .customers-title {
   font-size: 18px;
   font-weight: 700;
-  color: #333;
+  color: var(--text-primary);                    /* was: #333 */
   margin: 0;
 }
 
 .back-btn {
-  background: #f8f9fa;
+  background: var(--bg-secondary);               /* was: #f8f9fa */
   border: none;
   border-radius: 10px;
   width: 36px;
@@ -33,11 +33,11 @@
   align-items: center;
   justify-content: center;
   cursor: pointer;
-  color: #333;
+  color: var(--text-primary);                    /* was: #333 */
 }
 
 .add-customer-btn {
-  background: #667eea;
+  background: var(--btn-primary);                /* was: #667eea */
   border: none;
   border-radius: 10px;
   width: 36px;
@@ -46,7 +46,7 @@
   align-items: center;
   justify-content: center;
   cursor: pointer;
-  color: white;
+  color: var(--btn-text);                        /* was: white */
 }
 
 /* ── Summary Cards ── */
@@ -70,27 +70,38 @@
   transform: scale(1.03);
 }
 
-.total-card   { background: #e8f0fe; }
-.paid-card    { background: #e6f4ea; }
-.pending-card { background: #fff8e1; }
-.overdue-card { background: #fce4ec; }
+/* Card base styles - NO background or border by default */
+.total-card, 
+.paid-card, 
+.pending-card, 
+.overdue-card {
+  transition: all 0.2s ease;
+  background: var(--bg-card);
+  box-shadow: 0px 0px 1px 0px rgba(0, 0, 0, 0.1); /* No background by default */
+  border: 2px solid transparent;
+}
 
-.total-card.card-active   { border-color: #1565c0; }
-.paid-card.card-active    { border-color: #2e7d32; }
-.pending-card.card-active { border-color: #f57f17; }
-.overdue-card.card-active { border-color: #c62828; }
+/* Selected state - ALL turn BLUE */
+.total-card.card-active, 
+.paid-card.card-active, 
+.pending-card.card-active, 
+.overdue-card.card-active {
+  background: var(--bg-card); /* Blue background */
+  border-color: var(--accent); /* Blue border */
+}
+
 
 .cust-summary-label {
   font-size: 11px;
   font-weight: 500;
-  color: #666;
+  color: var(--text-secondary);                  /* was: #666 */
   margin: 0 0 4px;
 }
 
 .cust-summary-count {
   font-size: 18px;
   font-weight: 700;
-  color: #333;
+  color: var(--text-primary);                    /* was: #333 */
   margin: 0;
 }
 
@@ -128,8 +139,7 @@
   justify-content: center;
   gap: 4px;
   border: none;
-  background: transparent;
-  color: white;
+  color: var(--btn-text);                        /* was: white */
   font-size: 11px;
   font-weight: 600;
   cursor: pointer;
@@ -139,27 +149,29 @@
 
 .swipe-edit {
   left: 0;
-  background: #667eea;
+  background: var(--accent);                     /* was: #667eea */
   border-radius: 14px 0 0 14px;
+  background-color: rgb(41, 126, 253);
 }
 
 .swipe-delete {
   right: 0;
-  background: #e74c3c;
+  background: var(--danger);                     /* was: #e74c3c */
   border-radius: 0 14px 14px 0;
+  background-color: red;
 }
 
 /* ── Customer Card ── */
 .customer-card {
   position: relative;
   z-index: 1;
-  background: #f8f8f8;
+  background: var(--bg-card);                    /* was: #f8f8f8 */
   border-radius: 14px;
   padding: 14px;
   display: flex;
   align-items: center;
   gap: 12px;
-  box-shadow: 0 1px 4px rgba(0,0,0,0.06);
+  box-shadow: var(--shadow);                     /* was: 0 1px 4px rgba(0,0,0,0.06) */
   transition: transform 0.3s ease;
   will-change: transform;
 }
@@ -173,7 +185,7 @@
   width: 46px;
   height: 46px;
   border-radius: 50%;
-  color: white;
+  color: var(--btn-text);                        /* was: white */
   font-size: 14px;
   font-weight: 700;
   display: flex;
@@ -191,7 +203,7 @@
 .customer-name {
   font-size: 14px;
   font-weight: 600;
-  color: #333;
+  color: var(--text-primary);                    /* was: #333 */
   margin: 0 0 2px;
   white-space: nowrap;
   overflow: hidden;
@@ -200,7 +212,7 @@
 
 .customer-email {
   font-size: 12px;
-  color: #aaa;
+  color: var(--text-secondary);                  /* was: #aaa */
   margin: 0 0 2px;
   white-space: nowrap;
   overflow: hidden;
@@ -217,8 +229,8 @@
   font-size: 11px;
   padding: 2px 8px;
   border-radius: 20px;
-  background: #f0f3ff;
-  color: #667eea;
+  background: color-mix(in srgb, var(--accent) 12%, transparent);  /* was: #f0f3ff */
+  color: var(--accent);                          /* was: #667eea */
   font-weight: 500;
 }
 
@@ -229,8 +241,14 @@
   font-weight: 500;
 }
 
-.customer-category.business   { background: #e8f0fe; color: #1565c0; }
-.customer-category.individual { background: #f3e8ff; color: #6a11cb; }
+.customer-category.business   {
+  background: color-mix(in srgb, var(--accent) 15%, transparent);  /* was: #e8f0fe */
+  color: var(--accent);                                             /* was: #1565c0 */
+}
+.customer-category.individual {
+  background: color-mix(in srgb, #9333EA 15%, transparent);        /* was: #f3e8ff */
+  color: #9333EA;                                                   /* kept purple — unique category */
+}
 
 /* ── Right ── */
 .customer-right {
@@ -244,7 +262,7 @@
 .customer-amount {
   font-size: 14px;
   font-weight: 700;
-  color: #333;
+  color: var(--text-primary);                    /* was: #333 */
   margin: 0;
 }
 
@@ -256,12 +274,12 @@
   text-transform: capitalize;
 }
 
-.customer-status.paid    { background: #e6f4ea; color: #2e7d32; }
-.customer-status.pending { background: #fff8e1; color: #f57f17; }
-.customer-status.overdue { background: #fce4ec; color: #c62828; }
+.customer-status.paid    { background: color-mix(in srgb, var(--success) 15%, transparent); color: var(--success); }  /* was: #e6f4ea / #2e7d32 */
+.customer-status.pending { background: color-mix(in srgb, var(--warning) 15%, transparent); color: var(--warning); }  /* was: #fff8e1 / #f57f17 */
+.customer-status.overdue { background: color-mix(in srgb, var(--danger)  15%, transparent); color: var(--danger);  }  /* was: #fce4ec / #c62828 */
 
 .call-action-btn {
-  background: #e8f0fe;
+  background: color-mix(in srgb, var(--accent) 15%, transparent);  /* was: #e8f0fe */
   border: none;
   border-radius: 8px;
   width: 28px;
@@ -270,14 +288,14 @@
   align-items: center;
   justify-content: center;
   cursor: pointer;
-  color: #667eea;
+  color: var(--accent);                          /* was: #667eea */
 }
 
 /* ── Phone Popup ── */
 .phone-overlay {
   position: fixed;
   top: 0; left: 0; right: 0; bottom: 0;
-  background: rgba(0,0,0,0.5);
+  background: rgba(0, 0, 0, 0.5);               /* kept — overlay always dark */
   z-index: 2000;
   display: flex;
   align-items: center;
@@ -285,7 +303,7 @@
 }
 
 .phone-popup {
-  background: white;
+  background: var(--bg-card);                    /* was: white */
   border-radius: 20px;
   padding: 2rem 1.5rem;
   width: 85%;
@@ -301,7 +319,7 @@
   position: absolute;
   top: 12px;
   right: 12px;
-  background: #f8f9fa;
+  background: var(--bg-secondary);               /* was: #f8f9fa */
   border: none;
   border-radius: 50%;
   width: 32px;
@@ -310,7 +328,7 @@
   align-items: center;
   justify-content: center;
   cursor: pointer;
-  color: #333;
+  color: var(--text-primary);                    /* was: #333 */
   font-size: 14px;
 }
 
@@ -318,7 +336,7 @@
   width: 64px;
   height: 64px;
   border-radius: 50%;
-  color: white;
+  color: var(--btn-text);                        /* was: white */
   font-size: 22px;
   font-weight: 700;
   display: flex;
@@ -330,20 +348,20 @@
 .popup-name {
   font-size: 18px;
   font-weight: 700;
-  color: #333;
+  color: var(--text-primary);                    /* was: #333 */
   margin: 0;
 }
 
 .popup-label {
   font-size: 12px;
-  color: #aaa;
+  color: var(--text-secondary);                  /* was: #aaa */
   margin: 0;
 }
 
 .popup-phone {
   font-size: 20px;
   font-weight: 700;
-  color: #667eea;
+  color: var(--accent);                          /* was: #667eea */
   margin: 4px 0 12px;
 }
 
@@ -351,8 +369,8 @@
   display: flex;
   align-items: center;
   gap: 8px;
-  background: #667eea;
-  color: white;
+  background: var(--btn-primary);                /* was: #667eea */
+  color: var(--btn-text);                        /* was: white */
   padding: 12px 28px;
   border-radius: 12px;
   font-size: 15px;
@@ -362,13 +380,13 @@
 }
 
 .popup-call-btn:hover {
-  background: #5a6fd6;
+  background: var(--accent-hover);              /* was: #5a6fd6 */
 }
 
 /* ── Empty State ── */
 .empty-state {
   text-align: center;
   padding: 3rem 1rem;
-  color: #aaa;
+  color: var(--text-secondary);                  /* was: #aaa */
   font-size: 14px;
 }

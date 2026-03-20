@@ -1,5 +1,5 @@
 .customer-form-page {
-  background: #f8f9fa;
+  background: var(--bg-secondary);               /* was: #f8f9fa */
   min-height: 100vh;
 }
 
@@ -9,22 +9,22 @@
   align-items: center;
   gap: 12px;
   padding: 1rem;
-  background: white;
+  background: var(--bg-nav);                     /* was: white */
   position: sticky;
   top: 0;
   z-index: 100;
-  box-shadow: 0 2px 10px rgba(0,0,0,0.05);
+  box-shadow: var(--shadow);                     /* was: 0 2px 10px rgba(0,0,0,0.05) */
 }
 
 .customer-form-title {
   font-size: 18px;
   font-weight: 700;
-  color: #333;
+  color: var(--text-primary);                    /* was: #333 */
   margin: 0;
 }
 
 .back-btn {
-  background: #f8f9fa;
+  background: var(--bg-secondary);               /* was: #f8f9fa */
   border: none;
   border-radius: 10px;
   width: 36px;
@@ -33,7 +33,7 @@
   align-items: center;
   justify-content: center;
   cursor: pointer;
-  color: #333;
+  color: var(--text-primary);                    /* was: #333 */
 }
 
 /* Form */
@@ -44,42 +44,46 @@
   gap: 1rem;
 }
 
-/* Floating field — reuses global classes from Profile.css */
-.float-field  { position: relative; }
+/* Floating field */
+.float-field { position: relative; }
 
 .float-input {
   width: 100%;
   height: 56px;
   padding: 20px 14px 6px;
-  border: 2px solid #e9ecef;
+  border: 2px solid var(--border);               /* was: #e9ecef */
   border-radius: 12px;
   font-size: 15px;
-  background: #f8f9fa;
-  color: #333;
+  background: var(--bg-secondary) !important;               /* was: #f8f9fa */
+  color: var(--text-primary);                    /* was: #333 */
   outline: none;
   transition: border 0.2s, background 0.2s;
   box-sizing: border-box;
 }
 
 .float-input:focus {
-  border-color: #667eea;
-  background: white;
-  box-shadow: 0 0 0 3px rgba(102,126,234,0.1);
+  border-color: var(--accent);                   /* was: #667eea */
+  background: var(--bg-card);                    /* was: white */
+  box-shadow: 0 0 0 3px color-mix(in srgb, var(--accent) 15%, transparent); /* was: rgba(102,126,234,0.1) */
 }
 
 .float-input.input-error {
-  border-color: #e74c3c;
-  background: #fff5f5;
+  border-color: var(--danger);                   /* was: #e74c3c */
+  background: color-mix(in srgb, var(--danger) 8%, var(--bg-card)); /* was: #fff5f5 */
 }
 
-.float-input.has-icon  { padding-left: 42px; }
+.float-input.has-icon { padding-left: 42px; }
+
+.float-input::placeholder {
+  color: transparent;                            /* hide placeholder — float label handles it */
+}
 
 .float-label {
   position: absolute;
   left: 14px;
   top: 18px;
   font-size: 15px;
-  color: #aaa;
+  color: var(--text-secondary);                  /* was: #aaa */
   pointer-events: none;
   transition: top 0.2s ease, font-size 0.2s ease, color 0.2s ease;
 }
@@ -90,7 +94,7 @@
 .float-input.has-value + .float-label {
   top: 6px;
   font-size: 11px;
-  color: #667eea;
+  color: var(--accent);                          /* was: #667eea */
   font-weight: 600;
 }
 
@@ -98,7 +102,7 @@
   display: block;
   font-size: 13px;
   font-weight: 500;
-  color: #667eea;
+  color: var(--accent);                          /* was: #667eea */
   margin-bottom: 6px;
 }
 
@@ -112,7 +116,7 @@
 .input-icon {
   position: absolute;
   left: 14px;
-  color: #667eea;
+  color: var(--accent);                          /* was: #667eea */
   z-index: 1;
   pointer-events: none;
 }
@@ -128,33 +132,53 @@
   flex: 1;
   padding: 10px;
   border-radius: 12px;
-  border: 1.5px solid #e9ecef;
-  background: white;
+  border: 1.5px solid var(--border);             /* was: #e9ecef */
+  background: var(--bg-card);                    /* was: white */
   font-size: 14px;
   font-weight: 600;
-  color: #666;
+  color: var(--text-secondary);                  /* was: #666 */
   cursor: pointer;
   transition: all 0.2s;
   text-align: center;
 }
 
-.status-option-btn.active         { background: #e8f0fe; color: #667eea; border-color: #667eea; }
-.status-option-btn.active.paid    { background: #e6f4ea; color: #2e7d32; border-color: #2e7d32; }
-.status-option-btn.active.pending { background: #fff8e1; color: #f57f17; border-color: #f57f17; }
-.status-option-btn.active.overdue { background: #fce4ec; color: #c62828; border-color: #c62828; }
+/* Active states */
+.status-option-btn.active {
+  background: color-mix(in srgb, var(--accent) 15%, transparent);  /* was: #e8f0fe */
+  color: var(--accent);                                             /* was: #667eea */
+  border-color: var(--accent);                                      /* was: #667eea */
+}
+
+.status-option-btn.active.paid {
+  background: color-mix(in srgb, var(--success) 15%, transparent); /* was: #e6f4ea */
+  color: var(--success);                                            /* was: #2e7d32 */
+  border-color: var(--success);                                     /* was: #2e7d32 */
+}
+
+.status-option-btn.active.pending {
+  background: color-mix(in srgb, var(--warning) 15%, transparent); /* was: #fff8e1 */
+  color: var(--warning);                                            /* was: #f57f17 */
+  border-color: var(--warning);                                     /* was: #f57f17 */
+}
+
+.status-option-btn.active.overdue {
+  background: color-mix(in srgb, var(--danger) 15%, transparent);  /* was: #fce4ec */
+  color: var(--danger);                                             /* was: #c62828 */
+  border-color: var(--danger);                                      /* was: #c62828 */
+}
 
 /* Errors */
 .field-error {
   font-size: 12px;
-  color: #e74c3c;
+  color: var(--danger);                          /* was: #e74c3c */
   margin-top: 4px;
 }
 
 /* Success */
 .success-message {
-  background: #e6f4ea;
-  color: #2e7d32;
-  border: 1px solid #a5d6a7;
+  background: color-mix(in srgb, var(--success) 15%, transparent); /* was: #e6f4ea */
+  color: var(--success);                                            /* was: #2e7d32 */
+  border: 1px solid color-mix(in srgb, var(--success) 40%, transparent); /* was: #a5d6a7 */
   border-radius: 12px;
   padding: 12px 16px;
   font-size: 14px;
@@ -166,8 +190,8 @@
 .customer-submit-btn {
   width: 100%;
   padding: 14px;
-  background: #667eea;
-  color: white;
+  background: var(--btn-primary);                /* was: #667eea */
+  color: var(--btn-text);                        /* was: white */
   border: none;
   border-radius: 12px;
   font-size: 16px;
@@ -177,5 +201,5 @@
   margin-bottom: 1rem;
 }
 
-.customer-submit-btn:hover  { background: #5a6fd6; }
+.customer-submit-btn:hover  { background: var(--accent-hover); }   /* was: #5a6fd6 */
 .customer-submit-btn:active { transform: scale(0.98); }

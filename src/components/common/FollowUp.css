@@ -1,6 +1,6 @@
 /* Call Button */
 .call-btn {
-  background: #e8f0fe;
+  background: color-mix(in srgb, var(--accent) 15%, transparent);  /* was: #e8f0fe */
   border: none;
   border-radius: 50%;
   width: 32px;
@@ -9,14 +9,14 @@
   align-items: center;
   justify-content: center;
   cursor: pointer;
-  color: #667eea;
+  color: var(--accent);                          /* was: #667eea */
   transition: background 0.2s;
   margin-top: 4px;
 }
 
 .call-btn:hover {
-  background: #667eea;
-  color: white;
+  background: var(--accent);                     /* was: #667eea */
+  color: var(--btn-text);                        /* was: white */
 }
 
 /* Overlay */
@@ -26,7 +26,7 @@
   left: 0;
   right: 0;
   bottom: 0;
-  background: rgba(0, 0, 0, 0.5);
+  background: rgba(0, 0, 0, 0.5);               /* kept — overlay always dark */
   z-index: 2000;
   display: flex;
   align-items: center;
@@ -35,7 +35,7 @@
 
 /* Popup */
 .phone-popup {
-  background: white;
+  background: var(--bg-card);                    /* was: white */
   border-radius: 20px;
   padding: 2rem 1.5rem;
   width: 85%;
@@ -51,7 +51,7 @@
   position: absolute;
   top: 12px;
   right: 12px;
-  background: #f8f9fa;
+  background: var(--bg-secondary);               /* was: #f8f9fa */
   border: none;
   border-radius: 50%;
   width: 32px;
@@ -60,14 +60,14 @@
   align-items: center;
   justify-content: center;
   cursor: pointer;
-  color: #333;
+  color: var(--text-primary);                    /* was: #333 */
 }
 
 .popup-avatar {
   width: 64px;
   height: 64px;
   border-radius: 50%;
-  color: white;
+  color: var(--btn-text);                        /* was: white */
   font-size: 22px;
   font-weight: 700;
   display: flex;
@@ -79,20 +79,20 @@
 .popup-name {
   font-size: 18px;
   font-weight: 700;
-  color: #333;
+  color: var(--text-primary);                    /* was: #333 */
   margin: 0;
 }
 
 .popup-label {
   font-size: 12px;
-  color: #aaa;
+  color: var(--text-secondary);                  /* was: #aaa */
   margin: 0;
 }
 
 .popup-phone {
   font-size: 20px;
   font-weight: 700;
-  color: #667eea;
+  color: var(--accent);                          /* was: #667eea */
   margin: 4px 0 12px;
 }
 
@@ -100,8 +100,8 @@
   display: flex;
   align-items: center;
   gap: 8px;
-  background: #667eea;
-  color: white;
+  background: var(--btn-primary);                /* was: #667eea */
+  color: var(--btn-text);                        /* was: white */
   padding: 12px 28px;
   border-radius: 12px;
   font-size: 15px;
@@ -111,22 +111,25 @@
 }
 
 .popup-call-btn:hover {
-  background: #5a6fd6;
+  background: var(--accent-hover);               /* was: #5a6fd6 */
 }
 
-.follow-up-Container{
-    background: white;
-    border-radius: 16px;
-    padding: 1rem;
-    margin: 1rem 0;
+/* Follow Up Container */
+.follow-up-Container {
+  background: var(--bg-card);                    /* was: white */
+  border-radius: 16px;
+  padding: 1rem;
+  margin: 1rem 0;
+  
 }
 
 /* Container */
 .followup-container {
- background: #f8f8f8;
+  background: var(--bg-secondary);                    /* was: #f8f8f8 */
   border-radius: 16px;
-  padding: 1rem ;
+  padding: 1rem;
   margin: 1rem 1rem;
+  box-shadow: 0px 0px 20px 0px rgba(0, 0, 0, 0.2);  
 }
 
 /* Header */
@@ -141,12 +144,12 @@
   font-size: 16px;
   font-weight: 600;
   margin: 0;
-  color: #333;
+  color: var(--text-primary);                    /* was: #333 */
 }
 
 .followup-header span {
   font-size: 13px;
-  color: #667eea;
+  color: var(--accent);                          /* was: #667eea */
   cursor: pointer;
 }
 
@@ -156,7 +159,7 @@
   align-items: center;
   gap: 12px;
   padding: 10px 0;
-  border-bottom: 1px solid #f1f1f1;
+  border-bottom: 1px solid var(--border);        /* was: #f1f1f1 */
 }
 
 .followup-item:last-child {
@@ -168,7 +171,7 @@
   width: 42px;
   height: 42px;
   border-radius: 50%;
-  color: white;
+  color: var(--btn-text);                        /* was: white */
   font-size: 13px;
   font-weight: 600;
   display: flex;
@@ -185,13 +188,13 @@
 .followup-name {
   font-size: 14px;
   font-weight: 600;
-  color: #333;
+  color: var(--text-primary);                    /* was: #333 */
   margin: 0 0 3px;
 }
 
 .followup-id {
   font-size: 12px;
-  color: #aaa;
+  color: var(--text-secondary);                  /* was: #aaa */
   margin: 0;
 }
 
@@ -206,7 +209,6 @@
 .followup-amount {
   font-size: 14px;
   font-weight: 700;
-  color: #333;
+  color: var(--text-primary);                    /* was: #333 */
   margin: 0;
 }
-

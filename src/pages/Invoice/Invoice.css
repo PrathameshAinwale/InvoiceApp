@@ -1,5 +1,5 @@
 .invoice-page {
-  background: #f8f9fa;
+  background: var(--bg-secondary);               /* was: #f8f9fa */
   min-height: 100vh;
 }
 
@@ -9,22 +9,22 @@
   align-items: center;
   justify-content: space-between;
   padding: 1rem;
-  background: white;
+  background: var(--bg-nav);                     /* was: white */
   position: sticky;
   top: 0;
   z-index: 100;
-  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
+  box-shadow: var(--shadow);                     /* was: 0 2px 10px rgba(0,0,0,0.05) */
 }
 
 .invoice-page-title {
   font-size: 18px;
   font-weight: 700;
-  color: #333;
+  color: var(--text-primary);                    /* was: #333 */
   margin: 0;
 }
 
 .back-btn {
-  background: #f8f9fa;
+  background: var(--bg-secondary);               /* was: #f8f9fa */
   border: none;
   border-radius: 10px;
   width: 36px;
@@ -33,11 +33,11 @@
   align-items: center;
   justify-content: center;
   cursor: pointer;
-  color: #333;
+  color: var(--text-primary);                    /* was: #333 */
 }
 
 .add-invoice-btn {
-  background: #667eea;
+  background: var(--btn-primary);                /* was: #667eea */
   border: none;
   border-radius: 10px;
   width: 36px;
@@ -46,7 +46,7 @@
   align-items: center;
   justify-content: center;
   cursor: pointer;
-  color: white;
+  color: var(--btn-text);                        /* was: white */
 }
 
 /* Summary */
@@ -63,30 +63,22 @@
   text-align: center;
 }
 
-.paid-card {
-  background: #e6f4ea;
-}
-.pending-card {
-  background: #fff8e1;
-}
-.overdue-card {
-  background: #fce4ec;
-}
-.draft-card {
-  background: #e8f0fe;
-}
+.paid-card    { background: color-mix(in srgb, var(--success) 15%, transparent); }  /* was: #e6f4ea */
+.pending-card { background: color-mix(in srgb, var(--warning) 15%, transparent); }  /* was: #fff8e1 */
+.overdue-card { background: color-mix(in srgb, var(--danger)  15%, transparent); }  /* was: #fce4ec */
+.draft-card   { background: color-mix(in srgb, var(--accent)  15%, transparent); }  /* was: #e8f0fe */
 
 .inv-summary-label {
   font-size: 11px;
   font-weight: 500;
-  color: #666;
+  color: var(--text-secondary);                  /* was: #666 */
   margin: 0 0 4px;
 }
 
 .inv-summary-count {
   font-size: 18px;
   font-weight: 700;
-  color: #333;
+  color: var(--text-primary);                    /* was: #333 */
   margin: 0;
 }
 
@@ -101,29 +93,38 @@
   left: 14px;
   top: 50%;
   transform: translateY(-50%);
-  color: #aaa;
+  color: var(--text-secondary);                  /* was: #aaa */
 }
 
 .invoice-search {
   width: 100%;
   padding: 10px 16px 10px 38px;
-  border: 2px solid #e9ecef;
+  border: 2px solid var(--border);               /* was: #e9ecef */
   border-radius: 12px;
   font-size: 14px;
-  background: white;
+  background: var(--bg-card);                    /* was: white */
+  color: var(--text-primary);                    /* added for text visibility */
   outline: none;
 }
 
-.invoice-search:focus {
-  border-color: #667eea;
+.invoice-search::placeholder {
+  color: var(--text-secondary);                  /* added for placeholder visibility */
 }
 
+.invoice-search:focus {
+  border-color: var(--accent);                   /* was: #667eea */
+}
+
+/* Filters */
 .invoice-filters {
   display: flex;
   gap: 8px;
   padding: 1rem;
-  overflow-x: auto;
+  overflow-x: scroll;      /* Changed: enables scrollbar on overflow */
+  scroll-behavior: smooth;
+  flex-wrap: nowrap;     /* Added: prevents wrapping to new lines */
 }
+
 
 .invoice-filters::-webkit-scrollbar {
   display: none;
@@ -135,18 +136,18 @@
   gap: 6px;
   padding: 7px 12px;
   border-radius: 20px;
-  border: 1.5px solid #e9ecef;
-  background: white;
+  border: 1.5px solid var(--border);             /* was: #e9ecef */
+  background: var(--bg-card);                    /* was: white */
   font-size: 13px;
   font-weight: 500;
-  color: #666;
+  color: var(--text-secondary);                  /* was: #666 */
   cursor: pointer;
   white-space: nowrap;
   transition: all 0.2s;
 }
 
 .filter-tab.active {
-  color: white;
+  color: var(--btn-text);                        /* was: white */
 }
 
 .filter-count {
@@ -156,6 +157,7 @@
   border-radius: 20px;
   transition: all 0.2s;
 }
+
 /* List */
 .invoice-list {
   padding: 0 1rem;
@@ -164,21 +166,29 @@
   gap: 10px;
 }
 
+/* Card — merged duplicate rules */
 .invoice-card {
-  background: white;
+  position: relative;
+  z-index: 1;
+  background: var(--bg-card);                    /* was: #f8f8f8 / white */
   border-radius: 14px;
   padding: 14px;
   display: flex;
   align-items: center;
   gap: 12px;
-  box-shadow: 0 1px 4px rgba(0, 0, 0, 0.06);
+  box-shadow: 0px 0px 20px 0px rgba(0, 0, 0, 0.2);                   /* was: 0 1px 4px rgba(0,0,0,0.06) */
+  transition: transform 0.2s ease;
+}
+
+.invoice-card.swiping {
+  transition: none;
 }
 
 .inv-avatar {
   width: 44px;
   height: 44px;
   border-radius: 50%;
-  color: white;
+  color: var(--btn-text);                        /* was: white */
   font-size: 13px;
   font-weight: 700;
   display: flex;
@@ -194,19 +204,19 @@
 .inv-name {
   font-size: 14px;
   font-weight: 600;
-  color: #333;
+  color: var(--text-primary);                    /* was: #333 */
   margin: 0 0 2px;
 }
 
 .inv-id {
   font-size: 12px;
-  color: #aaa;
+  color: var(--text-secondary);                  /* was: #aaa */
   margin: 0 0 2px;
 }
 
 .inv-date {
   font-size: 12px;
-  color: #aaa;
+  color: var(--text-secondary);                  /* was: #aaa */
   margin: 0;
 }
 
@@ -220,7 +230,7 @@
 .inv-amount {
   font-size: 14px;
   font-weight: 700;
-  color: #333;
+  color: var(--text-primary);                    /* was: #333 */
   margin: 0;
 }
 
@@ -233,40 +243,26 @@
   text-transform: capitalize;
 }
 
-.inv-badge.paid {
-  background: #e6f4ea;
-  color: #2e7d32;
-}
-.inv-badge.pending {
-  background: #fff8e1;
-  color: #f57f17;
-}
-.inv-badge.overdue {
-  background: #fce4ec;
-  color: #c62828;
-}
-.inv-badge.draft {
-  background: #e8f0fe;
-  color: #1565c0;
-}
+.inv-badge.paid    { color: gainsboro; }  /* was: #e6f4ea / #2e7d32 */
+.inv-badge.pending { color: gainsboro; }  /* was: #fff8e1 / #f57f17 */
+.inv-badge.overdue {color: gainsboro; }  /* was: #fce4ec / #c62828 */
+.inv-badge.draft   { color:gainsboro; }  /* was: #e8f0fe / #1565c0 */
 
 /* Empty */
 .empty-state {
   text-align: center;
   padding: 3rem 1rem;
-  color: #aaa;
+  color: var(--text-secondary);                  /* was: #aaa */
   font-size: 14px;
 }
 
-
-/* Swipe wrapper — clips the action buttons */
+/* Swipe wrapper */
 .swipe-wrapper {
   position: relative;
   border-radius: 14px;
   overflow: hidden;
 }
 
-/* Action buttons behind the card */
 .swipe-action {
   position: absolute;
   top: 0;
@@ -278,10 +274,10 @@
   transition: opacity 0.1s ease;
 }
 
-/* Edit — on the left */
+/* Edit — left */
 .swipe-edit {
   left: 0;
-  background: #e8f0fe;
+  background: color-mix(in srgb, var(--accent) 20%, transparent);  /* was: #e8f0fe */
   border-radius: 14px 0 0 14px;
 }
 
@@ -292,16 +288,16 @@
   gap: 4px;
   background: none;
   border: none;
-  color: #1565c0;
+  color: var(--accent);                          /* was: #1565c0 */
   font-size: 11px;
   font-weight: 600;
   cursor: pointer;
 }
 
-/* Delete — on the right */
+/* Delete — right */
 .swipe-delete {
   right: 0;
-  background: #fce4ec;
+  background: color-mix(in srgb, var(--danger) 20%, transparent);  /* was: #fce4ec */
   border-radius: 0 14px 14px 0;
 }
 
@@ -312,27 +308,8 @@
   gap: 4px;
   background: none;
   border: none;
-  color: #c62828;
+  color: var(--danger);                          /* was: #c62828 */
   font-size: 11px;
   font-weight: 600;
   cursor: pointer;
-}
-
-/* Card slides smoothly */
-.invoice-card {
-  position: relative;
-  z-index: 1;
-  transition: transform 0.2s ease;
-  background: #f8f8f8;
-  border-radius: 14px;
-  padding: 14px;
-  display: flex;
-  align-items: center;
-  gap: 12px;
-  box-shadow: 0 1px 4px rgba(0,0,0,0.06);
-}
-
-/* No transition while actively swiping — feels instant */
-.invoice-card.swiping {
-  transition: none;
 }

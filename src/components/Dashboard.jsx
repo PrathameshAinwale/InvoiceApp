@@ -6,10 +6,12 @@ import RecentInvoice from './RecentInvoice';
 import FollowUp from './common/FollowUp';
 import InfoSlider from './common/InfoCard/InfoSlider';
 
+
 const Dashboard = () => {
   return (
     <div className="dashboard ">
-      <TopNav />                                     
+      <TopNav />
+                                  
 
       <main className="dashboard-main">
         <MoneyCard />  

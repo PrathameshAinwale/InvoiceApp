@@ -6,10 +6,12 @@ import products from "../../data/products.json";
 import { IoIosSearch } from "react-icons/io";
 import { IoClose } from "react-icons/io5";
 import { useAuth } from "../../context/AuthContext";
+import { useTheme } from "../../context/ThemeContext";
 
 const TopNav = () => {
   const navigate = useNavigate();
-   const { user, logout } = useAuth(); 
+  const { user, logout } = useAuth(); 
+  const { theme, setTheme } = useTheme();
   const [isClosing, setIsClosing] = useState(false);
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [isSearchOpen, setIsSearchOpen] = useState(false);
@@ -17,6 +19,11 @@ const TopNav = () => {
   const [showResults, setShowResults] = useState(false);
   const searchRef = useRef(null);
   const inputRef = useRef(null);
+
+  const themes = [
+    { id: 'dark',  name: 'Dark',  },
+    { id: 'light', name: 'Light',  },
+  ];
 
   const customerResults = customers.filter(
     (c) =>
@@ -60,6 +67,7 @@ const TopNav = () => {
       setShowResults(false);
     }, 300);
   };
+  
   const handleSearchChange = (e) => {
     setSearch(e.target.value);
     setShowResults(e.target.value.length > 0);
@@ -71,6 +79,7 @@ const TopNav = () => {
     setIsSearchOpen(false);
     navigate("/customers");
   };
+  
   const handleProductClick = () => {
     setSearch("");
     setShowResults(false);
@@ -78,16 +87,16 @@ const TopNav = () => {
     navigate("/products");
   };
 
-   const handleLogout = () => {
+  const handleLogout = () => {
     logout();
     setIsMenuOpen(false);
     navigate('/login');
   };
 
-
   return (
     <>
       <nav className="mobile-nav">
+        {/* Username */}
         {!isSearchOpen && (
           <div className="nav-username">
             <p className="nav-greeting">Hello,</p>
@@ -95,12 +104,12 @@ const TopNav = () => {
           </div>
         )}
 
-        {/* Spacer — pushes search + logo to the right */}
+        {/* Spacer */}
         <div
           style={{ flex: isSearchOpen ? 0 : 1, transition: "flex 0.35s ease" }}
         />
 
-        {/* Search — expands leftward */}
+        {/* Search */}
         <div
           className={`nav-search ${isSearchOpen ? "expanded" : ""} ${isClosing ? "closing" : ""}`}
           ref={searchRef}
@@ -188,7 +197,7 @@ const TopNav = () => {
           )}
         </div>
 
-        {/* Logo — rightmost */}
+        {/* Logo/Menu Button */}
         <div
           className={`nav-logo-btn ${isMenuOpen ? "active" : ""}`}
           onClick={() => setIsMenuOpen(!isMenuOpen)}
@@ -200,6 +209,7 @@ const TopNav = () => {
         </div>
       </nav>
 
+      {/* Mobile Menu Overlay WITH THEME SELECTOR INSIDE */}
       <div
         className={`mobile-menu-overlay ${isMenuOpen ? "open" : ""}`}
         onClick={() => setIsMenuOpen(false)}
@@ -208,7 +218,25 @@ const TopNav = () => {
           <ul onClick={() => navigate("/products")}>Products</ul>
           <ul onClick={() => navigate("/customers")}>Customers</ul>
           <ul onClick={() => navigate("/follow-up")}>Follow Up</ul>
-          <ul onClick={() => navigate("/LogOut")} style={{color:"red"}}>LogOut</ul>
+          
+          {/* Theme Selector Section */}
+          <div className="theme-section">
+            <p className="theme-section-title">Theme</p>
+            {themes.map((t) => (
+              <ul
+                key={t.id}
+                className={`theme-option ${theme === t.id ? 'active' : ''}`}
+                onClick={() => {
+                  setTheme(t.id);
+                  setIsMenuOpen(false); // Close menu after selection
+                }}
+              >
+                {t.icon} {t.name}
+              </ul>
+            ))}
+          </div>
+          
+          <ul onClick={handleLogout} style={{color:"red"}}>Logout</ul>
         </div>
       </div>
     </>

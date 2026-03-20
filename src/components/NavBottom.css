@@ -3,8 +3,8 @@
   bottom: 0;
   left: 0;
   right: 0;
-  background: white;
-  box-shadow: 2px -3px rgba(0, 0, 0, 0.1);
+  background: var(--bg-nav);               /* was: white */
+  box-shadow: var(--shadow);               /* was: 2px -3px rgba(0,0,0,0.1) */
   padding: 12px 0;
   z-index: 1000;
   border-radius: 100px;
@@ -26,20 +26,20 @@
   cursor: pointer;
   padding: 8px;
   border-radius: 10px;
-  transition: background 0.2s;
-  color: #000000;
+  transition: background 0.2s, color 0.2s ease;
+  color: var(--text-primary);              /* was: #000000 */
   font-size: 24px;
 }
 
 .bottom-nav ul li:hover {
-  background: #f8f9fa;
-  color: #667eea;
+  background: var(--bg-secondary);         /* was: #f8f9fa */
+  color: var(--accent);                    /* was: #667eea */
 }
 
 .circle {
   width: 45px;
   height: 45px;
-  background: #667eea;
+  background: var(--accent);              /* was: #667eea */
   border-radius: 50%;
   position: absolute;
   left: 50%;
@@ -49,25 +49,20 @@
 
 .plus {
   position: relative;
-  z-index: 2; /* ← icon sits above circle */
-  color: white;
+  z-index: 2;
+  color: var(--btn-text);                  /* was: white */
   font-size: 22px;
 }
 
-.plus.active{
-  color: #000000;
+.plus.active {
+  color: var(--text-primary);             /* was: #000000 */
 }
 
-.circle.active{
-  background-color: #667eea;
-}
-
-/* Default icon color */
-.bottom-nav ul li {
-  transition: color 0.2s ease;
+.circle.active {
+  background-color: var(--accent);        /* was: #667eea */
 }
 
 /* Active icon color */
 .bottom-nav ul li.active {
-  color: #667eea;
+  color: var(--accent);                   /* was: #667eea */
 }

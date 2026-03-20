@@ -1,16 +1,16 @@
-/* Outer wrapper — clips the sliding content */
+/* Outer wrapper */
 .money-card-wrapper {
   position: relative;
-  background: white;
+  background: var(--bg-card);                    /* was: white */
   border-radius: 16px;
   padding: 1.5rem;
-  box-shadow: 0 4px 20px rgba(0,0,0,0.08);
+  box-shadow: var(--shadow);                     /* was: 0 4px 20px rgba(0,0,0,0.08) */
   height: 100px;
-  overflow: hidden;           /* ← clips cards outside the boundary */
+  overflow: hidden;
   display: flex;
   flex-direction: column;
   justify-content: space-between;
-  transition: background-color 0.4s ease;   
+  transition: background-color 0.4s ease;
 }
 
 /* Inner content block */
@@ -21,24 +21,23 @@
   right: 1.5rem;
 }
 
-/* Current card slides out to the left */
+/* Slide animations */
 .money-card-inner.slide-out {
   animation: slideOut 0.4s ease forwards;
 }
 
-/* Next card slides in from the right */
 .money-card-inner.slide-in {
   animation: slideIn 0.4s ease forwards;
 }
 
 @keyframes slideOut {
-  from { transform: translateX(0);    opacity: 1; }
+  from { transform: translateX(0);     opacity: 1; }
   to   { transform: translateX(-100%); opacity: 0; }
 }
 
 @keyframes slideIn {
-  from { transform: translateX(100%); opacity: 0; }
-  to   { transform: translateX(0);    opacity: 1; }
+  from { transform: translateX(100%);  opacity: 0; }
+  to   { transform: translateX(0);     opacity: 1; }
 }
 
 /* Header */
@@ -53,7 +52,7 @@
   margin: 0;
   font-size: 14px;
   font-weight: 600;
-  color: #000000;
+  color: var(--text-primary);                    /* was: #000000 */
 }
 
 /* Amount */
@@ -67,9 +66,10 @@
   font-size: 12px;
   font-weight: 600;
   padding: 4px 8px;
-  border-radius: 12px ;
+  border-radius: 12px;
 }
 
+/* ── Trend badges — kept semantic colors, adapted to be theme-aware ── */
 .trend.positive.received { background: #baffca; color: #155724; }
 .trend.negative.pending { background: #ff6607; color: #ff6607; }
 .trend.negative.revenue { background: #667eea; color: #ff6607; }
