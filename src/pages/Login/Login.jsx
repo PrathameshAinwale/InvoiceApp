@@ -39,13 +39,8 @@ const Login = () => {
         password: formData.password.trim(),
       });
 
-      // ✅ Token is now in HttpOnly cookie (set by backend automatically)
-      // Only save user info in localStorage for display purposes
       localStorage.setItem('token', res.data.token);
-      console.log("🚀 Login response:", res.data);
       localStorage.setItem('user', JSON.stringify(res.data.user));
-
-      // Update AuthContext
       login(res.data.user);
 
       setLoading(false);
@@ -53,15 +48,18 @@ const Login = () => {
 
     } catch (err) {
       setLoading(false);
-      if (err.response) {
-        if (err.response.status === 404) {
-          setErrors({ general: 'No account found. Redirecting to Sign Up...' });
-          setTimeout(() => navigate('/signup'), 2000);
-        } else {
-          setErrors({ general: err.response.data.message });
-        }
+      const status  = err.response?.status;
+      const message = err.response?.data?.message || '';
+
+      if (status === 404) {
+        // ✅ No account found — show under email field + redirect
+        setErrors({ email: 'No account found with this email.' });
+        setTimeout(() => navigate('/signup'), 2000);
+      } else if (status === 401) {
+        // ✅ Wrong password — show under password field
+        setErrors({ password: 'Incorrect password. Please try again.' });
       } else {
-        setErrors({ general: 'Something went wrong. Please try again.' });
+        setErrors({ general: message || 'Something went wrong. Please try again.' });
       }
     }
   };
@@ -91,6 +89,7 @@ const Login = () => {
               />
               <label className="float-label icon-label">Email</label>
             </div>
+            {/* ✅ Shows both "required" and "not found" errors */}
             {errors.email && <p className="field-error">{errors.email}</p>}
           </div>
 
@@ -104,6 +103,7 @@ const Login = () => {
               />
               <label className="float-label icon-label">Password</label>
             </div>
+            {/* ✅ Shows both "required" and "incorrect password" errors */}
             {errors.password && <p className="field-error">{errors.password}</p>}
           </div>
 

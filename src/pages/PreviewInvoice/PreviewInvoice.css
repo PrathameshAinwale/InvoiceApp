@@ -284,7 +284,7 @@
 
 /* ── Base Button Styles ── */
 .ip-paid-btn {
-  background: var(--success);                    /* was: #2e7d32 */
+  background: rgb(4, 201, 4);                    /* was: #2e7d32 */
   color: var(--btn-text);                        /* was: white */
   border: none;
   border-radius: 12px;
@@ -299,7 +299,7 @@
 }
 
 .ip-paid-btn:hover {
-  background: color-mix(in srgb, var(--success) 80%, black); /* was: #1b5e20 */
+  background: rgb(4, 201, 4, 0.8);                /* was: #1b5e20 */
 }
 
 .ip-share-btn {

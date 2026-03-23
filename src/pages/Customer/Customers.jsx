@@ -2,9 +2,18 @@ import React, { useState, useRef, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import { FiArrowLeft, FiPlus, FiEdit2, FiTrash2, FiPhone } from "react-icons/fi";
 import { useTranslation } from "react-i18next";
-import customers from "../../data/customer.json";
 import TopNav from "../../components/common/TopNav";
-import "./Customer.css";
+import API from "../../api/api"; // ✅ added
+import "./Customers.css";
+
+// ✅ Avatar colors
+  const AVATAR_COLORS = ["#667eea", "#e53e3e", "#38a169", "#d69e2e", "#805ad5", "#dd6b20", "#3182ce", "#e91e8c"];
+  const getAvatarColor = (seed) => {
+    const str = String(seed || "");
+    let hash = 0;
+    for (let i = 0; i < str.length; i++) hash = (hash * 31 + str.charCodeAt(i)) % 100000;
+    return AVATAR_COLORS[hash % AVATAR_COLORS.length];
+  };
 
 // ── Swipeable Card ─────────────────────────────────────────
 const SwipeableCard = ({ customer, onDelete, onCall, onEdit }) => {
@@ -54,7 +63,7 @@ const SwipeableCard = ({ customer, onDelete, onCall, onEdit }) => {
   return (
     <div className="swipe-wrapper" ref={cardRef}>
 
-      {/* Edit — revealed on right swipe */}
+      {/* Edit — right swipe */}
       <div
         className="swipe-action swipe-edit"
         style={{ opacity: swipeX > 0 ? swipeX / 80 : 0 }}
@@ -65,7 +74,7 @@ const SwipeableCard = ({ customer, onDelete, onCall, onEdit }) => {
         </button>
       </div>
 
-      {/* Delete — revealed on left swipe */}
+      {/* Delete — left swipe */}
       <div
         className="swipe-action swipe-delete"
         style={{ opacity: swipeX < 0 ? -swipeX / 80 : 0 }}
@@ -88,33 +97,36 @@ const SwipeableCard = ({ customer, onDelete, onCall, onEdit }) => {
           navigate(`/customer/${customer.id}`);
         }}
       >
+        {/* ✅ Avatar with auto color */}
         <div
           className="customer-avatar"
-          style={{ background: customer.avatarColor }}
+          style={{ background: getAvatarColor(customer.name) }}
         >
-          {customer.avatar}
+          {String(customer.name || "?").charAt(0).toUpperCase()}
         </div>
 
         <div className="customer-info">
+          {/* ✅ Correct field names from DB */}
           <p className="customer-name">{customer.name}</p>
-          <p className="customer-email">{customer.email}</p>
+          <p className="customer-email">{customer.email || "—"}</p>
           <div className="customer-meta">
-            <span className="customer-invoices">
-              {customer.totalInvoices} {t("customers.invoices")}
-            </span>
-            <span className={`customer-category ${customer.category.toLowerCase()}`}>
-              {customer.category}
-            </span>
+            {customer.country && (
+              <span className="customer-invoices">{customer.country}</span>
+            )}
+            {customer.category && (
+              <span className={`customer-category ${customer.category?.toLowerCase()}`}>
+                {customer.category}
+              </span>
+            )}
           </div>
         </div>
 
         <div className="customer-right">
-          <p className="customer-amount">
-            ₹{customer.totalAmount.toLocaleString()}
+          {/* ✅ Phone number shown */}
+          <p style={{ fontSize: "12px", color: "#667eea", fontWeight: 600 }}>
+            {customer.phone}
           </p>
-          <span className={`customer-status ${customer.status}`}>
-            {t(`customers.status.${customer.status}`)}
-          </span>
+          {/* ✅ Call button */}
           <button
             className="call-action-btn"
             onClick={(e) => { e.stopPropagation(); onCall(customer); }}
@@ -132,30 +144,68 @@ const SwipeableCard = ({ customer, onDelete, onCall, onEdit }) => {
 const Customers = () => {
   const navigate = useNavigate();
   const { t }    = useTranslation();
-  const [search, setSearch]               = useState("");
-  const [filter, setFilter]               = useState("all");
-  const [customerList, setCustomerList]   = useState(customers);
+
+  const [search,        setSearch]        = useState("");
+  const [filter,        setFilter]        = useState("all");
+  const [customerList,  setCustomerList]  = useState([]);
+  const [loading,       setLoading]       = useState(true);
+  const [error,         setError]         = useState("");
   const [selectedPhone, setSelectedPhone] = useState(null);
+
+  // ✅ Fetch customers from backend
+  useEffect(() => {
+    const fetchCustomers = async () => {
+      try {
+        const res = await API.get("/customers");
+        setCustomerList(res.data.customers || []);
+      } catch (err) {
+        setError("Failed to load customers.");
+      } finally {
+        setLoading(false);
+      }
+    };
+    fetchCustomers();
+  }, []);
 
   const handleFilterClick = (value) => {
     setFilter((prev) => (prev === value ? "all" : value));
   };
 
+  // ✅ Filter by category or search
   const filtered = customerList.filter((c) => {
-    const matchesFilter = filter === "all" ? true : c.status === filter;
+    const matchesFilter = filter === "all" ? true : c.category?.toLowerCase() === filter;
     const matchesSearch =
-      c.name.toLowerCase().includes(search.toLowerCase())    ||
-      c.email.toLowerCase().includes(search.toLowerCase())   ||
-      c.country.toLowerCase().includes(search.toLowerCase()) ||
-      c.id.toLowerCase().includes(search.toLowerCase());
+      c.name?.toLowerCase().includes(search.toLowerCase())    ||
+      c.email?.toLowerCase().includes(search.toLowerCase())   ||
+      c.phone?.toLowerCase().includes(search.toLowerCase())   ||
+      c.country?.toLowerCase().includes(search.toLowerCase());
     return matchesFilter && matchesSearch;
   });
 
-  const handleDelete = (id) => {
-    setCustomerList(customerList.filter((c) => c.id !== id));
+  // ✅ Delete calls backend
+  const handleDelete = async (id) => {
+    if (!window.confirm("Delete this customer?")) return;
+    try {
+      await API.delete(`/customers/${id}`);
+      setCustomerList((prev) => prev.filter((c) => c.id !== id));
+    } catch (err) {
+      alert("Failed to delete customer.");
+    }
   };
 
   const handleEdit = (customer) => navigate(`/editcustomer/${customer.id}`);
+
+  if (loading) return (
+    <div className="customers-page page" style={{ textAlign: "center", padding: "60px 20px" }}>
+      <p style={{ color: "#667eea", fontWeight: 600 }}>Loading customers...</p>
+    </div>
+  );
+
+  if (error) return (
+    <div className="customers-page page" style={{ textAlign: "center", padding: "60px 20px" }}>
+      <p style={{ color: "red" }}>{error}</p>
+    </div>
+  );
 
   return (
     <div className="customers-page page">
@@ -172,7 +222,7 @@ const Customers = () => {
         </button>
       </div>
 
-      {/* Summary Cards */}
+      {/* ✅ Summary Cards — Total, Business, Individual */}
       <div className="customers-summary">
         <div
           className={`cust-summary-card total-card ${filter === "all" ? "card-active" : ""}`}
@@ -182,30 +232,21 @@ const Customers = () => {
           <p className="cust-summary-count">{customerList.length}</p>
         </div>
         <div
-          className={`cust-summary-card paid-card ${filter === "paid" ? "card-active" : ""}`}
-          onClick={() => handleFilterClick("paid")}
+          className={`cust-summary-card paid-card ${filter === "business" ? "card-active" : ""}`}
+          onClick={() => handleFilterClick("business")}
         >
-          <p className="cust-summary-label">{t("customers.summary.paid")}</p>
+          <p className="cust-summary-label">Business</p>
           <p className="cust-summary-count">
-            {customerList.filter((c) => c.status === "paid").length}
+            {customerList.filter((c) => c.category?.toLowerCase() === "business").length}
           </p>
         </div>
         <div
-          className={`cust-summary-card pending-card ${filter === "pending" ? "card-active" : ""}`}
-          onClick={() => handleFilterClick("pending")}
+          className={`cust-summary-card pending-card ${filter === "individual" ? "card-active" : ""}`}
+          onClick={() => handleFilterClick("individual")}
         >
-          <p className="cust-summary-label">{t("customers.summary.pending")}</p>
+          <p className="cust-summary-label">Individual</p>
           <p className="cust-summary-count">
-            {customerList.filter((c) => c.status === "pending").length}
-          </p>
-        </div>
-        <div
-          className={`cust-summary-card overdue-card ${filter === "overdue" ? "card-active" : ""}`}
-          onClick={() => handleFilterClick("overdue")}
-        >
-          <p className="cust-summary-label">{t("customers.summary.overdue")}</p>
-          <p className="cust-summary-count">
-            {customerList.filter((c) => c.status === "overdue").length}
+            {customerList.filter((c) => c.category?.toLowerCase() === "individual").length}
           </p>
         </div>
       </div>
@@ -229,21 +270,32 @@ const Customers = () => {
         )}
       </div>
 
-      {/* Phone Popup */}
+      {/* ✅ Phone Popup */}
       {selectedPhone && (
         <div className="phone-overlay" onClick={() => setSelectedPhone(null)}>
           <div className="phone-popup" onClick={(e) => e.stopPropagation()}>
             <button className="popup-close" onClick={() => setSelectedPhone(null)}>✕</button>
-            <div className="popup-avatar" style={{ background: selectedPhone.avatarColor }}>
-              {selectedPhone.avatar}
+
+            {/* ✅ Avatar with auto color */}
+            <div
+              className="popup-avatar"
+              style={{ background: getAvatarColor(selectedPhone.name) }}
+            >
+              {String(selectedPhone.name || "?").charAt(0).toUpperCase()}
             </div>
+
             <p className="popup-name">{selectedPhone.name}</p>
             <p className="popup-label">{t("customers.contactNumber")}</p>
             <p className="popup-phone">{selectedPhone.phone}</p>
-            <a href={`tel:${selectedPhone.phone}`} className="popup-call-btn">
-              <FiPhone size={16} />
-              {t("customers.callNow")}
-            </a>
+
+            {selectedPhone.phone ? (
+              <a href={`tel:${selectedPhone.phone}`} className="popup-call-btn">
+                <FiPhone size={16} />
+                {t("customers.callNow")}
+              </a>
+            ) : (
+              <p style={{ color: "#aaa", fontSize: "13px" }}>No phone number available</p>
+            )}
           </div>
         </div>
       )}

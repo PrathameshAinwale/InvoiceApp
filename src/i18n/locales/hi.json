@@ -4,7 +4,8 @@
     "products": "उत्पाद",
     "customers": "ग्राहक",
     "followUp": "फॉलो अप",
-    "logout": "लॉग आउट"
+    "logout": "लॉग आउट",
+    "profile": "प्रोफ़ाइल"
   },
   "dashboard": {
     "title": "डैशबोर्ड",
@@ -12,35 +13,6 @@
     "totalOrders": "कुल ऑर्डर",
     "totalCustomers": "कुल ग्राहक",
     "recentOrders": "हाल के ऑर्डर"
-  },
-  "products": {
-    "title": "उत्पाद",
-    "addProduct": "उत्पाद जोड़ें",
-    "productName": "उत्पाद का नाम",
-    "price": "कीमत",
-    "category": "श्रेणी",
-    "stock": "स्टॉक",
-    "noProducts": "कोई उत्पाद नहीं मिला"
-  },
-  "customers": {
-    "title": "ग्राहक",
-    "addCustomer": "ग्राहक जोड़ें",
-    "name": "नाम",
-    "email": "ईमेल",
-    "phone": "फ़ोन",
-    "noCustomers": "कोई ग्राहक नहीं मिला"
-  },
-  "invoice": {
-    "title": "चालान",
-    "createInvoice": "चालान बनाएं",
-    "invoiceNumber": "चालान नंबर",
-    "date": "तारीख",
-    "dueDate": "देय तारीख",
-    "subtotal": "उप-योग",
-    "gst": "जीएसटी",
-    "total": "कुल",
-    "save": "सहेजें",
-    "cancel": "रद्द करें"
   },
   "common": {
     "search": "खोजें",
@@ -81,328 +53,358 @@
     }
   },
   "currencySelect": {
-  "label": "मुद्रा",
-  "placeholder": "मुद्रा चुनें",
-  "loading": "मुद्राएं लोड हो रही हैं...",
-  "error": "मुद्राएं लोड करने में विफल"
-},
-"followUp": {
-  "title": "फॉलो-अप",
-  "seeAll": "सभी देखें",
-  "contactNumber": "संपर्क नंबर",
-  "callNow": "अभी कॉल करें"
-},
-"moneyCard": {
-  "received": "प्राप्त राशि",
-  "pending": "बकाया राशि",
-  "revenue": "कुल राजस्व",
-  "overdue": "अतिदेय"
-},
-"createInvoice": {
-  "title": "चालान बनाएं",
-  "editTitle": "चालान संपादित करें",
-  "invoiceDetails": "चालान विवरण",
-  "customerName": "ग्राहक का नाम",
-  "customerNamePlaceholder": "ग्राहक का नाम दर्ज करें",
-  "customerNameError": "ग्राहक का नाम आवश्यक है",
-  "invoiceDate": "चालान तारीख",
-  "invoiceDateError": "चालान तारीख आवश्यक है",
-  "dueDateError": "देय तारीख आवश्यक है",
-  "currency": "मुद्रा",
-  "currencyError": "मुद्रा आवश्यक है",
-  "productsSection": "उत्पाद / सेवाएं",
-  "item": "आइटम",
-  "productName": "उत्पाद का नाम",
-  "productNamePlaceholder": "उत्पाद का नाम दर्ज करें",
-  "productNameError": "उत्पाद का नाम आवश्यक है",
-  "quantity": "मात्रा",
-  "quantityError": "मात्रा आवश्यक है और 0 से अधिक होनी चाहिए",
-  "unit": "इकाई",
-  "price": "कीमत",
-  "discount": "छूट (%)",
-  "gstRate": "जीएसटी दर",
-  "customGst": "कस्टम %",
-  "priceError": "कीमत आवश्यक है और 0 से अधिक होनी चाहिए",
-  "gstError": "जीएसटी दर आवश्यक है",
-  "gstRangeError": "जीएसटी 0 और 100 के बीच होना चाहिए",
-  "itemTotal": "आइटम कुल",
-  "addItem": "और आइटम जोड़ें",
-  "notes": "अतिरिक्त नोट्स",
-  "notesPlaceholder": "कोई नोट्स या शर्तें जोड़ें...",
-  "summary": "सारांश",
-  "subtotal": "उप-योग",
-  "totalDiscount": "कुल छूट",
-  "totalGst": "कुल जीएसटी",
-  "grandTotal": "कुल योग",
-  "submit": "चालान बनाएं",
-  "custom": "कस्टम"
-},
-"customerDetail": {
-  "title": "ग्राहक विवरण",
-  "notFound": "ग्राहक नहीं मिला",
-  "callNow": "अभी कॉल करें",
-  "totalInvoices": "कुल चालान",
-  "totalAmount": "कुल राशि",
-  "category": "श्रेणी",
-  "invoiceHistory": "चालान इतिहास",
-  "noInvoices": "कोई चालान नहीं मिला",
-  "noFilterInvoices": "कोई {{filter}} चालान नहीं मिला",
-  "tabs": {
-    "all": "सभी",
-    "paid": "भुगतान किया",
-    "pending": "बकाया",
-    "overdue": "अतिदेय",
-    "draft": "ड्राफ्ट"
-  }
-},
-"customerForm": {
-  "addTitle": "ग्राहक जोड़ें",
-  "editTitle": "ग्राहक संपादित करें",
-  "fullName": "पूरा नाम",
-  "email": "ईमेल",
-  "phone": "फ़ोन नंबर",
-  "country": "देश",
-  "customerType": "ग्राहक प्रकार",
-  "paymentStatus": "भुगतान स्थिति",
-  "nameError": "नाम आवश्यक है",
-  "emailError": "ईमेल आवश्यक है",
-  "phoneError": "फ़ोन आवश्यक है",
-  "categoryError": "श्रेणी आवश्यक है",
-  "statusError": "स्थिति आवश्यक है",
-  "successAdd": "ग्राहक सफलतापूर्वक जोड़ा गया!",
-  "successEdit": "ग्राहक सफलतापूर्वक अपडेट किया गया!",
-  "submitAdd": "ग्राहक जोड़ें",
-  "submitEdit": "ग्राहक अपडेट करें",
-  "categories": {
-    "Business": "व्यवसाय",
-    "Individual": "व्यक्तिगत"
+    "label": "मुद्रा",
+    "placeholder": "मुद्रा चुनें",
+    "loading": "मुद्राएं लोड हो रही हैं...",
+    "error": "मुद्राएं लोड करने में विफल"
   },
-  "statuses": {
-    "paid": "भुगतान किया",
+  "followUp": {
+    "title": "फॉलो-अप",
+    "seeAll": "सभी देखें",
+    "contactNumber": "संपर्क नंबर",
+    "callNow": "अभी कॉल करें"
+  },
+  "followUps": {
+    "title": "फॉलो-अप",
+    "unpaid": "अदा न किया हुआ",
+    "overdue": "अतिदेय",
     "pending": "बकाया",
-    "overdue": "अतिदेय"
-  }
-},
-"customers": {
-  "title": "ग्राहक",
-  "noCustomers": "कोई ग्राहक नहीं मिला",
-  "invoices": "चालान",
-  "contactNumber": "संपर्क नंबर",
-  "callNow": "अभी कॉल करें",
-  "summary": {
-    "total": "कुल",
-    "paid": "भुगतान किया",
-    "pending": "बकाया",
+    "overdueBy": "{{days}} दिन से अतिदेय",
+    "invoiceLabel": "चालान",
+    "contactNumber": "संपर्क नंबर",
+    "callNow": "अभी कॉल करें",
+    "markFollowUp": "फॉलो-अप के रूप में चिह्नित करें",
+    "noteLabel": "फॉलो-अप नोट",
+    "notePlaceholder": "इस फॉलो-अप के लिए एक नोट लिखें...",
+    "saveNote": "नोट सहेजें",
+    "noUnpaid": "कोई बकाया चालान नहीं मिला",
+    "noFollowUps": "कोई {{filter}} फॉलो-अप नहीं मिला"
+  },
+  "moneyCard": {
+    "received": "प्राप्त राशि",
+    "pending": "बकाया राशि",
+    "revenue": "कुल राजस्व",
     "overdue": "अतिदेय"
   },
-  "swipe": {
-    "edit": "संपादित करें",
-    "delete": "हटाएं"
+  "createInvoice": {
+    "title": "चालान बनाएं",
+    "editTitle": "चालान संपादित करें",
+    "update": "चालान अपडेट करें",
+    "invoiceDetails": "चालान विवरण",
+    "customerName": "ग्राहक का नाम",
+    "customerNamePlaceholder": "ग्राहक का नाम दर्ज करें",
+    "customerNameError": "ग्राहक का नाम आवश्यक है",
+    "invoiceDate": "चालान तारीख",
+    "invoiceDateError": "चालान तारीख आवश्यक है",
+    "dueDateError": "देय तारीख आवश्यक है",
+    "currency": "मुद्रा",
+    "currencyError": "मुद्रा आवश्यक है",
+    "productsSection": "उत्पाद / सेवाएं",
+    "item": "आइटम",
+    "productName": "उत्पाद का नाम",
+    "productNamePlaceholder": "उत्पाद का नाम दर्ज करें",
+    "productNameError": "उत्पाद का नाम आवश्यक है",
+    "quantity": "मात्रा",
+    "quantityError": "मात्रा आवश्यक है और 0 से अधिक होनी चाहिए",
+    "unit": "इकाई",
+    "price": "कीमत",
+    "discount": "छूट (%)",
+    "gstRate": "जीएसटी दर",
+    "customGst": "कस्टम %",
+    "priceError": "कीमत आवश्यक है और 0 से अधिक होनी चाहिए",
+    "gstError": "जीएसटी दर आवश्यक है",
+    "gstRangeError": "जीएसटी 0 और 100 के बीच होना चाहिए",
+    "itemTotal": "आइटम कुल",
+    "addItem": "और आइटम जोड़ें",
+    "notes": "अतिरिक्त नोट्स",
+    "notesPlaceholder": "कोई नोट्स या शर्तें जोड़ें...",
+    "summary": "सारांश",
+    "subtotal": "उप-योग",
+    "totalDiscount": "कुल छूट",
+    "totalGst": "कुल जीएसटी",
+    "grandTotal": "कुल योग",
+    "submit": "चालान बनाएं",
+    "custom": "कस्टम"
   },
-  "status": {
-    "paid": "भुगतान किया",
-    "pending": "बकाया",
-    "overdue": "अतिदेय"
-  }
-} ,
-"followUps": {
-  "title": "फॉलो-अप",
-  "overdue": "अतिदेय",
-  "pending": "बकाया",
-  "overdueBy": "{{days}} दिन से अतिदेय",
-  "contactNumber": "संपर्क नंबर",
-  "callNow": "अभी कॉल करें",
-  "noFollowUps": "कोई {{filter}} फॉलो-अप नहीं मिला"
-},
-"invoice": {
-  "title": "चालान",
-  "noInvoices": "कोई चालान नहीं मिला",
-  "swipe": {
-    "edit": "संपादित करें",
-    "delete": "हटाएं"
+  "customerDetail": {
+    "title": "ग्राहक विवरण",
+    "notFound": "ग्राहक नहीं मिला",
+    "callNow": "अभी कॉल करें",
+    "totalInvoices": "कुल चालान",
+    "totalAmount": "कुल राशि",
+    "category": "श्रेणी",
+    "invoiceHistory": "चालान इतिहास",
+    "noInvoices": "कोई चालान नहीं मिला",
+    "noFilterInvoices": "कोई {{filter}} चालान नहीं मिला",
+    "tabs": {
+      "all": "सभी",
+      "paid": "भुगतान किया",
+      "unpaid": "अवैतनिक",
+      "followup": "फ़ॉलो अप"
+    }
   },
-  "filters": {
-    "all": "सभी",
-    "paid": "भुगतान किया",
-    "pending": "बकाया",
-    "overdue": "अतिदेय",
-    "draft": "ड्राफ्ट"
+  "customerForm": {
+    "addTitle": "ग्राहक जोड़ें",
+    "editTitle": "ग्राहक संपादित करें",
+    "fullName": "पूरा नाम",
+    "email": "ईमेल",
+    "phone": "फ़ोन नंबर",
+    "country": "देश",
+    "billingAddress": "बिलिंग पता",
+    "shippingAddress": "शिपिंग पता",
+    "customerType": "ग्राहक प्रकार",
+    "paymentStatus": "भुगतान स्थिति",
+    "nameError": "नाम आवश्यक है",
+    "emailError": "ईमेल आवश्यक है",
+    "phoneError": "फ़ोन आवश्यक है",
+    "categoryError": "श्रेणी आवश्यक है",
+    "statusError": "स्थिति आवश्यक है",
+    "successAdd": "ग्राहक सफलतापूर्वक जोड़ा गया!",
+    "successEdit": "ग्राहक सफलतापूर्वक अपडेट किया गया!",
+    "submitAdd": "ग्राहक जोड़ें",
+    "submitEdit": "ग्राहक अपडेट करें",
+    "categories": {
+      "Business": "व्यवसाय",
+      "Individual": "व्यक्तिगत"
+    },
+    "statuses": {
+      "paid": "भुगतान किया",
+      "pending": "बकाया",
+      "overdue": "अतिदेय"
+    }
   },
-  "status": {
-    "paid": "भुगतान किया",
-    "pending": "बकाया",
-    "overdue": "अतिदेय",
-    "draft": "ड्राफ्ट"
-  }
-},
-"previewInvoice": {
-  "title": "चालान पूर्वावलोकन",
-  "notFound": "चालान नहीं मिला",
-  "from": "से",
-  "to": "को",
-  "yourBusiness": "आपका व्यवसाय",
-  "issueDate": "जारी तारीख",
-  "dueDate": "देय तारीख",
-  "na": "उपलब्ध नहीं",
-  "items": "आइटम",
-  "tableItem": "आइटम",
-  "tableQty": "मात्रा",
-  "tablePrice": "कीमत",
-  "tableTotal": "कुल",
-  "services": "सेवाएं",
-  "subtotal": "उप-योग",
-  "tax": "कर (18%)",
-  "total": "कुल",
-  "notes": "नोट्स",
-  "markPaid": "✓ भुगतान किया",
-  "share": "शेयर करें",
-  "sharing": "शेयर हो रहा है...",
-  "shareInvoice": "चालान शेयर करें",
-  "download": "डाउनलोड करें",
-  "saving": "सहेजा जा रहा है...",
-  "status": {
-    "paid": "भुगतान किया",
-    "pending": "बकाया",
-    "overdue": "अतिदेय",
-    "draft": "ड्राफ्ट"
-  }
-},
-"productForm": {
-  "addTitle": "उत्पाद जोड़ें",
-  "editTitle": "उत्पाद संपादित करें",
-  "productName": "उत्पाद का नाम",
-  "category": "श्रेणी",
-  "selectCategory": "श्रेणी चुनें",
-  "price": "कीमत",
-  "unit": "इकाई",
-  "gstRate": "जीएसटी दर",
-  "customGst": "कस्टम जीएसटी % दर्ज करें",
-  "customOption": "कस्टम %",
-  "stock": "स्टॉक मात्रा",
-  "status": "स्थिति",
-  "description": "विवरण (वैकल्पिक)",
-  "successAdd": "उत्पाद सफलतापूर्वक जोड़ा गया!",
-  "successEdit": "उत्पाद सफलतापूर्वक अपडेट किया गया!",
-  "submitAdd": "उत्पाद जोड़ें",
-  "submitEdit": "उत्पाद अपडेट करें",
-  "nameError": "उत्पाद का नाम आवश्यक है",
-  "categoryError": "श्रेणी आवश्यक है",
-  "priceError": "कीमत आवश्यक है",
-  "priceNegativeError": "कीमत नकारात्मक नहीं हो सकती",
-  "unitError": "इकाई आवश्यक है",
-  "stockError": "स्टॉक आवश्यक है",
-  "gstError": "जीएसटी दर आवश्यक है",
-  "gstRangeError": "जीएसटी 0 और 100 के बीच होना चाहिए",
-  "categories": {
-    "Design": "डिज़ाइन",
-    "Development": "डेवलपमेंट",
-    "Marketing": "मार्केटिंग",
-    "Content": "कंटेंट"
+  "customers": {
+    "title": "ग्राहक",
+    "addCustomer": "ग्राहक जोड़ें",
+    "name": "नाम",
+    "email": "ईमेल",
+    "phone": "फ़ोन",
+    "noCustomers": "कोई ग्राहक नहीं मिला",
+    "invoices": "चालान",
+    "contactNumber": "संपर्क नंबर",
+    "callNow": "अभी कॉल करें",
+    "summary": {
+      "total": "कुल",
+      "paid": "भुगतान किया",
+      "pending": "बकाया",
+      "overdue": "अतिदेय"
+    },
+    "swipe": {
+      "edit": "संपादित करें",
+      "delete": "हटाएं"
+    },
+    "status": {
+      "paid": "भुगतान किया",
+      "pending": "बकाया",
+      "overdue": "अतिदेय"
+    }
   },
-  "statuses": {
-    "active": "सक्रिय",
-    "inactive": "निष्क्रिय"
-  }
-},
-"products": {
-  "title": "उत्पाद",
-  "noProducts": "कोई उत्पाद नहीं मिला",
-  "gst": "जीएसटी",
-  "summary": {
-    "total": "कुल",
-    "active": "सक्रिय",
-    "inactive": "निष्क्रिय"
+  "previewInvoice": {
+    "title": "चालान पूर्वावलोकन",
+    "notFound": "चालान नहीं मिला",
+    "from": "से",
+    "to": "को",
+    "yourBusiness": "आपका व्यवसाय",
+    "issueDate": "जारी तारीख",
+    "dueDate": "देय तारीख",
+    "currency": "मुद्रा",
+    "na": "उपलब्ध नहीं",
+    "items": "आइटम",
+    "tableItem": "आइटम",
+    "tableQty": "मात्रा",
+    "tablePrice": "कीमत",
+    "tableTotal": "कुल",
+    "services": "सेवाएं",
+    "subtotal": "उप-योग",
+    "totalDiscount": "कुल छूट",
+    "tax": "जीएसटी",
+    "total": "कुल योग",
+    "notes": "नोट्स",
+    "markPaid": "भुगतान किया गया",
+    "markFollowup": "फ़ॉलो अप",
+    "markUnpaid": "अवैतनिक चिह्नित करें",
+    "share": "शेयर करें",
+    "sharing": "शेयर हो रहा है...",
+    "shareInvoice": "चालान शेयर करें",
+    "download": "डाउनलोड करें",
+    "saving": "सहेजा जा रहा है...",
+    "status": {
+      "paid": "भुगतान किया",
+      "unpaid": "अवैतनिक",
+      "followup": "फ़ॉलो अप"
+    }
   },
-  "actions": {
-    "edit": "संपादित करें",
-    "delete": "हटाएं"
-  },
-  "filter": {
-    "title": "उत्पाद फ़िल्टर करें",
-    "clearAll": "सभी हटाएं",
+  "productForm": {
+    "addTitle": "उत्पाद जोड़ें",
+    "editTitle": "उत्पाद संपादित करें",
+    "productName": "उत्पाद का नाम",
+    "category": "श्रेणी",
+    "selectCategory": "श्रेणी चुनें",
+    "price": "कीमत",
+    "unit": "इकाई",
+    "gstRate": "जीएसटी दर",
+    "customGst": "कस्टम जीएसटी % दर्ज करें",
+    "customOption": "कस्टम %",
+    "stock": "स्टॉक मात्रा",
     "status": "स्थिति",
-    "productType": "उत्पाद प्रकार",
-    "all": "सभी",
-    "allTypes": "सभी प्रकार",
-    "active": "सक्रिय",
-    "inactive": "निष्क्रिय",
-    "showProducts": "{{count}} उत्पाद दिखाएं",
-    "showProductsPlural": "{{count}} उत्पाद दिखाएं"
+    "description": "विवरण (वैकल्पिक)",
+    "successAdd": "उत्पाद सफलतापूर्वक जोड़ा गया!",
+    "successEdit": "उत्पाद सफलतापूर्वक अपडेट किया गया!",
+    "submitAdd": "उत्पाद जोड़ें",
+    "submitEdit": "उत्पाद अपडेट करें",
+    "nameError": "उत्पाद का नाम आवश्यक है",
+    "categoryError": "श्रेणी आवश्यक है",
+    "priceError": "कीमत आवश्यक है",
+    "priceNegativeError": "कीमत नकारात्मक नहीं हो सकती",
+    "unitError": "इकाई आवश्यक है",
+    "stockError": "स्टॉक आवश्यक है",
+    "gstError": "जीएसटी दर आवश्यक है",
+    "gstRangeError": "जीएसटी 0 और 100 के बीच होना चाहिए",
+    "categories": {
+      "Design": "डिज़ाइन",
+      "Development": "डेवलपमेंट",
+      "Marketing": "मार्केटिंग",
+      "Content": "कंटेंट"
+    },
+    "statuses": {
+      "active": "सक्रिय",
+      "inactive": "निष्क्रिय"
+    }
   },
-  "status": {
-    "active": "सक्रिय",
-    "inactive": "निष्क्रिय"
-  }
-},
-"profile": {
-  "yourName": "आपका नाम",
-  "heading": "आपकी प्रोफ़ाइल",
-  "fullName": "पूरा नाम",
-  "email": "ईमेल",
-  "contactNumber": "संपर्क नंबर",
-  "company": "कंपनी का नाम",
-  "address": "पता",
-  "customers": "ग्राहकों की संख्या",
-  "pan": "पैन नंबर",
-  "gst": "जीएसटी नंबर",
-  "terms": "नियम और शर्तें",
-  "currency": "मुद्रा",
-  "selectCurrency": "मुद्रा चुनें",
-  "loadingCurrencies": "मुद्राएं लोड हो रही हैं...",
-  "currencyError": "मुद्राएं लोड करने में विफल",
-  "website": "वेबसाइट (वैकल्पिक)",
-  "bankDetails": "बैंक विवरण",
-  "accountNumber": "खाता नंबर",
-  "bankName": "बैंक का नाम",
-  "ifscCode": "आईएफएससी कोड",
-  "upiQr": "यूपीआई QR कोड",
-  "uploadQr": "यूपीआई QR इमेज अपलोड करें",
-  "tapToUpload": "QR अपलोड करने के लिए टैप करें",
-  "clickHere": "यहाँ कहीं भी क्लिक करें",
-  "changeQr": "QR बदलें",
-  "saveProfile": "प्रोफ़ाइल सहेजें",
-  "success": "प्रोफ़ाइल सफलतापूर्वक सहेजी गई!",
-  "errors": {
-    "nameRequired": "नाम आवश्यक है",
-    "emailRequired": "ईमेल आवश्यक है",
-    "emailInvalid": "अमान्य ईमेल पता",
-    "contactRequired": "संपर्क नंबर आवश्यक है",
-    "companyRequired": "कंपनी का नाम आवश्यक है",
-    "addressRequired": "पता आवश्यक है",
-    "currencyRequired": "मुद्रा आवश्यक है"
-  }
-},
-"sales": {
-  "title": "बिक्री",
-  "noSales": "कोई {{filter}} बिक्री नहीं मिली",
-  "tabs": {
-    "all": "सभी",
-    "completed": "पूर्ण",
-    "refunded": "वापसी",
-    "cancelled": "रद्द"
+  "products": {
+    "title": "उत्पाद",
+    "addProduct": "उत्पाद जोड़ें",
+    "productName": "उत्पाद का नाम",
+    "price": "कीमत",
+    "category": "श्रेणी",
+    "stock": "स्टॉक",
+    "noProducts": "कोई उत्पाद नहीं मिला",
+    "gst": "जीएसटी",
+    "summary": {
+      "total": "कुल",
+      "active": "सक्रिय",
+      "inactive": "निष्क्रिय"
+    },
+    "actions": {
+      "edit": "संपादित करें",
+      "delete": "हटाएं"
+    },
+    "filter": {
+      "title": "उत्पाद फ़िल्टर करें",
+      "clearAll": "सभी हटाएं",
+      "status": "स्थिति",
+      "productType": "उत्पाद प्रकार",
+      "all": "सभी",
+      "allTypes": "सभी प्रकार",
+      "active": "सक्रिय",
+      "inactive": "निष्क्रिय",
+      "showProducts": "{{count}} उत्पाद दिखाएं",
+      "showProductsPlural": "{{count}} उत्पाद दिखाएं"
+    },
+    "status": {
+      "active": "सक्रिय",
+      "inactive": "निष्क्रिय"
+    }
   },
-  "charts": {
-    "monthly": "मासिक",
-    "yearly": "वार्षिक",
-    "status": "स्थिति अनुसार",
-    "products": "उत्पाद",
-    "revenueByMonth": "माह अनुसार राजस्व",
-    "yearlyGrowth": "वार्षिक राजस्व वृद्धि",
-    "byStatus": "स्थिति अनुसार बिक्री",
-    "byProduct": "उत्पाद अनुसार राजस्व",
-    "completedSales": "इस वर्ष पूर्ण बिक्री",
-    "yearsOfData_one": "{{count}} वर्ष का डेटा",
-    "yearsOfData_other": "{{count}} वर्षों का डेटा",
-    "totalSales": "{{count}} कुल बिक्री",
-    "productsSold": "{{count}} उत्पाद बेचे गए",
-    "revenue": "राजस्व",
-    "monthsActive": "सक्रिय महीने"
+  "profile": {
+    "yourName": "आपका नाम",
+    "heading": "आपकी प्रोफ़ाइल",
+    "edit": "संपादित करें",
+    "cancel": "रद्द करें",
+    "updateProfile": "प्रोफ़ाइल अपडेट करें",
+    "saveProfile": "प्रोफ़ाइल सहेजें",
+    "viewModeBanner": "आप अपनी प्रोफ़ाइल देख रहे हैं। बदलाव के लिए संपादित करें पर क्लिक करें।",
+    "fullName": "पूरा नाम",
+    "email": "ईमेल",
+    "contactNumber": "संपर्क नंबर",
+    "company": "कंपनी का नाम",
+    "address": "पता",
+    "customers": "ग्राहकों की संख्या",
+    "pan": "पैन नंबर",
+    "gst": "जीएसटी नंबर",
+    "terms": "नियम और शर्तें",
+    "currency": "मुद्रा",
+    "selectCurrency": "मुद्रा चुनें",
+    "loadingCurrencies": "मुद्राएं लोड हो रही हैं...",
+    "currencyError": "मुद्राएं लोड करने में विफल",
+    "website": "वेबसाइट (वैकल्पिक)",
+    "bankDetails": "बैंक विवरण",
+    "accountNumber": "खाता नंबर",
+    "bankName": "बैंक का नाम",
+    "ifscCode": "आईएफएससी कोड",
+    "upiQr": "यूपीआई QR कोड",
+    "uploadQr": "यूपीआई QR इमेज अपलोड करें",
+    "tapToUpload": "QR अपलोड करने के लिए टैप करें",
+    "clickHere": "यहाँ कहीं भी क्लिक करें",
+    "changeQr": "QR बदलें",
+    "noQr": "कोई QR अपलोड नहीं किया",
+    "success": "प्रोफ़ाइल सफलतापूर्वक सहेजी गई!",
+    "updateSuccess": "प्रोफ़ाइल सफलतापूर्वक अपडेट की गई!",
+    "errors": {
+      "nameRequired": "नाम आवश्यक है",
+      "emailRequired": "ईमेल आवश्यक है",
+      "emailInvalid": "अमान्य ईमेल पता",
+      "contactRequired": "संपर्क नंबर आवश्यक है",
+      "companyRequired": "कंपनी का नाम आवश्यक है",
+      "addressRequired": "पता आवश्यक है",
+      "currencyRequired": "मुद्रा आवश्यक है"
+    }
   },
-  "status": {
-    "completed": "पूर्ण",
-    "refunded": "वापसी",
-    "cancelled": "रद्द",
-    "pending": "बकाया"
+  "sales": {
+    "title": "बिक्री",
+    "noSales": "कोई {{filter}} बिक्री नहीं मिली",
+    "tabs": {
+      "all": "सभी",
+      "completed": "पूर्ण",
+      "refunded": "वापसी",
+      "cancelled": "रद्द"
+    },
+    "charts": {
+      "monthly": "मासिक",
+      "yearly": "वार्षिक",
+      "status": "स्थिति अनुसार",
+      "products": "उत्पाद",
+      "revenueByMonth": "माह अनुसार राजस्व",
+      "yearlyGrowth": "वार्षिक राजस्व वृद्धि",
+      "byStatus": "स्थिति अनुसार बिक्री",
+      "byProduct": "उत्पाद अनुसार राजस्व",
+      "completedSales": "इस वर्ष पूर्ण बिक्री",
+      "yearsOfData_one": "{{count}} वर्ष का डेटा",
+      "yearsOfData_other": "{{count}} वर्षों का डेटा",
+      "totalSales": "{{count}} कुल बिक्री",
+      "productsSold": "{{count}} उत्पाद बेचे गए",
+      "revenue": "राजस्व",
+      "monthsActive": "सक्रिय महीने"
+    },
+    "status": {
+      "completed": "पूर्ण",
+      "refunded": "वापसी",
+      "cancelled": "रद्द",
+      "pending": "बकाया"
+    }
+  },
+  "invoice": {
+    "title": "चालान",
+    "noInvoices": "कोई चालान नहीं मिला।",
+    "searchPlaceholder": "ग्राहक या चालान नंबर से खोजें...",
+    "loadingInvoices": "चालान लोड हो रहे हैं...",
+    "deleteConfirm": "क्या आप यह चालान हटाना चाहते हैं?",
+    "deleteError": "चालान हटाने में विफल।",
+    "loadError": "चालान लोड करने में विफल।",
+    "swipe": {
+      "edit": "संपादित करें",
+      "delete": "हटाएं"
+    },
+    "status": {
+      "paid": "भुगतान किया",
+      "unpaid": "अवैतनिक",
+      "followup": "फ़ॉलो अप"
+    },
+    "filters": {
+      "all": "सभी",
+      "paid": "भुगतान किया",
+      "unpaid": "अवैतनिक",
+      "followup": "फ़ॉलो अप"
+    }
   }
-}
 }

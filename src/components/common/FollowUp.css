@@ -19,6 +19,14 @@
   color: var(--btn-text);                        /* was: white */
 }
 
+/* ── Shared Empty State ────────────────────────────────────────── */
+.empty-state {
+  text-align: center;
+  padding: 1rem;
+  color: var(--text-secondary);
+  font-size: 14px;
+}
+
 /* Overlay */
 .phone-overlay {
   position: fixed;

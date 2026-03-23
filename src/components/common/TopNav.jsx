@@ -1,33 +1,69 @@
 import React, { useState, useRef, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import "./TopNav.css";
-import customers from "../../data/customer.json";
-import products from "../../data/products.json";
 import { IoIosSearch } from "react-icons/io";
 import { IoClose } from "react-icons/io5";
 import { MdLightMode, MdDarkMode } from "react-icons/md";
 import { useAuth } from "../../context/AuthContext";
 import { useTheme } from "../../context/ThemeContext";
 import { useTranslation } from "react-i18next";
+import API from "../../api/api";
+
+const AVATAR_COLORS = ["#667eea", "#e53e3e", "#38a169", "#d69e2e", "#805ad5", "#dd6b20", "#3182ce", "#e91e8c"];
+const getAvatarColor = (seed) => {
+  const str = String(seed || "");
+  let hash = 0;
+  for (let i = 0; i < str.length; i++) hash = (hash * 31 + str.charCodeAt(i)) % 100000;
+  return AVATAR_COLORS[hash % AVATAR_COLORS.length];
+};
 
 const TopNav = () => {
   const navigate = useNavigate();
   const { user, logout } = useAuth();
   const { theme, setTheme } = useTheme();
   const { t, i18n } = useTranslation();
-  const [isClosing, setIsClosing] = useState(false);
-  const [isMenuOpen, setIsMenuOpen] = useState(false);
-  const [isSearchOpen, setIsSearchOpen] = useState(false);
-  const [search, setSearch] = useState("");
-  const [showResults, setShowResults] = useState(false);
+
+  const [isClosing,     setIsClosing]     = useState(false);
+  const [isMenuOpen,    setIsMenuOpen]    = useState(false);
+  const [isSearchOpen,  setIsSearchOpen]  = useState(false);
+  const [search,        setSearch]        = useState("");
+  const [showResults,   setShowResults]   = useState(false);
+  const [profile,       setProfile]       = useState(null);
+  const [customers,     setCustomers]     = useState([]);
   const searchRef = useRef(null);
-  const inputRef = useRef(null);
+  const inputRef  = useRef(null);
 
   const languages = [
     { code: "en", label: "EN" },
     { code: "hi", label: "हिं" },
     { code: "mr", label: "मर" },
   ];
+
+  // ✅ Fetch profile
+  useEffect(() => {
+    const fetchProfile = async () => {
+      try {
+        const res = await API.get('/profile');
+        if (res.data?.profile) setProfile(res.data.profile);
+      } catch (err) {
+        console.error('Failed to fetch profile');
+      }
+    };
+    fetchProfile();
+  }, []);
+
+  // ✅ Fetch customers for search
+  useEffect(() => {
+    const fetchCustomers = async () => {
+      try {
+        const res = await API.get('/customers');
+        setCustomers(res.data.customers || []);
+      } catch (err) {
+        console.error('Failed to fetch customers');
+      }
+    };
+    fetchCustomers();
+  }, []);
 
   const handleLanguageChange = (code) => {
     i18n.changeLanguage(code);
@@ -36,17 +72,11 @@ const TopNav = () => {
 
   const customerResults = customers.filter(
     (c) =>
-      c.name.toLowerCase().includes(search.toLowerCase()) ||
-      c.email.toLowerCase().includes(search.toLowerCase()),
+      c.name?.toLowerCase().includes(search.toLowerCase()) ||
+      c.email?.toLowerCase().includes(search.toLowerCase())
   );
 
-  const productResults = products.filter(
-    (p) =>
-      p.name.toLowerCase().includes(search.toLowerCase()) ||
-      p.category.toLowerCase().includes(search.toLowerCase()),
-  );
-
-  const hasResults = customerResults.length > 0 || productResults.length > 0;
+  const hasResults = customerResults.length > 0;
 
   useEffect(() => {
     const handleClickOutside = (e) => {
@@ -61,12 +91,10 @@ const TopNav = () => {
   }, []);
 
   useEffect(() => {
-    if (isSearchOpen && inputRef.current) {
-      inputRef.current.focus();
-    }
+    if (isSearchOpen && inputRef.current) inputRef.current.focus();
   }, [isSearchOpen]);
 
-  const handleSearchOpen = () => setIsSearchOpen(true);
+  const handleSearchOpen  = () => setIsSearchOpen(true);
   const handleSearchClose = () => {
     setIsClosing(true);
     setTimeout(() => {
@@ -82,18 +110,11 @@ const TopNav = () => {
     setShowResults(e.target.value.length > 0);
   };
 
-  const handleCustomerClick = () => {
+  const handleCustomerClick = (customer) => {
     setSearch("");
     setShowResults(false);
     setIsSearchOpen(false);
-    navigate("/customers");
-  };
-
-  const handleProductClick = () => {
-    setSearch("");
-    setShowResults(false);
-    setIsSearchOpen(false);
-    navigate("/products");
+    navigate(`/customer/${customer.id}`);
   };
 
   const handleLogout = () => {
@@ -102,21 +123,21 @@ const TopNav = () => {
     navigate("/login");
   };
 
+  const displayName = profile?.name || user?.name || "User";
+
   return (
     <>
       <nav className="mobile-nav">
-        {/* Username */}
+
+        {/* Greeting */}
         {!isSearchOpen && (
           <div className="nav-username">
             <p className="nav-greeting">{t("nav.greeting")},</p>
-            <p className="nav-name">Prathamesh</p>
+            <p className="nav-name">{displayName}</p>
           </div>
         )}
 
-        {/* Spacer */}
-        <div
-          style={{ flex: isSearchOpen ? 0 : 1, transition: "flex 0.35s ease" }}
-        />
+        <div style={{ flex: isSearchOpen ? 0 : 1, transition: "flex 0.35s ease" }} />
 
         {/* Search */}
         <div
@@ -141,60 +162,30 @@ const TopNav = () => {
                   {!hasResults ? (
                     <p className="search-no-results">{t("common.noData")}</p>
                   ) : (
-                    <>
-                      {customerResults.length > 0 && (
-                        <div className="search-section">
-                          <p className="search-section-title">{t("nav.customers")}</p>
-                          {customerResults.slice(0, 3).map((c) => (
-                            <div
-                              key={c.id}
-                              className="search-item"
-                              onClick={handleCustomerClick}
-                            >
-                              <div
-                                className="search-avatar"
-                                style={{ background: c.avatarColor }}
-                              >
-                                {c.avatar}
-                              </div>
-                              <div className="search-item-info">
-                                <p className="search-item-name">{c.name}</p>
-                                <p className="search-item-sub">{c.email}</p>
-                              </div>
-                              <span className={`search-badge ${c.status}`}>
-                                {c.status}
-                              </span>
-                            </div>
-                          ))}
+                    <div className="search-section">
+                      <p className="search-section-title">{t("nav.customers")}</p>
+                      {customerResults.slice(0, 3).map((c) => (
+                        <div
+                          key={c.id}
+                          className="search-item"
+                          onClick={() => handleCustomerClick(c)}
+                        >
+                          <div
+                            className="search-avatar"
+                            style={{ background: getAvatarColor(c.name) }}
+                          >
+                            {String(c.name || "?").charAt(0).toUpperCase()}
+                          </div>
+                          <div className="search-item-info">
+                            <p className="search-item-name">{c.name}</p>
+                            <p className="search-item-sub">{c.email || c.phone}</p>
+                          </div>
+                          {c.category && (
+                            <span className="search-badge">{c.category}</span>
+                          )}
                         </div>
-                      )}
-                      {productResults.length > 0 && (
-                        <div className="search-section">
-                          <p className="search-section-title">{t("nav.products")}</p>
-                          {productResults.slice(0, 3).map((p) => (
-                            <div
-                              key={p.id}
-                              className="search-item"
-                              onClick={handleProductClick}
-                            >
-                              <div
-                                className="search-avatar search-avatar-square"
-                                style={{ background: p.iconColor }}
-                              >
-                                {p.icon}
-                              </div>
-                              <div className="search-item-info">
-                                <p className="search-item-name">{p.name}</p>
-                                <p className="search-item-sub">{p.category}</p>
-                              </div>
-                              <p className="search-item-price">
-                                ₹{p.price.toLocaleString()}
-                              </p>
-                            </div>
-                          ))}
-                        </div>
-                      )}
-                    </>
+                      ))}
+                    </div>
                   )}
                 </div>
               )}
@@ -206,15 +197,33 @@ const TopNav = () => {
           )}
         </div>
 
-        {/* Logo/Menu Button */}
+        {/* ✅ Profile Avatar Button */}
         <div
           className={`nav-logo-btn ${isMenuOpen ? "active" : ""}`}
           onClick={() => setIsMenuOpen(!isMenuOpen)}
         >
-          <img
-            src="https://placehold.co/40x40/667eea/ffffff?text=Logo"
-            alt="logo"
-          />
+          {profile?.avatar ? (
+            <img
+              src={profile.avatar}
+              alt="profile"
+              style={{
+                width: '100%', height: '100%',
+                borderRadius: '50%', objectFit: 'cover',
+              }}
+            />
+          ) : (
+            <div style={{
+              width: '100%', height: '100%',
+              borderRadius: '50%',
+              background: getAvatarColor(displayName),
+              display: 'flex', alignItems: 'center',
+              justifyContent: 'center',
+              color: '#fff', fontWeight: 700,
+              fontSize: '16px',
+            }}>
+              {displayName.charAt(0).toUpperCase()}
+            </div>
+          )}
         </div>
       </nav>
 
@@ -225,10 +234,8 @@ const TopNav = () => {
       >
         <div className="mobile-menu" onClick={(e) => e.stopPropagation()}>
 
-          {/* Top row — Theme toggle + Language buttons */}
+          {/* Theme + Language */}
           <div className="menu-top-row">
-
-            {/* Theme Toggle */}
             <button
               className={`theme-toggle-btn ${theme === "dark" ? "dark" : "light"}`}
               onClick={() => setTheme(theme === "dark" ? "light" : "dark")}
@@ -242,7 +249,6 @@ const TopNav = () => {
               </span>
             </button>
 
-            {/* Language Buttons */}
             <div className="language-toggle-row">
               {languages.map((lang) => (
                 <button
@@ -254,9 +260,9 @@ const TopNav = () => {
                 </button>
               ))}
             </div>
-
           </div>
 
+          {/* Menu Items */}
           <ul onClick={() => { navigate("/products"); setIsMenuOpen(false); }}>
             {t("nav.products")}
           </ul>

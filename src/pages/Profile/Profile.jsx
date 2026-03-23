@@ -290,18 +290,18 @@ const Profile = () => {
               background: "linear-gradient(135deg, #667eea, #764ba2)",
               color: "#fff", border: "none", borderRadius: "8px",
               padding: "8px 18px", fontWeight: 600, cursor: "pointer",
-              fontSize: "13px", display: "flex", alignItems: "center",
+              fontSize: "13px", alignItems: "center",
               gap: "6px", boxShadow: "0 2px 8px rgba(102,126,234,0.35)",
             }}
           >
-            ✏️ {t("profile.edit") || "Edit"}
+           {t ("Edit")}
           </button>
         )}
       </div>
 
       {hasProfile && !isEditMode && (
         <p style={{ fontSize: "13px", color: "#888", marginBottom: "16px" }}>
-          {t("profile.viewModeBanner") || "You are viewing your profile. Click Edit to make changes."}
+          {t("You are viewing your profile. Click Edit to make changes.")}
         </p>
       )}
 
@@ -555,12 +555,12 @@ const Profile = () => {
                   color: "#667eea", fontWeight: 600, fontSize: "15px", cursor: "pointer",
                 }}
               >
-                {t("profile.cancel") || "Cancel"}
+                {t("profile.cancel")}
               </button>
             )}
             <button type="submit" className="profile-submit-btn" style={{ flex: 2 }}>
               {hasProfile
-                ? t("profile.updateProfile") || "Update Profile"
+                ? t("profile.updateProfile")
                 : t("profile.saveProfile")}
             </button>
           </div>

@@ -83,6 +83,7 @@
   display: flex;
   flex-direction: column;
   gap: 10px;
+  margin-top: 14px;
 }
 
 .followup-card {
@@ -132,6 +133,7 @@
 
 .followup-badge.overdue { color: #e83737; }  /* was: #fce4ec / #c62828 */
 .followup-badge.pending { color: #f57f17;}  /* was: #fff8e1 / #f57f17 */
+.followup-badge.unpaid { color: #f57f17; }
 
 .followup-right {
   display: flex;
@@ -165,6 +167,62 @@
 .call-btn:hover {
   background: var(--accent);                     /* was: #667eea */
   color: var(--btn-text);                        /* was: white */
+}
+
+.call-btn:disabled {
+  opacity: 0.55;
+  cursor: not-allowed;
+}
+
+.followup-actions {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  gap: 10px;
+}
+
+/* ── Status Control ─────────────────────────────────────────── */
+.followup-status-row {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  gap: 8px;
+  margin-top: 10px;
+}
+
+.followup-status-select {
+  max-width: 140px;
+  border-radius: 10px;
+  border: 1.5px solid var(--border);
+  background: var(--bg-secondary);
+  color: var(--text-primary);
+  padding: 8px 10px;
+  outline: none;
+}
+
+.followup-status-input {
+  width: 160px;
+  border-radius: 10px;
+  border: 1.5px solid var(--border);
+  background: var(--bg-secondary);
+  color: var(--text-primary);
+  padding: 8px 10px;
+  outline: none;
+}
+
+.followup-status-update {
+  border-radius: 10px;
+  padding: 8px 12px;
+  border: 1.5px solid var(--accent);
+  background: transparent;
+  color: var(--accent);
+  font-weight: 700;
+  cursor: pointer;
+}
+
+.followup-status-update:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
 }
 
 /* ── Empty State ──────────────────────────────────────────── */
@@ -264,4 +322,23 @@
 
 .popup-call-btn:hover {
   background: var(--accent-hover);              /* was: #5a6fd6 */
+}
+
+/* ── Follow-up Note ───────────────────────────────────────────── */
+.followup-note-textarea {
+  width: 100%;
+  min-height: 120px;
+  resize: vertical;
+  border-radius: 12px;
+  border: 1.5px solid var(--border);
+  background: var(--bg-secondary);
+  color: var(--text-primary);
+  padding: 12px;
+  outline: none;
+  box-sizing: border-box;
+}
+
+.followup-note-textarea:disabled {
+  opacity: 0.7;
+  cursor: not-allowed;
 }

@@ -37,19 +37,21 @@ const Signup = () => {
     }
     setLoading(true);
     try {
-     await API.post('/users/register', {
-  name:     formData.name.trim(),
-  email:    formData.email.trim(),
-  password: formData.password.trim(),   // ⭐ IMPORTANT FIX
-});
+      await API.post('/users/register', {
+        name:     formData.name.trim(),
+        email:    formData.email.trim(),
+        password: formData.password.trim(),
+      });
       setLoading(false);
       navigate('/login');
     } catch (err) {
       setLoading(false);
-      if (err.response && err.response.data.message) {
-        setErrors({ general: err.response.data.message });
+      const message = err.response?.data?.message || '';
+      // ✅ Show duplicate email error directly under the email field
+      if (err.response?.status === 400 && message.toLowerCase().includes('email')) {
+        setErrors({ email: 'This email is already registered.' });
       } else {
-        setErrors({ general: 'Something went wrong. Please try again.' });
+        setErrors({ general: message || 'Something went wrong. Please try again.' });
       }
     }
   };
@@ -57,7 +59,6 @@ const Signup = () => {
   return (
     <div className="auth-page">
 
-      {/* Logo */}
       <div className="auth-logo-section">
         <div className="auth-logo">
           <img src="https://placehold.co/60x60/667eea/ffffff?text=Logo" alt="logo" />
@@ -70,10 +71,8 @@ const Signup = () => {
         <h2 className="auth-title">Create Account</h2>
         <p className="auth-subtitle">Sign up to get started</p>
 
-        {/* ✅ Only ONE form tag here */}
         <form className="auth-form" onSubmit={handleSubmit}>
 
-          {/* Name */}
           <div className="float-field">
             <div className="input-with-icon">
               <IoPersonSharp className="input-icon" size={16} />
@@ -87,7 +86,6 @@ const Signup = () => {
             {errors.name && <p className="field-error">{errors.name}</p>}
           </div>
 
-          {/* Email */}
           <div className="float-field">
             <div className="input-with-icon">
               <MdEmail className="input-icon" size={17} />
@@ -98,10 +96,10 @@ const Signup = () => {
               />
               <label className="float-label icon-label">Email</label>
             </div>
+            {/* ✅ Shows both frontend & backend email errors */}
             {errors.email && <p className="field-error">{errors.email}</p>}
           </div>
 
-          {/* Password */}
           <div className="float-field">
             <div className="input-with-icon">
               <MdLockOutline className="input-icon" size={17} />
@@ -115,7 +113,6 @@ const Signup = () => {
             {errors.password && <p className="field-error">{errors.password}</p>}
           </div>
 
-          {/* Confirm Password */}
           <div className="float-field">
             <div className="input-with-icon">
               <MdLockOutline className="input-icon" size={17} />
@@ -129,19 +126,17 @@ const Signup = () => {
             {errors.confirm && <p className="field-error">{errors.confirm}</p>}
           </div>
 
-          {/* General backend error */}
           {errors.general && (
             <p className="field-error" style={{ textAlign: 'center' }}>
               {errors.general}
             </p>
           )}
 
-          {/* ✅ button has NO onSubmit — only type="submit" */}
           <button type="submit" className="auth-btn" disabled={loading}>
             {loading ? 'Creating account...' : 'Sign Up'}
           </button>
 
-        </form>{/* ✅ form closes here */}
+        </form>
 
         <p className="auth-switch">
           Already have an account?{' '}
