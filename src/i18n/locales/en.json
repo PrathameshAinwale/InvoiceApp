@@ -1,0 +1,408 @@
+{
+  "nav": {
+    "greeting": "Hello",
+    "products": "Products",
+    "customers": "Customers",
+    "followUp": "Follow Up",
+    "logout": "Logout"
+  },
+  "dashboard": {
+    "title": "Dashboard",
+    "totalSales": "Total Sales",
+    "totalOrders": "Total Orders",
+    "totalCustomers": "Total Customers",
+    "recentOrders": "Recent Orders"
+  },
+  "products": {
+    "title": "Products",
+    "addProduct": "Add Product",
+    "productName": "Product Name",
+    "price": "Price",
+    "category": "Category",
+    "stock": "Stock",
+    "noProducts": "No products found"
+  },
+  "customers": {
+    "title": "Customers",
+    "addCustomer": "Add Customer",
+    "name": "Name",
+    "email": "Email",
+    "phone": "Phone",
+    "noCustomers": "No customers found"
+  },
+  "invoice": {
+    "title": "Invoice",
+    "createInvoice": "Create Invoice",
+    "invoiceNumber": "Invoice Number",
+    "date": "Date",
+    "dueDate": "Due Date",
+    "subtotal": "Subtotal",
+    "gst": "GST",
+    "total": "Total",
+    "save": "Save",
+    "cancel": "Cancel"
+  },
+  "common": {
+    "search": "Search",
+    "edit": "Edit",
+    "delete": "Delete",
+    "save": "Save",
+    "cancel": "Cancel",
+    "loading": "Loading...",
+    "noData": "No data found",
+    "confirm": "Confirm"
+  },
+  "auth": {
+    "login": "Login",
+    "logout": "Logout",
+    "email": "Email",
+    "password": "Password",
+    "forgotPassword": "Forgot Password?"
+  },
+  "recentInvoice": {
+    "title": "Recent Invoices",
+    "seeAll": "See All"
+  },
+  "infoSlider": {
+    "upgrade": {
+      "title": "Upgrade Plan",
+      "discount": "to get",
+      "highlight": "50% off",
+      "invoiceCount": "3 of 50 invoices generated",
+      "btn": "Upgrade"
+    },
+    "refer": {
+      "title": "Refer",
+      "and": "&",
+      "earn": "Earn",
+      "sub": "Share code to get 10 more invoices",
+      "copy": "Copy Code",
+      "copied": "Copied!"
+    }
+  },
+  "currencySelect": {
+  "label": "Currency",
+  "placeholder": "Select currency",
+  "loading": "Loading currencies...",
+  "error": "Failed to load currencies"
+},
+"followUp": {
+  "title": "Follow-up",
+  "seeAll": "See All",
+  "contactNumber": "Contact Number",
+  "callNow": "Call Now"
+},
+"moneyCard": {
+  "received": "Received Money",
+  "pending": "Pending Money",
+  "revenue": "Total Revenue",
+  "overdue": "Overdue"
+},
+"createInvoice": {
+  "title": "Create Invoice",
+  "editTitle": "Edit Invoice",
+  "invoiceDetails": "Invoice Details",
+  "customerName": "Customer Name",
+  "customerNamePlaceholder": "Enter customer name",
+  "customerNameError": "Customer name is required",
+  "invoiceDate": "Invoice Date",
+  "invoiceDateError": "Invoice date is required",
+  "dueDateError": "Due date is required",
+  "currency": "Currency",
+  "currencyError": "Currency is required",
+  "productsSection": "Products / Services",
+  "item": "Item",
+  "productName": "Product Name",
+  "productNamePlaceholder": "Enter product name",
+  "productNameError": "Product name is required",
+  "quantity": "Quantity",
+  "quantityError": "Quantity is required and must be greater than 0",
+  "unit": "Unit",
+  "price": "Price",
+  "discount": "Discount (%)",
+  "gstRate": "GST Rate",
+  "customGst": "Custom %",
+  "priceError": "Price is required and must be greater than 0",
+  "gstError": "GST rate is required",
+  "gstRangeError": "GST must be between 0 and 100",
+  "itemTotal": "Item Total",
+  "addItem": "Add Another Item",
+  "notes": "Additional Notes",
+  "notesPlaceholder": "Add any notes or terms...",
+  "summary": "Summary",
+  "subtotal": "Subtotal",
+  "totalDiscount": "Total Discount",
+  "totalGst": "Total GST",
+  "grandTotal": "Grand Total",
+  "submit": "Create Invoice",
+  "custom": "Custom"
+},
+"customerDetail": {
+  "title": "Customer Details",
+  "notFound": "Customer Not Found",
+  "callNow": "Call Now",
+  "totalInvoices": "Total Invoices",
+  "totalAmount": "Total Amount",
+  "category": "Category",
+  "invoiceHistory": "Invoice History",
+  "noInvoices": "No invoices found",
+  "noFilterInvoices": "No {{filter}} invoices found",
+  "tabs": {
+    "all": "All",
+    "paid": "Paid",
+    "pending": "Pending",
+    "overdue": "Overdue",
+    "draft": "Draft"
+  }
+},
+"customerForm": {
+  "addTitle": "Add Customer",
+  "editTitle": "Edit Customer",
+  "fullName": "Full Name",
+  "email": "Email",
+  "phone": "Phone Number",
+  "country": "Country",
+  "customerType": "Customer Type",
+  "paymentStatus": "Payment Status",
+  "nameError": "Name is required",
+  "emailError": "Email is required",
+  "phoneError": "Phone is required",
+  "categoryError": "Category is required",
+  "statusError": "Status is required",
+  "successAdd": "Customer added successfully!",
+  "successEdit": "Customer updated successfully!",
+  "submitAdd": "Add Customer",
+  "submitEdit": "Update Customer",
+  "categories": {
+    "Business": "Business",
+    "Individual": "Individual"
+  },
+  "statuses": {
+    "paid": "Paid",
+    "pending": "Pending",
+    "overdue": "Overdue"
+  }
+},
+"customers": {
+  "title": "Customers",
+  "noCustomers": "No customers found",
+  "invoices": "invoices",
+  "contactNumber": "Contact Number",
+  "callNow": "Call Now",
+  "summary": {
+    "total": "Total",
+    "paid": "Paid",
+    "pending": "Pending",
+    "overdue": "Overdue"
+  },
+  "swipe": {
+    "edit": "Edit",
+    "delete": "Delete"
+  },
+  "status": {
+    "paid": "Paid",
+    "pending": "Pending",
+    "overdue": "Overdue"
+  }
+},
+"followUps": {
+  "title": "Follow-up",
+  "overdue": "Overdue",
+  "pending": "Pending",
+  "overdueBy": "Overdue by {{days}} days",
+  "contactNumber": "Contact Number",
+  "callNow": "Call Now",
+  "noFollowUps": "No {{filter}} follow-ups found"
+},
+"invoice": {
+  "title": "Invoices",
+  "noInvoices": "No invoices found",
+  "swipe": {
+    "edit": "Edit",
+    "delete": "Delete"
+  },
+  "filters": {
+    "all": "All",
+    "paid": "Paid",
+    "pending": "Pending",
+    "overdue": "Overdue",
+    "draft": "Draft"
+  },
+  "status": {
+    "paid": "Paid",
+    "pending": "Pending",
+    "overdue": "Overdue",
+    "draft": "Draft"
+  }
+},
+"previewInvoice": {
+  "title": "Preview Invoice",
+  "notFound": "Invoice Not Found",
+  "from": "From",
+  "to": "To",
+  "yourBusiness": "Your Business",
+  "issueDate": "Issue Date",
+  "dueDate": "Due Date",
+  "na": "N/A",
+  "items": "Items",
+  "tableItem": "Item",
+  "tableQty": "Qty",
+  "tablePrice": "Price",
+  "tableTotal": "Total",
+  "services": "Services",
+  "subtotal": "Subtotal",
+  "tax": "Tax (18%)",
+  "total": "Total",
+  "notes": "Notes",
+  "markPaid": "✓ Paid",
+  "share": "Share",
+  "sharing": "Sharing...",
+  "shareInvoice": "Share Invoice",
+  "download": "Download",
+  "saving": "Saving...",
+  "status": {
+    "paid": "Paid",
+    "pending": "Pending",
+    "overdue": "Overdue",
+    "draft": "Draft"
+  }
+},
+"productForm": {
+  "addTitle": "Add Product",
+  "editTitle": "Edit Product",
+  "productName": "Product Name",
+  "category": "Category",
+  "selectCategory": "Select category",
+  "price": "Price",
+  "unit": "Unit",
+  "gstRate": "GST Rate",
+  "customGst": "Enter Custom GST %",
+  "customOption": "Custom %",
+  "stock": "Stock Quantity",
+  "status": "Status",
+  "description": "Description (optional)",
+  "successAdd": "Product added successfully!",
+  "successEdit": "Product updated successfully!",
+  "submitAdd": "Add Product",
+  "submitEdit": "Update Product",
+  "nameError": "Product name is required",
+  "categoryError": "Category is required",
+  "priceError": "Price is required",
+  "priceNegativeError": "Price cannot be negative",
+  "unitError": "Unit is required",
+  "stockError": "Stock is required",
+  "gstError": "GST rate is required",
+  "gstRangeError": "GST must be between 0 and 100",
+  "categories": {
+    "Design": "Design",
+    "Development": "Development",
+    "Marketing": "Marketing",
+    "Content": "Content"
+  },
+  "statuses": {
+    "active": "Active",
+    "inactive": "Inactive"
+  }
+},
+"products": {
+  "title": "Products",
+  "noProducts": "No products found",
+  "gst": "GST",
+  "summary": {
+    "total": "Total",
+    "active": "Active",
+    "inactive": "Inactive"
+  },
+  "actions": {
+    "edit": "Edit",
+    "delete": "Delete"
+  },
+  "filter": {
+    "title": "Filter Products",
+    "clearAll": "Clear All",
+    "status": "Status",
+    "productType": "Product Type",
+    "all": "All",
+    "allTypes": "All Types",
+    "active": "Active",
+    "inactive": "Inactive",
+    "showProducts": "Show {{count}} Product",
+    "showProductsPlural": "Show {{count}} Products"
+  },
+  "status": {
+    "active": "Active",
+    "inactive": "Inactive"
+  }
+},
+"profile": {
+  "yourName": "Your Name",
+  "heading": "Your Profile",
+  "fullName": "Full Name",
+  "email": "Email",
+  "contactNumber": "Contact number",
+  "company": "Company Name",
+  "address": "Address",
+  "customers": "Number of Customers",
+  "pan": "PAN Number",
+  "gst": "GST Number",
+  "terms": "Terms and Conditions",
+  "currency": "Currency",
+  "selectCurrency": "Select currency",
+  "loadingCurrencies": "Loading currencies...",
+  "currencyError": "Failed to load currencies",
+  "website": "Website (optional)",
+  "bankDetails": "Bank Details",
+  "accountNumber": "Account Number",
+  "bankName": "Bank Name",
+  "ifscCode": "IFSC Code",
+  "upiQr": "UPI QR Code",
+  "uploadQr": "Upload UPI QR Image",
+  "tapToUpload": "Tap to upload QR",
+  "clickHere": "Click anywhere here",
+  "changeQr": "Change QR",
+  "saveProfile": "Save Profile",
+  "success": "Profile saved successfully!",
+  "errors": {
+    "nameRequired": "Name is required",
+    "emailRequired": "Email is required",
+    "emailInvalid": "Invalid email address",
+    "contactRequired": "Contact number is required",
+    "companyRequired": "Company name is required",
+    "addressRequired": "Address is required",
+    "currencyRequired": "Currency is required"
+  }
+},
+"sales": {
+  "title": "Sales",
+  "noSales": "No {{filter}} sales found",
+  "tabs": {
+    "all": "All",
+    "completed": "Completed",
+    "refunded": "Refunded",
+    "cancelled": "Cancelled"
+  },
+  "charts": {
+    "monthly": "Monthly",
+    "yearly": "Yearly",
+    "status": "By Status",
+    "products": "Products",
+    "revenueByMonth": "Revenue by Month",
+    "yearlyGrowth": "Yearly Revenue Growth",
+    "byStatus": "Sales by Status",
+    "byProduct": "Revenue by Product",
+    "completedSales": "Completed sales this year",
+    "yearsOfData_one": "{{count}} year of data",
+    "yearsOfData_other": "{{count}} years of data",
+    "totalSales": "{{count}} total sales",
+    "productsSold": "{{count}} products sold",
+    "revenue": "Revenue",
+    "monthsActive": "Months active"
+  },
+  "status": {
+    "completed": "Completed",
+    "refunded": "Refunded",
+    "cancelled": "Cancelled",
+    "pending": "Pending"
+  }
+}
+}

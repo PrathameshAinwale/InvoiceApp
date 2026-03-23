@@ -52,7 +52,7 @@
   margin: 0;
   font-size: 14px;
   font-weight: 600;
-  color: var(--text-primary);                    /* was: #000000 */
+  color: black;                    /* was: #000000 */
 }
 
 /* Amount */

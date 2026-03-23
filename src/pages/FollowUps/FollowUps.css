@@ -74,8 +74,8 @@
   font-weight: 800;
 }
 
-.overdue-pill .pill-count { color: var(--danger);  }       /* was: #c62828 */
-.pending-pill .pill-count { color: var(--warning); }       /* was: #f57f17 */
+.overdue-pill .pill-count { color: gainsboro  }       /* was: #c62828 */
+.pending-pill .pill-count { color: gainsboro }       /* was: #f57f17 */
 
 /* ── List ─────────────────────────────────────────────────── */
 .followups-list {
@@ -130,8 +130,8 @@
   border-radius: 20px;
 }
 
-.followup-badge.overdue { background: color-mix(in srgb, var(--danger)  15%, transparent); color: var(--danger);  }  /* was: #fce4ec / #c62828 */
-.followup-badge.pending { background: color-mix(in srgb, var(--warning) 15%, transparent); color: var(--warning); }  /* was: #fff8e1 / #f57f17 */
+.followup-badge.overdue { color: #e83737; }  /* was: #fce4ec / #c62828 */
+.followup-badge.pending { color: #f57f17;}  /* was: #fff8e1 / #f57f17 */
 
 .followup-right {
   display: flex;

@@ -1,5 +1,6 @@
 {
   "name": "invoiceapp",
+  "proxy": "http://localhost:3000",
   "private": true,
   "version": "0.0.0",
   "type": "module",
@@ -15,11 +16,15 @@
     "@capacitor/filesystem": "^8.1.2",
     "@capacitor/share": "^8.0.1",
     "@capacitor/status-bar": "^8.0.1",
+    "axios": "^1.13.6",
+    "bcryptjs": "^3.0.3",
     "html2canvas": "^1.4.1",
+    "i18next": "^25.8.20",
     "jspdf": "^4.2.1",
     "qrcode": "^1.5.4",
     "react": "^18.3.1",
     "react-dom": "^18.3.1",
+    "react-i18next": "^16.5.8",
     "react-icons": "^5.6.0",
     "react-router-dom": "^7.13.1",
     "recharts": "^3.8.0"

@@ -1,7 +1,7 @@
 import React from 'react';
 import { useNavigate } from 'react-router-dom';
 import './RecentInvoice.css';
-import invoice from '../data/invoice.json';
+import { useTranslation } from 'react-i18next';
 
 const invoices = [
   { id: "INV-2024-079", name: "Shopify Inc.",   amount: 2240, date: "11:45 AM", avatar: "SI" },
@@ -10,14 +10,15 @@ const invoices = [
 ];
 
 const RecentInvoice = () => {
+  const { t } = useTranslation();
   const navigate = useNavigate();
 
   return (
     <div className="recent-invoice">
 
       <div className="recent-invoice-header">
-        <h5>Recent Invoices</h5>
-        <span onClick={() => navigate("/invoice")}>see all</span>
+        <h5>{t('recentInvoice.title')}</h5>
+        <span onClick={() => navigate("/invoice")}>{t('recentInvoice.seeAll')}</span>
       </div>
 
       {invoices.map((invoice) => (

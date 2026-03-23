@@ -1,20 +1,20 @@
 import React, { useState, useRef, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import { FiArrowLeft, FiPlus, FiEdit2, FiTrash2 } from "react-icons/fi";
+import { useTranslation } from "react-i18next";
 import invoice from "../../data/invoice.json";
 import "./Invoice.css";
 import TopNav from "../../components/common/TopNav";
 
 // ── Swipeable Card ─────────────────────────────────────────
 const SwipeableCard = ({ item, onView, onEdit, onDelete }) => {
-  // ← added onView
-  const [swipeX, setSwipeX] = useState(0);
+  const { t }    = useTranslation();
+  const [swipeX, setSwipeX]       = useState(0);
   const [isSwiping, setIsSwiping] = useState(false);
   const touchStartX = useRef(null);
-  const cardRef = useRef(null);
-  const THRESHOLD = 60;
+  const cardRef     = useRef(null);
+  const THRESHOLD   = 60;
 
-  // ── Reset on outside click/touch ──────────────────────────
   useEffect(() => {
     const handleOutsideClick = (e) => {
       if (cardRef.current && !cardRef.current.contains(e.target)) {
@@ -43,28 +43,24 @@ const SwipeableCard = ({ item, onView, onEdit, onDelete }) => {
   const handleTouchEnd = () => {
     setIsSwiping(false);
     touchStartX.current = null;
-    if (swipeX > THRESHOLD) setSwipeX(80);
+    if (swipeX > THRESHOLD)       setSwipeX(80);
     else if (swipeX < -THRESHOLD) setSwipeX(-80);
-    else setSwipeX(0);
+    else                          setSwipeX(0);
   };
 
   const handleClose = () => setSwipeX(0);
 
   return (
     <div className="swipe-wrapper" ref={cardRef}>
+
       {/* Edit — revealed on right swipe */}
       <div
         className="swipe-action swipe-edit"
         style={{ opacity: swipeX > 0 ? swipeX / 80 : 0 }}
       >
-        <button
-          onClick={() => {
-            onEdit(item);
-            handleClose();
-          }}
-        >
+        <button onClick={() => { onEdit(item); handleClose(); }}>
           <FiEdit2 size={18} />
-          <span>Edit</span>
+          <span>{t("invoice.swipe.edit")}</span>
         </button>
       </div>
 
@@ -73,14 +69,9 @@ const SwipeableCard = ({ item, onView, onEdit, onDelete }) => {
         className="swipe-action swipe-delete"
         style={{ opacity: swipeX < 0 ? -swipeX / 80 : 0 }}
       >
-        <button
-          onClick={() => {
-            onDelete(item);
-            handleClose();
-          }}
-        >
+        <button onClick={() => { onDelete(item); handleClose(); }}>
           <FiTrash2 size={18} />
-          <span>Delete</span>
+          <span>{t("invoice.swipe.delete")}</span>
         </button>
       </div>
 
@@ -92,11 +83,8 @@ const SwipeableCard = ({ item, onView, onEdit, onDelete }) => {
         onTouchMove={handleTouchMove}
         onTouchEnd={handleTouchEnd}
         onClick={() => {
-          if (swipeX !== 0) {
-            setSwipeX(0);
-            return;
-          } // reset if swiped
-          onView(item); // navigate if not swiped
+          if (swipeX !== 0) { setSwipeX(0); return; }
+          onView(item);
         }}
       >
         <div className="inv-avatar" style={{ background: item.avatarColor }}>
@@ -111,9 +99,12 @@ const SwipeableCard = ({ item, onView, onEdit, onDelete }) => {
 
         <div className="inv-right">
           <p className="inv-amount">${item.amount.toLocaleString()}</p>
-          <span className={`inv-badge ${item.status}`}>{item.status}</span>
+          <span className={`inv-badge ${item.status}`}>
+            {t(`invoice.status.${item.status}`)}
+          </span>
         </div>
       </div>
+
     </div>
   );
 };
@@ -121,8 +112,9 @@ const SwipeableCard = ({ item, onView, onEdit, onDelete }) => {
 // ── Main Page ──────────────────────────────────────────────
 const Invoice = () => {
   const navigate = useNavigate();
-  const [filter, setFilter] = useState("all");
-  const [search, setSearch] = useState("");
+  const { t }    = useTranslation();
+  const [filter, setFilter]   = useState("all");
+  const [search, setSearch]   = useState("");
   const [invoices, setInvoices] = useState(invoice);
 
   const filtered = invoices.filter((item) => {
@@ -133,64 +125,37 @@ const Invoice = () => {
     return matchesFilter && matchesSearch;
   });
 
-  // ── Handlers ───────────────────────────────────────────────
-  const handleView = (item) => navigate(`/invoice/${item.id}`);
-  const handleEdit = (item) => navigate(`/editinvoice/${item.id}`);
-  const handleDelete = (item) =>
-    setInvoices((prev) => prev.filter((i) => i.id !== item.id));
+  const handleView   = (item) => navigate(`/invoice/${item.id}`);
+  const handleEdit   = (item) => navigate(`/editinvoice/${item.id}`);
+  const handleDelete = (item) => setInvoices((prev) => prev.filter((i) => i.id !== item.id));
+
+  const tabs = [
+    { key: "all",     color: "#667eea" },
+    { key: "paid",    color: "#2e7d32" },
+    { key: "pending", color: "#f57f17" },
+    { key: "overdue", color: "#c62828" },
+    { key: "draft",   color: "#1565c0" },
+  ];
 
   return (
     <>
       <TopNav />
       <div className="invoice-page page">
+
         {/* Header */}
         <div className="invoice-page-header">
           <button className="back-btn" onClick={() => navigate("/")}>
             <FiArrowLeft size={20} />
           </button>
-          <h2 className="invoice-page-title">Invoices</h2>
-          <button
-            className="add-invoice-btn"
-            onClick={() => navigate("/createinvoice")}
-          >
+          <h2 className="invoice-page-title">{t("invoice.title")}</h2>
+          <button className="add-invoice-btn" onClick={() => navigate("/createinvoice")}>
             <FiPlus size={20} />
           </button>
         </div>
 
         {/* Filter Tabs */}
         <div className="invoice-filters">
-          {[
-            {
-              key: "all",
-              label: "All",
-              count: invoices.length,
-              color: "#667eea",
-            },
-            {
-              key: "paid",
-              label: "Paid",
-              count: invoices.filter((i) => i.status === "paid").length,
-              color: "#2e7d32",
-            },
-            {
-              key: "pending",
-              label: "Pending",
-              count: invoices.filter((i) => i.status === "pending").length,
-              color: "#f57f17",
-            },
-            {
-              key: "overdue",
-              label: "Overdue",
-              count: invoices.filter((i) => i.status === "overdue").length,
-              color: "#c62828",
-            },
-            {
-              key: "draft",
-              label: "Draft",
-              count: invoices.filter((i) => i.status === "draft").length,
-              color: "#1565c0",
-            },
-          ].map((tab) => (
+          {tabs.map((tab) => (
             <button
               key={tab.key}
               className={`filter-tab ${filter === tab.key ? "active" : ""}`}
@@ -201,18 +166,19 @@ const Invoice = () => {
               }
               onClick={() => setFilter(tab.key)}
             >
-              {tab.label}
+              {t(`invoice.filters.${tab.key}`)}
               <span
                 className="filter-count"
                 style={{
-                  background:
-                    filter === tab.key
-                      ? "rgba(255,255,255,0.25)"
-                      : tab.color + "20",
+                  background: filter === tab.key
+                    ? "rgba(255,255,255,0.25)"
+                    : tab.color + "20",
                   color: filter === tab.key ? "white" : tab.color,
                 }}
               >
-                {tab.count}
+                {tab.key === "all"
+                  ? invoices.length
+                  : invoices.filter((i) => i.status === tab.key).length}
               </span>
             </button>
           ))}
@@ -227,16 +193,16 @@ const Invoice = () => {
               onView={handleView}
               onEdit={handleEdit}
               onDelete={handleDelete}
-              
             />
           ))}
 
           {filtered.length === 0 && (
             <div className="empty-state">
-              <p>No invoices found</p>
+              <p>{t("invoice.noInvoices")}</p>
             </div>
           )}
         </div>
+
       </div>
     </>
   );

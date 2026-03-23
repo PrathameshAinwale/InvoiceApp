@@ -1,13 +1,15 @@
 import React, { useState, useRef, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import { FiArrowLeft, FiPlus, FiEdit2, FiTrash2, FiPhone } from "react-icons/fi";
+import { useTranslation } from "react-i18next";
 import customers from "../../data/customer.json";
 import TopNav from "../../components/common/TopNav";
 import "./Customer.css";
 
 // ── Swipeable Card ─────────────────────────────────────────
 const SwipeableCard = ({ customer, onDelete, onCall, onEdit }) => {
-  const navigate    = useNavigate();
+  const navigate = useNavigate();
+  const { t }    = useTranslation();
   const [swipeX, setSwipeX]       = useState(0);
   const [isSwiping, setIsSwiping] = useState(false);
   const touchStartX = useRef(null);
@@ -59,7 +61,7 @@ const SwipeableCard = ({ customer, onDelete, onCall, onEdit }) => {
       >
         <button onClick={() => { onEdit(customer); handleClose(); }}>
           <FiEdit2 size={18} />
-          <span>Edit</span>
+          <span>{t("customers.swipe.edit")}</span>
         </button>
       </div>
 
@@ -70,7 +72,7 @@ const SwipeableCard = ({ customer, onDelete, onCall, onEdit }) => {
       >
         <button onClick={() => { onDelete(customer.id); handleClose(); }}>
           <FiTrash2 size={18} />
-          <span>Delete</span>
+          <span>{t("customers.swipe.delete")}</span>
         </button>
       </div>
 
@@ -83,7 +85,7 @@ const SwipeableCard = ({ customer, onDelete, onCall, onEdit }) => {
         onTouchEnd={handleTouchEnd}
         onClick={() => {
           if (swipeX !== 0) { setSwipeX(0); return; }
-          navigate(`/customer/${customer.id}`);   // ← navigates to detail page
+          navigate(`/customer/${customer.id}`);
         }}
       >
         <div
@@ -98,7 +100,7 @@ const SwipeableCard = ({ customer, onDelete, onCall, onEdit }) => {
           <p className="customer-email">{customer.email}</p>
           <div className="customer-meta">
             <span className="customer-invoices">
-              {customer.totalInvoices} invoices
+              {customer.totalInvoices} {t("customers.invoices")}
             </span>
             <span className={`customer-category ${customer.category.toLowerCase()}`}>
               {customer.category}
@@ -111,7 +113,7 @@ const SwipeableCard = ({ customer, onDelete, onCall, onEdit }) => {
             ₹{customer.totalAmount.toLocaleString()}
           </p>
           <span className={`customer-status ${customer.status}`}>
-            {customer.status}
+            {t(`customers.status.${customer.status}`)}
           </span>
           <button
             className="call-action-btn"
@@ -129,6 +131,7 @@ const SwipeableCard = ({ customer, onDelete, onCall, onEdit }) => {
 // ── Main Customers Page ────────────────────────────────────
 const Customers = () => {
   const navigate = useNavigate();
+  const { t }    = useTranslation();
   const [search, setSearch]               = useState("");
   const [filter, setFilter]               = useState("all");
   const [customerList, setCustomerList]   = useState(customers);
@@ -163,7 +166,7 @@ const Customers = () => {
         <button className="back-btn" onClick={() => navigate("/")}>
           <FiArrowLeft size={20} />
         </button>
-        <h2 className="customers-title">Customers</h2>
+        <h2 className="customers-title">{t("customers.title")}</h2>
         <button className="add-customer-btn" onClick={() => navigate("/addcustomer")}>
           <FiPlus size={20} />
         </button>
@@ -175,14 +178,14 @@ const Customers = () => {
           className={`cust-summary-card total-card ${filter === "all" ? "card-active" : ""}`}
           onClick={() => handleFilterClick("all")}
         >
-          <p className="cust-summary-label">Total</p>
+          <p className="cust-summary-label">{t("customers.summary.total")}</p>
           <p className="cust-summary-count">{customerList.length}</p>
         </div>
         <div
           className={`cust-summary-card paid-card ${filter === "paid" ? "card-active" : ""}`}
           onClick={() => handleFilterClick("paid")}
         >
-          <p className="cust-summary-label">Paid</p>
+          <p className="cust-summary-label">{t("customers.summary.paid")}</p>
           <p className="cust-summary-count">
             {customerList.filter((c) => c.status === "paid").length}
           </p>
@@ -191,7 +194,7 @@ const Customers = () => {
           className={`cust-summary-card pending-card ${filter === "pending" ? "card-active" : ""}`}
           onClick={() => handleFilterClick("pending")}
         >
-          <p className="cust-summary-label">Pending</p>
+          <p className="cust-summary-label">{t("customers.summary.pending")}</p>
           <p className="cust-summary-count">
             {customerList.filter((c) => c.status === "pending").length}
           </p>
@@ -200,7 +203,7 @@ const Customers = () => {
           className={`cust-summary-card overdue-card ${filter === "overdue" ? "card-active" : ""}`}
           onClick={() => handleFilterClick("overdue")}
         >
-          <p className="cust-summary-label">Overdue</p>
+          <p className="cust-summary-label">{t("customers.summary.overdue")}</p>
           <p className="cust-summary-count">
             {customerList.filter((c) => c.status === "overdue").length}
           </p>
@@ -211,7 +214,7 @@ const Customers = () => {
       <div className="customers-list">
         {filtered.length === 0 ? (
           <div className="empty-state">
-            <p>No customers found</p>
+            <p>{t("customers.noCustomers")}</p>
           </div>
         ) : (
           filtered.map((customer) => (
@@ -235,11 +238,11 @@ const Customers = () => {
               {selectedPhone.avatar}
             </div>
             <p className="popup-name">{selectedPhone.name}</p>
-            <p className="popup-label">Contact Number</p>
+            <p className="popup-label">{t("customers.contactNumber")}</p>
             <p className="popup-phone">{selectedPhone.phone}</p>
             <a href={`tel:${selectedPhone.phone}`} className="popup-call-btn">
               <FiPhone size={16} />
-              Call Now
+              {t("customers.callNow")}
             </a>
           </div>
         </div>

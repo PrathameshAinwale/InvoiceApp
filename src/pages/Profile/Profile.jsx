@@ -2,74 +2,76 @@ import React, { useState, useEffect } from "react";
 import "./Profile.css";
 import { useNavigate } from "react-router-dom";
 import { validateProfile } from "../../utils/validations/profileValidation";
+import { useTranslation } from "react-i18next";
 import { IoPersonSharp } from "react-icons/io5";
 import {
-  MdEmail,
-  MdReceiptLong,
-  MdAccountBalance,
-  MdOutlineCreditCard,
-  MdOutlineNumbers,
-  MdOutlineQrCode2,
-  MdCurrencyRupee,
-  MdOutlinePolicy,
+  MdEmail, MdReceiptLong, MdAccountBalance, MdOutlineCreditCard,
+  MdOutlineNumbers, MdOutlineQrCode2, MdCurrencyRupee,
   MdOutlineLanguage,
 } from "react-icons/md";
 import { FaPhoneAlt, FaAddressBook, FaAddressCard } from "react-icons/fa";
 import { HiMiniBuildingOffice } from "react-icons/hi2";
-import { IoMdPeople } from "react-icons/io";
 import { BsBank2 } from "react-icons/bs";
 import { MdOutlineGavel } from "react-icons/md";
 
-const Profile = () => {
-  const navigate = useNavigate();
-  const [errors, setErrors] = useState({});
-  const [success, setSuccess] = useState(false);
-  const [loadingCountry, setLoadingCountry] = useState(true);
-  const [image, setImage] = useState(null);
-  const [upiQR, setUpiQR] = useState(null);
-  const [countries, setCountries] = useState([]);
-  const [currencies, setCurrencies] = useState([]);
-  const [loading, setLoading] = useState(true);
-  const [error, setError] = useState("");
-  const [formData, setFormData] = useState({
-    name: "",
-    email: "",
-    countryCode: "+91",
-    contact: "",
-    company: "",
-    address: "",
-    customers: "",
-    pan: "",
-    gst: "",
-    terms: "",
-    currency: "",
-    website: "",
-    accountNumber: "",
-    bankName: "",
-    ifscCode: "",
+const API_BASE = "http://localhost:5000";
+import API from '../../api/api';
+
+// ── Helper: convert File → base64 string ─────────────────
+const toBase64 = (file) =>
+  new Promise((resolve, reject) => {
+    const reader = new FileReader();
+    reader.readAsDataURL(file);
+    reader.onload  = () => resolve(reader.result);
+    reader.onerror = reject;
   });
 
+const Profile = () => {
+  const navigate = useNavigate();
+  const { t }    = useTranslation();
+
+  const [errors, setErrors]                 = useState({});
+  const [success, setSuccess]               = useState(false);
+  const [loadingCountry, setLoadingCountry] = useState(true);
+  const [image, setImage]                   = useState(null);   // preview URL
+  const [imageFile, setImageFile]           = useState(null);   // actual File object
+  const [upiQR, setUpiQR]                   = useState(null);   // preview URL
+  const [upiQRFile, setUpiQRFile]           = useState(null);   // actual File object
+  const [countries, setCountries]           = useState([]);
+  const [currencies, setCurrencies]         = useState([]);
+  const [loading, setLoading]               = useState(true);
+  const [error, setError]                   = useState("");
+  const [pageLoading, setPageLoading]       = useState(true);
+  const [isEditMode, setIsEditMode]         = useState(false);
+  const [hasProfile, setHasProfile]         = useState(false);
+
+  const token = localStorage.getItem("token");
+
+  const [formData, setFormData] = useState({
+    name: "", email: "", countryCode: "+91", contact: "",
+    company: "", address: "", pan: "", gst: "",
+    terms: "", currency: "", website: "", accountNumber: "",
+    bankName: "", ifscCode: "",
+  });
+
+  // ── Fetch currencies ─────────────────────────────────────
   useEffect(() => {
     fetch("https://api.frankfurter.dev/v1/currencies")
       .then((res) => res.json())
       .then((data) => {
-        const list = Object.entries(data).map(([code, name]) => ({
-          code,
-          name,
-        }));
+        const list = Object.entries(data).map(([code, name]) => ({ code, name }));
         setCurrencies(list);
         setLoading(false);
       })
       .catch(() => {
-        setError("Failed to load currencies");
+        setError(t("profile.currencyError"));
         setLoading(false);
       });
   }, []);
 
+  // ── Fetch countries ──────────────────────────────────────
   useEffect(() => {
-    fetch(
-      "https://restcountries.com/v2/all?fields=name,callingCodes,alpha2Code",
-    )
+    fetch("https://restcountries.com/v2/all?fields=name,callingCodes,alpha2Code")
       .then((res) => res.json())
       .then((data) => {
         const list = data
@@ -84,46 +86,177 @@ const Profile = () => {
         setLoadingCountry(false);
       })
       .catch(() => {
-        setError("Failed to load country codes");
+        setError(t("profile.currencyError"));
         setLoadingCountry(false);
       });
   }, []);
 
+  // ── Fetch existing profile on mount ──────────────────────
+  useEffect(() => {
+    if (!token) {
+      setPageLoading(false);
+      setIsEditMode(true);
+      return;
+    }
+
+    fetch(`${API_BASE}/api/profile`, {
+      headers: { Authorization: `Bearer ${token}` },
+    })
+      .then((res) => {
+        if (res.status === 404) return null;
+        if (!res.ok) throw new Error("Failed to fetch profile");
+        return res.json();
+      })
+      .then((data) => {
+        if (data?.profile) {
+          const p = data.profile;
+          setFormData({
+            name:          p.name           || "",
+            email:         p.email          || "",
+            countryCode:   p.country_code   || "+91",
+            contact:       p.contact        || "",
+            company:       p.company        || "",
+            address:       p.address        || "",
+            pan:           p.pan            || "",
+            gst:           p.gst            || "",
+            terms:         p.terms          || "",
+            currency:      p.currency       || "",
+            website:       p.website        || "",
+            accountNumber: p.account_number || "",
+            bankName:      p.bank_name      || "",
+            ifscCode:      p.ifsc_code      || "",
+          });
+          // ✅ Restore saved avatar & QR from DB (base64 strings)
+          if (p.avatar) setImage(p.avatar);
+          if (p.upi_qr) setUpiQR(p.upi_qr);
+
+          setHasProfile(true);
+          setIsEditMode(false);
+        } else {
+          setIsEditMode(true);
+        }
+        setPageLoading(false);
+      })
+      .catch((err) => {
+        console.error(err);
+        setIsEditMode(true);
+        setPageLoading(false);
+      });
+  }, []);
+
+  // ── Handlers ─────────────────────────────────────────────
   const handleChange = (e) => {
+    if (!isEditMode) return;
     setFormData({ ...formData, [e.target.name]: e.target.value });
     setErrors({ ...errors, [e.target.name]: "" });
   };
 
   const handleCountryChange = (e) => {
+    if (!isEditMode) return;
     setFormData({ ...formData, countryCode: e.target.value, contact: "" });
     setErrors({ ...errors, countryCode: "", contact: "" });
   };
 
+  // ✅ Store File object + create local preview
   const handleImageChange = (e) => {
+    if (!isEditMode) return;
     const file = e.target.files[0];
-    if (file) setImage(URL.createObjectURL(file));
+    if (file) {
+      setImageFile(file);
+      setImage(URL.createObjectURL(file));
+    }
   };
 
   const handleUpiQR = (e) => {
+    if (!isEditMode) return;
     const file = e.target.files[0];
-    if (file) setUpiQR(URL.createObjectURL(file));
+    if (file) {
+      setUpiQRFile(file);
+      setUpiQR(URL.createObjectURL(file));
+    }
   };
 
-  const handleSubmit = (e) => {
+  const handleCancelEdit = () => {
+    setIsEditMode(false);
+    setErrors({});
+  };
+
+  // ── Submit ────────────────────────────────────────────────
+  const handleSubmit = async (e) => {
     e.preventDefault();
+      console.log('🚀 handleSubmit fired');        // ← add
+  console.log('📦 formData:', formData);  
+
     const validationErrors = validateProfile(formData);
     if (Object.keys(validationErrors).length > 0) {
       setErrors(validationErrors);
       return;
     }
-    setErrors({});
-    setSuccess(true);
-    setTimeout(() => navigate("/"), 2000);
+
+    try {
+      // ✅ Convert new files to base64 (only if user picked new files)
+      const avatarBase64 = imageFile ? await toBase64(imageFile) : null;
+      const upiQRBase64  = upiQRFile ? await toBase64(upiQRFile) : null;
+
+      // ✅ Send snake_case keys to match backend/DB columns
+      const payload = {
+        name:           formData.name,
+        email:          formData.email,
+        country_code:   formData.countryCode,
+        contact:        formData.contact,
+        company:        formData.company,
+        address:        formData.address,
+        pan:            formData.pan,
+        gst:            formData.gst,
+        terms:          formData.terms,
+        currency:       formData.currency,
+        website:        formData.website,
+        account_number: formData.accountNumber,
+        bank_name:      formData.bankName,
+        ifsc_code:      formData.ifscCode,
+        avatar:         avatarBase64,  // null if unchanged → backend keeps old value
+        upi_qr:         upiQRBase64,   // null if unchanged → backend keeps old value
+      };
+
+      const method = hasProfile ? "PUT" : "POST";
+
+      // Use axios client for consistent credentials + headers handling
+      const axiosRes = await (method === 'POST'
+        ? API.post('/profile', payload)
+        : API.put('/profile', payload)
+      );
+
+      if (!(axiosRes && (axiosRes.status === 200 || axiosRes.status === 201))) {
+        throw new Error((axiosRes && axiosRes.data && axiosRes.data.message) || 'Failed to save profile');
+      }
+
+      // ✅ Clear file refs after successful save
+      setImageFile(null);
+      setUpiQRFile(null);
+      setErrors({});
+      setSuccess(true);
+      setHasProfile(true);
+      setIsEditMode(false);
+      setTimeout(() => setSuccess(false), 3000);
+
+    } catch (err) {
+      console.error(err);
+      setErrors({ general: err.message || "Something went wrong. Please try again." });
+    }
   };
 
+  // ── Page loading ──────────────────────────────────────────
+  if (pageLoading) {
+    return (
+      <div className="profile-page" style={{ textAlign: "center", padding: "60px 20px" }}>
+        <p style={{ color: "#667eea", fontWeight: 600 }}>Loading profile...</p>
+      </div>
+    );
+  }
+
+  // ── Render (UI completely unchanged) ─────────────────────
   return (
     <div className="profile-page">
-      {/* Avatar */}
       <div className="profile-avatar-section">
         <div className="profile-avatar-wrapper">
           {image ? (
@@ -133,334 +266,306 @@ const Profile = () => {
               {formData.name ? formData.name.charAt(0).toUpperCase() : "?"}
             </div>
           )}
-          <input
-            type="file"
-            accept="image/*"
-            id="profile-input"
-            className="profile-avatar-edit-input"
-            onChange={handleImageChange}
-          />
-          <label htmlFor="profile-input" className="profile-avatar-edit-btn">
-            +
-          </label>
+          {isEditMode && (
+            <>
+              <input
+                type="file" accept="image/*" id="profile-input"
+                className="profile-avatar-edit-input"
+                onChange={handleImageChange}
+              />
+              <label htmlFor="profile-input" className="profile-avatar-edit-btn">+</label>
+            </>
+          )}
         </div>
-        <p className="profile-avatar-name">{formData.name || "Your Name"}</p>
+        <p className="profile-avatar-name">{formData.name || t("profile.yourName")}</p>
       </div>
 
-      <h2 className="profile-heading">Your Profile</h2>
+      <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between", marginBottom: "8px" }}>
+        <h2 className="profile-heading" style={{ margin: 0 }}>{t("profile.heading")}</h2>
+        {hasProfile && !isEditMode && (
+          <button
+            type="button"
+            onClick={() => setIsEditMode(true)}
+            style={{
+              background: "linear-gradient(135deg, #667eea, #764ba2)",
+              color: "#fff", border: "none", borderRadius: "8px",
+              padding: "8px 18px", fontWeight: 600, cursor: "pointer",
+              fontSize: "13px", display: "flex", alignItems: "center",
+              gap: "6px", boxShadow: "0 2px 8px rgba(102,126,234,0.35)",
+            }}
+          >
+            ✏️ {t("profile.edit") || "Edit"}
+          </button>
+        )}
+      </div>
+
+      {hasProfile && !isEditMode && (
+        <p style={{ fontSize: "13px", color: "#888", marginBottom: "16px" }}>
+          {t("profile.viewModeBanner") || "You are viewing your profile. Click Edit to make changes."}
+        </p>
+      )}
 
       <form className="profile-form" onSubmit={handleSubmit}>
-        {/* Full Name */}
         <div className="float-field">
           <div className="input-with-icon">
             <IoPersonSharp className="input-icon" size={16} />
             <input
               className={`float-input has-icon ${formData.name ? "has-value" : ""} ${errors.name ? "input-error" : ""}`}
-              type="text"
-              name="name"
-              placeholder=" "
-              value={formData.name}
-              onChange={handleChange}
+              type="text" name="name" placeholder=" "
+              value={formData.name} onChange={handleChange} disabled={!isEditMode}
             />
-            <label className="float-label icon-label">Full Name</label>
+            <label className="float-label icon-label">{t("profile.fullName")}</label>
           </div>
           {errors.name && <p className="field-error">{errors.name}</p>}
         </div>
 
-        {/* Email */}
         <div className="float-field">
           <div className="input-with-icon">
             <MdEmail className="input-icon" size={17} />
             <input
               className={`float-input has-icon ${formData.email ? "has-value" : ""} ${errors.email ? "input-error" : ""}`}
-              type="email"
-              name="email"
-              placeholder=" "
-              value={formData.email}
-              onChange={handleChange}
+              type="email" name="email" placeholder=" "
+              value={formData.email} onChange={handleChange} disabled={!isEditMode}
             />
-            <label className="float-label icon-label">Email</label>
+            <label className="float-label icon-label">{t("profile.email")}</label>
           </div>
           {errors.email && <p className="field-error">{errors.email}</p>}
         </div>
 
-        {/* Contact Number */}
         <div className="float-field">
-          <div
-            className={`phone-input-box ${formData.contact ? "has-value" : ""}`}
-          >
-            <FaPhoneAlt
-              size={13}
-              style={{ marginLeft: "14px", color: "#667eea", flexShrink: 0 }}
-            />
+          <div className={`phone-input-box ${formData.contact ? "has-value" : ""}`}>
+            <FaPhoneAlt size={13} style={{ marginLeft: "14px", color: "#667eea", flexShrink: 0 }} />
             <select
-              className="phone-code-select"
-              name="countryCode"
-              value={formData.countryCode}
-              onChange={handleCountryChange}
+              className="phone-code-select" name="countryCode"
+              value={formData.countryCode} onChange={handleCountryChange} disabled={!isEditMode}
             >
               {countries.map(({ code, name, alpha2 }) => (
-                <option key={alpha2} value={code}>
-                  {code} {name}
-                </option>
+                <option key={alpha2} value={code}>{code} {name}</option>
               ))}
             </select>
             <div className="phone-divider" />
             <input
-              className="phone-number-input"
-              type="tel"
-              name="contact"
-              placeholder="Contact number"
-              value={formData.contact}
+              className="phone-number-input" type="tel" name="contact"
+              placeholder={t("profile.contactNumber")}
+              value={formData.contact} disabled={!isEditMode}
               onChange={(e) => {
+                if (!isEditMode) return;
                 const val = e.target.value.replace(/\D/g, "");
                 setFormData({ ...formData, contact: val });
                 setErrors({ ...errors, contact: "" });
               }}
             />
           </div>
-          {errors.countryCode && (
-            <p className="field-error">{errors.countryCode}</p>
-          )}
-          {errors.contact && <p className="field-error">{errors.contact}</p>}
+          {errors.countryCode && <p className="field-error">{errors.countryCode}</p>}
+          {errors.contact     && <p className="field-error">{errors.contact}</p>}
         </div>
 
-        {/* Company */}
         <div className="float-field">
           <div className="input-with-icon">
             <HiMiniBuildingOffice className="input-icon" size={17} />
             <input
               className={`float-input has-icon ${formData.company ? "has-value" : ""} ${errors.company ? "input-error" : ""}`}
-              type="text"
-              name="company"
-              placeholder=" "
-              value={formData.company}
-              onChange={handleChange}
+              type="text" name="company" placeholder=" "
+              value={formData.company} onChange={handleChange} disabled={!isEditMode}
             />
-            <label className="float-label icon-label">Company Name</label>
+            <label className="float-label icon-label">{t("profile.company")}</label>
           </div>
           {errors.company && <p className="field-error">{errors.company}</p>}
         </div>
 
-        {/* Address */}
         <div className="float-field">
           <div className="input-with-icon">
             <FaAddressBook className="input-icon" size={16} />
             <input
               className={`float-input has-icon ${formData.address ? "has-value" : ""} ${errors.address ? "input-error" : ""}`}
-              type="text"
-              name="address"
-              placeholder=" "
-              value={formData.address}
-              onChange={handleChange}
+              type="text" name="address" placeholder=" "
+              value={formData.address} onChange={handleChange} disabled={!isEditMode}
             />
-            <label className="float-label icon-label">Address</label>
+            <label className="float-label icon-label">{t("profile.address")}</label>
           </div>
           {errors.address && <p className="field-error">{errors.address}</p>}
         </div>
 
-        {/* Number of Customers */}
-        <div className="float-field">
-          <div className="input-with-icon">
-            <IoMdPeople className="input-icon" size={18} />
-            <input
-              className={`float-input has-icon ${formData.customers ? "has-value" : ""} ${errors.customers ? "input-error" : ""}`}
-              type="number"
-              name="customers"
-              placeholder=" "
-              value={formData.customers}
-              onChange={handleChange}
-            />
-            <label className="float-label icon-label">
-              Number of Customers
-            </label>
-          </div>
-          {errors.customers && (
-            <p className="field-error">{errors.customers}</p>
-          )}
-        </div>
-
-        {/* PAN */}
         <div className="float-field">
           <div className="input-with-icon">
             <FaAddressCard className="input-icon" size={16} />
             <input
               className={`float-input has-icon ${formData.pan ? "has-value" : ""}`}
-              type="text"
-              name="pan"
-              placeholder=" "
-              value={formData.pan}
-              onChange={handleChange}
+              type="text" name="pan" placeholder=" "
+              value={formData.pan} onChange={handleChange} disabled={!isEditMode}
             />
-            <label className="float-label icon-label">PAN Number</label>
+            <label className="float-label icon-label">{t("profile.pan")}</label>
           </div>
         </div>
 
-        {/* GST */}
         <div className="float-field">
           <div className="input-with-icon">
             <MdReceiptLong className="input-icon" size={17} />
             <input
               className={`float-input has-icon ${formData.gst ? "has-value" : ""}`}
-              type="text"
-              name="gst"
-              placeholder=" "
-              value={formData.gst}
-              onChange={handleChange}
+              type="text" name="gst" placeholder=" "
+              value={formData.gst} onChange={handleChange} disabled={!isEditMode}
             />
-            <label className="float-label icon-label">GST Number</label>
+            <label className="float-label icon-label">{t("profile.gst")}</label>
           </div>
         </div>
 
-        {/* Terms */}
         <div className="float-field">
           <div className="input-with-icon textarea-icon-wrapper">
             <MdOutlineGavel className="input-icon textarea-icon" size={17} />
             <textarea
               className={`float-textarea has-icon ${formData.terms ? "has-value" : ""}`}
-              name="terms"
-              placeholder=" "
-              value={formData.terms}
-              onChange={handleChange}
+              name="terms" placeholder=" "
+              value={formData.terms} onChange={handleChange} disabled={!isEditMode}
             />
-            <label className="float-label icon-label">
-              Terms and Conditions
-            </label>
+            <label className="float-label icon-label">{t("profile.terms")}</label>
           </div>
         </div>
 
-        {/* Currency */}
-<div className="float-field">
-  <label className="float-label-static" style={{ color: "#667eea" }}>
-    <MdCurrencyRupee size={16} style={{ verticalAlign: "middle", marginRight: "6px", color: "#667eea" }} />
-    Currency
-  </label>
-  {loading ? (
-    <p className="currency-loading">Loading currencies...</p>
-  ) : error ? (
-    <p className="currency-error">{error}</p>
-  ) : (
-    <select
-      className="form-select"
-      name="currency"
-      value={formData.currency}
-      onChange={handleChange}
-    >
-      <option value="">Select currency</option>
-      {currencies.map(({ code, name }) => (
-        <option key={code} value={code}>{code} — {name}</option>
-      ))}
-    </select>
-  )}
-  {errors.currency && <p className="field-error">{errors.currency}</p>}
-</div>
-        {/* Website */}
+        <div className="float-field">
+          <label className="float-label-static" style={{ color: "#667eea" }}>
+            <MdCurrencyRupee size={16} style={{ verticalAlign: "middle", marginRight: "6px", color: "#667eea" }} />
+            {t("profile.currency")}
+          </label>
+          {loading ? (
+            <p className="currency-loading">{t("profile.loadingCurrencies")}</p>
+          ) : error ? (
+            <p className="currency-error">{error}</p>
+          ) : (
+            <select
+              className="form-select" name="currency"
+              value={formData.currency} onChange={handleChange} disabled={!isEditMode}
+            >
+              <option value="">{t("profile.selectCurrency")}</option>
+              {currencies.map(({ code, name }) => (
+                <option key={code} value={code}>{code} — {name}</option>
+              ))}
+            </select>
+          )}
+          {errors.currency && <p className="field-error">{errors.currency}</p>}
+        </div>
+
         <div className="float-field">
           <div className="input-with-icon">
             <MdOutlineLanguage className="input-icon" size={17} />
             <input
               className={`float-input has-icon ${formData.website ? "has-value" : ""}`}
-              type="url"
-              name="website"
-              placeholder=" "
-              value={formData.website}
-              onChange={handleChange}
+              type="url" name="website" placeholder=" "
+              value={formData.website} onChange={handleChange} disabled={!isEditMode}
             />
-            <label className="float-label icon-label">Website (optional)</label>
+            <label className="float-label icon-label">{t("profile.website")}</label>
           </div>
         </div>
 
-        {/* Bank Details */}
         <div className="form-section-title">
           <MdAccountBalance size={18} style={{ color: "#667eea" }} />
-          Bank Details
+          {t("profile.bankDetails")}
         </div>
 
-        {/* Account Number */}
         <div className="float-field">
           <div className="input-with-icon">
             <MdOutlineCreditCard className="input-icon" size={17} />
             <input
               className={`float-input has-icon ${formData.accountNumber ? "has-value" : ""}`}
-              type="number"
-              name="accountNumber"
-              placeholder=" "
-              value={formData.accountNumber}
-              onChange={handleChange}
+              type="text" name="accountNumber" placeholder=" "
+              value={formData.accountNumber} onChange={handleChange} disabled={!isEditMode}
             />
-            <label className="float-label icon-label">Account Number</label>
+            <label className="float-label icon-label">{t("profile.accountNumber")}</label>
           </div>
         </div>
 
-        {/* Bank Name */}
         <div className="float-field">
           <div className="input-with-icon">
             <BsBank2 className="input-icon" size={16} />
             <input
               className={`float-input has-icon ${formData.bankName ? "has-value" : ""}`}
-              type="text"
-              name="bankName"
-              placeholder=" "
-              value={formData.bankName}
-              onChange={handleChange}
+              type="text" name="bankName" placeholder=" "
+              value={formData.bankName} onChange={handleChange} disabled={!isEditMode}
             />
-            <label className="float-label icon-label">Bank Name</label>
+            <label className="float-label icon-label">{t("profile.bankName")}</label>
           </div>
         </div>
 
-        {/* IFSC Code */}
         <div className="float-field">
           <div className="input-with-icon">
             <MdOutlineNumbers className="input-icon" size={17} />
             <input
               className={`float-input has-icon ${formData.ifscCode ? "has-value" : ""}`}
-              type="text"
-              name="ifscCode"
-              placeholder=" "
-              value={formData.ifscCode}
-              onChange={handleChange}
+              type="text" name="ifscCode" placeholder=" "
+              value={formData.ifscCode} onChange={handleChange} disabled={!isEditMode}
             />
-            <label className="float-label icon-label">IFSC Code</label>
+            <label className="float-label icon-label">{t("profile.ifscCode")}</label>
           </div>
         </div>
 
-        {/* UPI QR */}
-        {/* UPI QR */}
         <div className="form-section-title">
           <MdOutlineQrCode2 size={18} style={{ color: "#677eea" }} />
-          UPI QR Code
+          {t("profile.upiQr")}
         </div>
 
         <div className="float-field">
-          <label className="float-label-static">Upload UPI QR Image</label>
-
-          {/* hidden input */}
-          <input
-            type="file"
-            accept="image/*"
-            id="upi-input"
-            className="profile-avatar-edit-input"
-            onChange={handleUpiQR}
-          />
-
-          {/* clicking the box triggers the input */}
-          <label htmlFor="upi-input" className="upi-qr-wrapper">
+          <label className="float-label-static">{t("profile.uploadQr")}</label>
+          {isEditMode && (
+            <input
+              type="file" accept="image/*" id="upi-input"
+              className="profile-avatar-edit-input"
+              onChange={handleUpiQR}
+            />
+          )}
+          <label
+            htmlFor={isEditMode ? "upi-input" : undefined}
+            className="upi-qr-wrapper"
+            style={{ cursor: isEditMode ? "pointer" : "default" }}
+          >
             {upiQR ? (
               <img src={upiQR} alt="UPI QR" className="upi-qr-img" />
             ) : (
               <div className="upi-qr-placeholder">
                 <MdOutlineQrCode2 size={40} color="#aaa" />
-                <p>Tap to upload QR</p>
-                <span className="upi-qr-hint">Click anywhere here</span>
+                <p>{isEditMode ? t("profile.tapToUpload") : t("profile.noQr") || "No QR uploaded"}</p>
+                {isEditMode && <span className="upi-qr-hint">{t("profile.clickHere")}</span>}
               </div>
             )}
-            {upiQR && <span className="upi-qr-change">Change QR</span>}
+            {upiQR && isEditMode && (
+              <span className="upi-qr-change">{t("profile.changeQr")}</span>
+            )}
           </label>
         </div>
 
-        <button type="submit" className="profile-submit-btn">
-          Save Profile
-        </button>
+        {errors.general && (
+          <p className="field-error" style={{ textAlign: "center" }}>{errors.general}</p>
+        )}
+
+        {success && (
+          <div className="success-message">
+            {hasProfile
+              ? t("profile.updateSuccess") || "Profile updated successfully! ✅"
+              : t("profile.success")}
+          </div>
+        )}
+
+        {isEditMode && (
+          <div style={{ display: "flex", gap: "12px", marginTop: "8px" }}>
+            {hasProfile && (
+              <button
+                type="button" onClick={handleCancelEdit}
+                style={{
+                  flex: 1, padding: "14px", borderRadius: "10px",
+                  border: "1.5px solid #667eea", background: "transparent",
+                  color: "#667eea", fontWeight: 600, fontSize: "15px", cursor: "pointer",
+                }}
+              >
+                {t("profile.cancel") || "Cancel"}
+              </button>
+            )}
+            <button type="submit" className="profile-submit-btn" style={{ flex: 2 }}>
+              {hasProfile
+                ? t("profile.updateProfile") || "Update Profile"
+                : t("profile.saveProfile")}
+            </button>
+          </div>
+        )}
+
       </form>
     </div>
   );

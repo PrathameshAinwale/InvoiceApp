@@ -1,5 +1,6 @@
 import React from "react";
 import { Routes, Route } from "react-router-dom";
+import ProtectedRoute from "../components/ProtectedRoute";  // ✅ ADD THIS
 import Dashboard from "../components/Dashboard";
 import Invoice from "../pages/Invoice/Invoice";
 import CreateInvoice from "../pages/CreateInvoice/CreateInvoice";
@@ -20,23 +21,26 @@ const AppRouter = () => {
   return (
     <>
       <Routes>
-        <Route path="/" element={<Dashboard />} />
-        <Route path="/login" element={<Login />} />
+        {/* ✅ Public routes */}
+        <Route path="/login"  element={<Login />} />
         <Route path="/signup" element={<Signup />} />
-        <Route path="/invoice" element={<Invoice />} />
-        <Route path="/createinvoice" element={<CreateInvoice />} />
-        <Route path="/editinvoice/:id" element={<CreateInvoice />} />
-        <Route path="/sales" element={<Sales />} />
-        <Route path="/profile" element={<Profile />} />
-        <Route path="/products" element={<Products />} />
-        <Route path="/customers" element={<Customers />} />
-        <Route path="/follow-up" element={<FollowUps />} />
-        <Route path="/invoice/:id" element={<PreviewInvoice />} />
-        <Route path="/productform" element={<ProductsForm />} />
-        <Route path="/product/edit/:id" element={<ProductsForm />} />
-        <Route path="/addcustomer" element={<CustomerForm />} />
-        <Route path="/editcustomer/:id" element={<CustomerForm />} />
-        <Route path="/customer/:id" element={<CustomerDetails />} />
+
+        {/* ✅ Protected routes */}
+        <Route path="/"                  element={<ProtectedRoute><Dashboard /></ProtectedRoute>} />
+        <Route path="/invoice"           element={<ProtectedRoute><Invoice /></ProtectedRoute>} />
+        <Route path="/createinvoice"     element={<ProtectedRoute><CreateInvoice /></ProtectedRoute>} />
+        <Route path="/editinvoice/:id"   element={<ProtectedRoute><CreateInvoice /></ProtectedRoute>} />
+        <Route path="/sales"             element={<ProtectedRoute><Sales /></ProtectedRoute>} />
+        <Route path="/profile"           element={<ProtectedRoute><Profile /></ProtectedRoute>} />
+        <Route path="/products"          element={<ProtectedRoute><Products /></ProtectedRoute>} />
+        <Route path="/customers"         element={<ProtectedRoute><Customers /></ProtectedRoute>} />
+        <Route path="/follow-up"         element={<ProtectedRoute><FollowUps /></ProtectedRoute>} />
+        <Route path="/invoice/:id"       element={<ProtectedRoute><PreviewInvoice /></ProtectedRoute>} />
+        <Route path="/productform"       element={<ProtectedRoute><ProductsForm /></ProtectedRoute>} />
+        <Route path="/product/edit/:id"  element={<ProtectedRoute><ProductsForm /></ProtectedRoute>} />
+        <Route path="/addcustomer"       element={<ProtectedRoute><CustomerForm /></ProtectedRoute>} />
+        <Route path="/editcustomer/:id"  element={<ProtectedRoute><CustomerForm /></ProtectedRoute>} />
+        <Route path="/customer/:id"      element={<ProtectedRoute><CustomerDetails /></ProtectedRoute>} />
       </Routes>
       <NavBottom />
     </>

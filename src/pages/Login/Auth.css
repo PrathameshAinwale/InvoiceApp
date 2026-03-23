@@ -70,7 +70,7 @@
 /* Floating inputs — reuses global classes */
 .float-field  { position: relative; }
 
-.float-input {
+.float-input-auth {
   width: 100%;
   height: 56px;
   padding: 20px 14px 6px;
@@ -84,18 +84,18 @@
   box-sizing: border-box;
 }
 
-.float-input:focus {
+.float-input-auth:focus {
   border-color: #667eea;
   background: white;
   box-shadow: 0 0 0 3px rgba(102,126,234,0.1);
 }
 
-.float-input.input-error {
+.float-input-auth.input-error {
   border-color: #e74c3c;
   background: #fff5f5;
 }
 
-.float-input.has-icon { padding-left: 42px; }
+.float-input-auth.has-icon { padding-left: 50px; }
 
 .float-label {
   position: absolute;
@@ -109,8 +109,8 @@
 
 .float-label.icon-label { left: 42px; }
 
-.float-input:focus + .float-label,
-.float-input.has-value + .float-label {
+.float-input-auth:focus + .float-label,
+.float-input-auth.has-value + .float-label {
   top: 6px;
   font-size: 11px;
   color: #667eea;

@@ -5,13 +5,16 @@ import customers from "../../data/customer.json";
 import products from "../../data/products.json";
 import { IoIosSearch } from "react-icons/io";
 import { IoClose } from "react-icons/io5";
+import { MdLightMode, MdDarkMode } from "react-icons/md";
 import { useAuth } from "../../context/AuthContext";
 import { useTheme } from "../../context/ThemeContext";
+import { useTranslation } from "react-i18next";
 
 const TopNav = () => {
   const navigate = useNavigate();
-  const { user, logout } = useAuth(); 
+  const { user, logout } = useAuth();
   const { theme, setTheme } = useTheme();
+  const { t, i18n } = useTranslation();
   const [isClosing, setIsClosing] = useState(false);
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [isSearchOpen, setIsSearchOpen] = useState(false);
@@ -20,10 +23,16 @@ const TopNav = () => {
   const searchRef = useRef(null);
   const inputRef = useRef(null);
 
-  const themes = [
-    { id: 'dark',  name: 'Dark',  },
-    { id: 'light', name: 'Light',  },
+  const languages = [
+    { code: "en", label: "EN" },
+    { code: "hi", label: "हिं" },
+    { code: "mr", label: "मर" },
   ];
+
+  const handleLanguageChange = (code) => {
+    i18n.changeLanguage(code);
+    localStorage.setItem("language", code);
+  };
 
   const customerResults = customers.filter(
     (c) =>
@@ -67,7 +76,7 @@ const TopNav = () => {
       setShowResults(false);
     }, 300);
   };
-  
+
   const handleSearchChange = (e) => {
     setSearch(e.target.value);
     setShowResults(e.target.value.length > 0);
@@ -79,7 +88,7 @@ const TopNav = () => {
     setIsSearchOpen(false);
     navigate("/customers");
   };
-  
+
   const handleProductClick = () => {
     setSearch("");
     setShowResults(false);
@@ -90,7 +99,7 @@ const TopNav = () => {
   const handleLogout = () => {
     logout();
     setIsMenuOpen(false);
-    navigate('/login');
+    navigate("/login");
   };
 
   return (
@@ -99,7 +108,7 @@ const TopNav = () => {
         {/* Username */}
         {!isSearchOpen && (
           <div className="nav-username">
-            <p className="nav-greeting">Hello,</p>
+            <p className="nav-greeting">{t("nav.greeting")},</p>
             <p className="nav-name">Prathamesh</p>
           </div>
         )}
@@ -119,7 +128,7 @@ const TopNav = () => {
               <input
                 ref={inputRef}
                 type="text"
-                placeholder="Search customers, products..."
+                placeholder={t("common.search")}
                 value={search}
                 onChange={handleSearchChange}
               />
@@ -130,12 +139,12 @@ const TopNav = () => {
               {showResults && (
                 <div className="search-dropdown">
                   {!hasResults ? (
-                    <p className="search-no-results">No results found</p>
+                    <p className="search-no-results">{t("common.noData")}</p>
                   ) : (
                     <>
                       {customerResults.length > 0 && (
                         <div className="search-section">
-                          <p className="search-section-title">Customers</p>
+                          <p className="search-section-title">{t("nav.customers")}</p>
                           {customerResults.slice(0, 3).map((c) => (
                             <div
                               key={c.id}
@@ -161,7 +170,7 @@ const TopNav = () => {
                       )}
                       {productResults.length > 0 && (
                         <div className="search-section">
-                          <p className="search-section-title">Products</p>
+                          <p className="search-section-title">{t("nav.products")}</p>
                           {productResults.slice(0, 3).map((p) => (
                             <div
                               key={p.id}
@@ -209,34 +218,58 @@ const TopNav = () => {
         </div>
       </nav>
 
-      {/* Mobile Menu Overlay WITH THEME SELECTOR INSIDE */}
+      {/* Mobile Menu Overlay */}
       <div
         className={`mobile-menu-overlay ${isMenuOpen ? "open" : ""}`}
         onClick={() => setIsMenuOpen(false)}
       >
-        <div className="mobile-menu">
-          <ul onClick={() => navigate("/products")}>Products</ul>
-          <ul onClick={() => navigate("/customers")}>Customers</ul>
-          <ul onClick={() => navigate("/follow-up")}>Follow Up</ul>
-          
-          {/* Theme Selector Section */}
-          <div className="theme-section">
-            <p className="theme-section-title">Theme</p>
-            {themes.map((t) => (
-              <ul
-                key={t.id}
-                className={`theme-option ${theme === t.id ? 'active' : ''}`}
-                onClick={() => {
-                  setTheme(t.id);
-                  setIsMenuOpen(false); // Close menu after selection
-                }}
-              >
-                {t.icon} {t.name}
-              </ul>
-            ))}
+        <div className="mobile-menu" onClick={(e) => e.stopPropagation()}>
+
+          {/* Top row — Theme toggle + Language buttons */}
+          <div className="menu-top-row">
+
+            {/* Theme Toggle */}
+            <button
+              className={`theme-toggle-btn ${theme === "dark" ? "dark" : "light"}`}
+              onClick={() => setTheme(theme === "dark" ? "light" : "dark")}
+            >
+              <span className="theme-toggle-thumb">
+                {theme === "dark" ? (
+                  <MdDarkMode size={12} color="#667eea" />
+                ) : (
+                  <MdLightMode size={12} color="#f59e0b" />
+                )}
+              </span>
+            </button>
+
+            {/* Language Buttons */}
+            <div className="language-toggle-row">
+              {languages.map((lang) => (
+                <button
+                  key={lang.code}
+                  className={`lang-btn ${i18n.language === lang.code ? "active" : ""}`}
+                  onClick={() => handleLanguageChange(lang.code)}
+                >
+                  {lang.label}
+                </button>
+              ))}
+            </div>
+
           </div>
-          
-          <ul onClick={handleLogout} style={{color:"red"}}>Logout</ul>
+
+          <ul onClick={() => { navigate("/products"); setIsMenuOpen(false); }}>
+            {t("nav.products")}
+          </ul>
+          <ul onClick={() => { navigate("/customers"); setIsMenuOpen(false); }}>
+            {t("nav.customers")}
+          </ul>
+          <ul onClick={() => { navigate("/follow-up"); setIsMenuOpen(false); }}>
+            {t("nav.followUp")}
+          </ul>
+          <ul onClick={handleLogout} style={{ color: "red" }}>
+            {t("nav.logout")}
+          </ul>
+
         </div>
       </div>
     </>

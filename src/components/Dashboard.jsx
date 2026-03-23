@@ -1,3 +1,4 @@
+import { useTranslation } from "react-i18next";
 import React from 'react';
 import './Dashboard.css';
 import TopNav from '../components/common/TopNav';  
@@ -8,6 +9,7 @@ import InfoSlider from './common/InfoCard/InfoSlider';
 
 
 const Dashboard = () => {
+  const { t } = useTranslation();
   return (
     <div className="dashboard ">
       <TopNav />

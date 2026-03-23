@@ -339,16 +339,12 @@
   z-index: 1;
   pointer-events: none;
 }
-.gst-input{
-  padding-left: 42px !important;
-  overflow: auto;
-}
 
 .float-label.icon-label {
   left: 40px;
 }
 
-.float-input, .float-textarea {
+.float-input-create, .float-textarea {
   position: relative;
   width: 100%;
   padding: 20px 12px 6px;
@@ -360,8 +356,8 @@
   box-sizing: border-box;
 }
 
-.float-input.has-value + .float-label.icon-label,
-.float-input:focus + .float-label.icon-label {
+.float-input-create.has-value + .float-label.icon-label,
+.float-input-create:focus + .float-label.icon-label {
   top: 6px;
   font-size: 11px;
   color: #667eea;

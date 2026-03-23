@@ -1,11 +1,13 @@
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { FiPhone, FiX } from 'react-icons/fi';
+import { useTranslation } from 'react-i18next';
 import followUps from "../../data/followUps.json";
 import './FollowUp.css';
 
 const FollowUp = () => {
   const navigate = useNavigate();
+  const { t } = useTranslation();
   const [selectedPhone, setSelectedPhone] = useState(null);
 
   return (
@@ -13,8 +15,8 @@ const FollowUp = () => {
 
       {/* Header */}
       <div className="followup-header">
-        <h5>Follow-up</h5>
-        <span onClick={() => navigate("/follow-up")}>see all</span>
+        <h5>{t("followUp.title")}</h5>
+        <span onClick={() => navigate("/follow-up")}>{t("followUp.seeAll")}</span>
       </div>
 
       {/* List */}
@@ -73,12 +75,14 @@ const FollowUp = () => {
             </div>
 
             <p className="popup-name">{selectedPhone.customerName}</p>
-            <p className="popup-label">Contact Number</p>
+            <p className="popup-label">{t("followUp.contactNumber")}</p>
             <p className="popup-phone">{selectedPhone.phone}</p>
 
+            <button className="call-now-btn">
               <FiPhone size={16} />
-              Call Now
-  
+              {t("followUp.callNow")}
+            </button>
+
           </div>
         </div>
       )}

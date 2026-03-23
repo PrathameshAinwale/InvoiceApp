@@ -1,13 +1,13 @@
 import React, { useState } from 'react';
 import { useNavigate, Link } from 'react-router-dom';
 import { useAuth } from '../../context/AuthContext';
-import { MdEmail } from 'react-icons/md';
-import { MdLockOutline } from 'react-icons/md';
+import { MdEmail, MdLockOutline } from 'react-icons/md';
+import API from '../../api/api';
 import './Auth.css';
 
 const Login = () => {
-  const navigate    = useNavigate();
-  const { login }   = useAuth();
+  const navigate  = useNavigate();
+  const { login } = useAuth();
   const [formData, setFormData] = useState({ email: '', password: '' });
   const [errors, setErrors]     = useState({});
   const [loading, setLoading]   = useState(false);
@@ -24,25 +24,50 @@ const Login = () => {
     return errs;
   };
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
     const validationErrors = validate();
     if (Object.keys(validationErrors).length > 0) {
       setErrors(validationErrors);
       return;
     }
+
     setLoading(true);
-    setTimeout(() => {
-      login(formData.email, formData.password);
+    try {
+      const res = await API.post('/users/login', {
+        email:    formData.email.trim(),
+        password: formData.password.trim(),
+      });
+
+      // ✅ Token is now in HttpOnly cookie (set by backend automatically)
+      // Only save user info in localStorage for display purposes
+      localStorage.setItem('token', res.data.token);
+      console.log("🚀 Login response:", res.data);
+      localStorage.setItem('user', JSON.stringify(res.data.user));
+
+      // Update AuthContext
+      login(res.data.user);
+
       setLoading(false);
       navigate('/');
-    }, 1000);
+
+    } catch (err) {
+      setLoading(false);
+      if (err.response) {
+        if (err.response.status === 404) {
+          setErrors({ general: 'No account found. Redirecting to Sign Up...' });
+          setTimeout(() => navigate('/signup'), 2000);
+        } else {
+          setErrors({ general: err.response.data.message });
+        }
+      } else {
+        setErrors({ general: 'Something went wrong. Please try again.' });
+      }
+    }
   };
 
   return (
     <div className="auth-page">
-
-      {/* Logo */}
       <div className="auth-logo-section">
         <div className="auth-logo">
           <img src="https://placehold.co/60x60/667eea/ffffff?text=Logo" alt="logo" />
@@ -56,13 +81,11 @@ const Login = () => {
         <p className="auth-subtitle">Sign in to your account</p>
 
         <form className="auth-form" onSubmit={handleSubmit}>
-
-          {/* Email */}
           <div className="float-field">
             <div className="input-with-icon">
               <MdEmail className="input-icon" size={17} />
               <input
-                className={`float-input has-icon ${formData.email ? 'has-value' : ''} ${errors.email ? 'input-error' : ''}`}
+                className={`float-input-auth has-icon ${formData.email ? 'has-value' : ''} ${errors.email ? 'input-error' : ''}`}
                 type="email" name="email" placeholder=" "
                 value={formData.email} onChange={handleChange}
               />
@@ -71,12 +94,11 @@ const Login = () => {
             {errors.email && <p className="field-error">{errors.email}</p>}
           </div>
 
-          {/* Password */}
           <div className="float-field">
             <div className="input-with-icon">
               <MdLockOutline className="input-icon" size={17} />
               <input
-                className={`float-input has-icon ${formData.password ? 'has-value' : ''} ${errors.password ? 'input-error' : ''}`}
+                className={`float-input-auth has-icon ${formData.password ? 'has-value' : ''} ${errors.password ? 'input-error' : ''}`}
                 type="password" name="password" placeholder=" "
                 value={formData.password} onChange={handleChange}
               />
@@ -85,10 +107,15 @@ const Login = () => {
             {errors.password && <p className="field-error">{errors.password}</p>}
           </div>
 
+          {errors.general && (
+            <p className="field-error" style={{ textAlign: 'center' }}>
+              {errors.general}
+            </p>
+          )}
+
           <button type="submit" className="auth-btn" disabled={loading}>
             {loading ? 'Signing in...' : 'Sign In'}
           </button>
-
         </form>
 
         <p className="auth-switch">
@@ -96,7 +123,6 @@ const Login = () => {
           <Link to="/signup" className="auth-link">Sign Up</Link>
         </p>
       </div>
-
     </div>
   );
 };

@@ -226,12 +226,11 @@
   text-transform: uppercase;
 }
 .product-status-badge.active { 
-  background: color-mix(in srgb, var(--success) 20%, transparent); 
-  color: var(--success); 
+ color: green;
+ margin-top: 7px;
 }
 .product-status-badge.inactive { 
-  background: color-mix(in srgb, var(--danger) 20%, transparent); 
-  color: var(--danger); 
+  color: red; 
 }
 .product-center-content {
   text-align: center;

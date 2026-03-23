@@ -252,7 +252,7 @@
   padding: 0 8px 0 14px;
   font-size: 13px;
   font-weight: 600;
-  color: var(--text-primary);                    /* was: #333 */
+  color: gray;                    /* was: #333 */
   cursor: pointer;
   appearance: none;
   flex-shrink: 0;
@@ -265,6 +265,10 @@
   height: 24px;
   background: var(--border);                     /* was: #e9ecef */
   flex-shrink: 0;
+}
+.phone-number-input::placeholder{
+  color: gray;
+  opacity: 1;
 }
 
 .phone-number-input {

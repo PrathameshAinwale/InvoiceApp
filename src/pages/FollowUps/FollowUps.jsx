@@ -1,14 +1,16 @@
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { FiPhone, FiX, FiArrowLeft } from "react-icons/fi";
+import { useTranslation } from "react-i18next";
 import followUps from "../../data/followUps.json";
 import "./FollowUps.css";
 import TopNav from "../../components/common/TopNav";
 
 const FollowUps = () => {
   const navigate = useNavigate();
+  const { t }    = useTranslation();
   const [selectedPhone, setSelectedPhone] = useState(null);
-  const [filter, setFilter] = useState("all");
+  const [filter, setFilter]               = useState("all");
 
   const overdueCount = followUps.filter((f) => f.status === "overdue").length;
   const pendingCount = followUps.filter((f) => f.status === "pending").length;
@@ -29,23 +31,23 @@ const FollowUps = () => {
           <button className="back-btn" onClick={() => navigate("/")}>
             <FiArrowLeft size={20} />
           </button>
-          <h2 className="followups-title">Follow-up</h2>
+          <h2 className="followups-title">{t("followUps.title")}</h2>
         </div>
 
-        {/* Toggle Pills — summary + filter in one */}
+        {/* Toggle Pills */}
         <div className="followups-filters">
           <div
             className={`followup-pill overdue-pill ${filter === "overdue" ? "selected" : ""}`}
             onClick={() => setFilter(filter === "overdue" ? "all" : "overdue")}
           >
-            <span className="pill-label">Overdue</span>
+            <span className="pill-label">{t("followUps.overdue")}</span>
             <span className="pill-count">{overdueCount}</span>
           </div>
           <div
             className={`followup-pill pending-pill ${filter === "pending" ? "selected" : ""}`}
             onClick={() => setFilter(filter === "pending" ? "all" : "pending")}
           >
-            <span className="pill-label">Pending</span>
+            <span className="pill-label">{t("followUps.pending")}</span>
             <span className="pill-count">{pendingCount}</span>
           </div>
         </div>
@@ -64,8 +66,8 @@ const FollowUps = () => {
                 <p className="followup-invoice">{item.invoiceId}</p>
                 <span className={`followup-badge ${item.status}`}>
                   {item.status === "overdue"
-                    ? `Overdue by ${item.overdueBy} days`
-                    : "Pending"}
+                    ? t("followUps.overdueBy", { days: item.overdueBy })
+                    : t("followUps.pending")}
                 </span>
               </div>
 
@@ -83,7 +85,11 @@ const FollowUps = () => {
 
           {filtered.length === 0 && (
             <div className="empty-state">
-              <p>No {filter} follow-ups found</p>
+              <p>
+                {t("followUps.noFollowUps", {
+                  filter: t(`followUps.${filter === "all" ? "overdue" : filter}`)
+                })}
+              </p>
             </div>
           )}
         </div>
@@ -99,11 +105,11 @@ const FollowUps = () => {
                 {selectedPhone.avatar}
               </div>
               <p className="popup-name">{selectedPhone.customerName}</p>
-              <p className="popup-label">Contact Number</p>
+              <p className="popup-label">{t("followUps.contactNumber")}</p>
               <p className="popup-phone">{selectedPhone.phone}</p>
               <a href={`tel:${selectedPhone.phone}`} className="popup-call-btn">
                 <FiPhone size={16} />
-                Call Now
+                {t("followUps.callNow")}
               </a>
             </div>
           </div>

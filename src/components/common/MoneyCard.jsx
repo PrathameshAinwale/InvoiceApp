@@ -1,17 +1,20 @@
 import React, { useState, useEffect } from 'react';
+import { useTranslation } from 'react-i18next';
 import './MoneyCard.css';
 
-const cards = [
-  { title: 'Received Money', amount: 125000, type: 'received', trend: 22.5 },
-  { title: 'Pending Money',  amount: 45000,  type: 'pending',  trend: -3.2 },
-  { title: 'Total Revenue',  amount: 320000, type: 'revenue',  trend: 12.8 },
-  { title: 'Overdue',        amount: 18000,  type: 'overdue',  trend: -8.1 },
-];
-
 const MoneyCard = () => {
-  const [current, setCurrent]   = useState(0);
-  const [next, setNext]         = useState(null);
-  const [sliding, setSliding]   = useState(false);
+  const { t } = useTranslation();
+
+  const cards = [
+    { titleKey: 'moneyCard.received', amount: 125000, type: 'received', trend: 22.5  },
+    { titleKey: 'moneyCard.pending',  amount: 45000,  type: 'pending',  trend: -3.2  },
+    { titleKey: 'moneyCard.revenue',  amount: 320000, type: 'revenue',  trend: 12.8  },
+    { titleKey: 'moneyCard.overdue',  amount: 18000,  type: 'overdue',  trend: -8.1  },
+  ];
+
+  const [current, setCurrent] = useState(0);
+  const [next, setNext]       = useState(null);
+  const [sliding, setSliding] = useState(false);
 
   const slideTo = (index) => {
     if (sliding || index === current) return;
@@ -21,7 +24,7 @@ const MoneyCard = () => {
       setCurrent(index);
       setNext(null);
       setSliding(false);
-    }, 400);  // match animation duration
+    }, 400);
   };
 
   useEffect(() => {
@@ -40,7 +43,7 @@ const MoneyCard = () => {
       {/* Current card — slides out to left */}
       <div className={`money-card-inner ${sliding ? 'slide-out' : ''}`}>
         <div className="card-header">
-          <h3>{card.title}</h3>
+          <h3>{t(card.titleKey)}</h3>
           <span className={`trend ${card.trend > 0 ? 'positive' : 'negative'}`}>
             {card.trend > 0 ? '↑' : '↓'} {Math.abs(card.trend)}%
           </span>
@@ -54,7 +57,7 @@ const MoneyCard = () => {
       {sliding && nextCard && (
         <div className="money-card-inner slide-in">
           <div className="card-header">
-            <h3>{nextCard.title}</h3>
+            <h3>{t(nextCard.titleKey)}</h3>
             <span className={`trend ${nextCard.trend > 0 ? 'positive' : 'negative'}`}>
               {nextCard.trend > 0 ? '↑' : '↓'} {Math.abs(nextCard.trend)}%
             </span>
@@ -64,6 +67,7 @@ const MoneyCard = () => {
           </div>
         </div>
       )}
+
     </div>
   );
 };

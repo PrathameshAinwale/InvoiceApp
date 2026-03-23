@@ -1,7 +1,9 @@
 import React, { useState, useEffect } from 'react';
 import './CurrencySelect.css';
+import { useTranslation } from 'react-i18next';
 
 const CurrencySelect = ({ value, onChange }) => {
+  const { t } = useTranslation();
   const [currencies, setCurrencies] = useState([]);
   const [loading, setLoading]       = useState(true);
   const [error, setError]           = useState("");
@@ -10,29 +12,28 @@ const CurrencySelect = ({ value, onChange }) => {
     fetch("https://api.frankfurter.dev/v1/currencies")
       .then(res => res.json())
       .then(data => {
-        // data is { USD: "US Dollar", EUR: "Euro", ... }
         const list = Object.entries(data).map(([code, name]) => ({ code, name }));
         setCurrencies(list);
         setLoading(false);
       })
       .catch(() => {
-        setError("Failed to load currencies");
+        setError(t("currencySelect.error"));
         setLoading(false);
       });
-  }, []);
+  }, [t]);
 
-  if (loading) return <p className="currency-loading">Loading currencies...</p>;
+  if (loading) return <p className="currency-loading">{t("currencySelect.loading")}</p>;
   if (error)   return <p className="currency-error">{error}</p>;
 
   return (
     <div className="currency-select-wrapper">
-      <label className="currency-label">Currency</label>
+      <label className="currency-label">{t("currencySelect.label")}</label>
       <select
         className="currency-select"
         value={value}
         onChange={(e) => onChange(e.target.value)}
       >
-        <option value="">Select currency</option>
+        <option value="">{t("currencySelect.placeholder")}</option>
         {currencies.map(({ code, name }) => (
           <option key={code} value={code}>
             {code} — {name}

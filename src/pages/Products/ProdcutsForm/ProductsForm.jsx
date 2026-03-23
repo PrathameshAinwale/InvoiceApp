@@ -7,61 +7,43 @@ import { MdOutlineNumbers } from "react-icons/md";
 import { MdOutlineCategory } from "react-icons/md";
 import { MdCurrencyRupee } from "react-icons/md";
 import { MdOutlinePercent } from "react-icons/md";
+import { useTranslation } from "react-i18next";
 import products from "../../../data/products.json";
 import "./ProductForm.css";
 import TopNav from "../../../components/common/TopNav";
 
-const units = ["pcs", "kg", "gm", "ltr", "ml", "hr", "box", "set"];
+const units      = ["pcs", "kg", "gm", "ltr", "ml", "hr", "box", "set"];
 const categories = ["Design", "Development", "Marketing", "Content"];
-const gstRates = ["0", "5", "12", "18", "28"];
-const statuses = ["active", "inactive"];
+const statuses   = ["active", "inactive"];
 
 const emptyForm = {
-  name: "",
-  category: "",
-  price: "",
-  unit: "pcs",
-  gst: "18",
-  stock: "",
-  status: "active",
-  description: "",
-};
-
-const validate = () => {
-  const errs = {};
-  // ... existing validations ...
-
-  if (!formData.gst && formData.gst !== '0') {
-    errs.gst = 'GST rate is required';
-  } else if (formData.gst < 0 || formData.gst > 100) {
-    errs.gst = 'GST must be between 0 and 100';
-  }
-
-  return errs;
+  name: "", category: "", price: "",
+  unit: "pcs", gst: "18", stock: "",
+  status: "active", description: "",
 };
 
 const ProductForm = () => {
   const navigate = useNavigate();
-  const { id } = useParams(); // ← if id exists = edit mode
-  const isEdit = Boolean(id);
+  const { id }   = useParams();
+  const isEdit   = Boolean(id);
+  const { t }    = useTranslation();
 
   const [formData, setFormData] = useState(emptyForm);
-  const [errors, setErrors] = useState({});
-  const [success, setSuccess] = useState(false);
+  const [errors, setErrors]     = useState({});
+  const [success, setSuccess]   = useState(false);
 
-  // if edit mode, prefill form with existing product data
   useEffect(() => {
     if (isEdit) {
       const existing = products.find((p) => p.id === id);
       if (existing) {
         setFormData({
-          name: existing.name,
-          category: existing.category,
-          price: existing.price,
-          unit: existing.unit,
-          gst: String(existing.gst),
-          stock: existing.stock,
-          status: existing.status,
+          name:        existing.name,
+          category:    existing.category,
+          price:       existing.price,
+          unit:        existing.unit,
+          gst:         String(existing.gst),
+          stock:       existing.stock,
+          status:      existing.status,
           description: existing.description || "",
         });
       }
@@ -70,18 +52,19 @@ const ProductForm = () => {
 
   const handleChange = (e) => {
     setFormData({ ...formData, [e.target.name]: e.target.value });
-    setErrors({ ...errors, [e.target.name]: "" });
+    setErrors({  ...errors,   [e.target.name]: "" });
   };
 
   const validate = () => {
     const errs = {};
-    if (!formData.name.trim()) errs.name = "Product name is required";
-    if (!formData.category) errs.category = "Category is required";
-    if (!formData.price) errs.price = "Price is required";
-    if (formData.price < 0) errs.price = "Price cannot be negative";
-    if (!formData.unit) errs.unit = "Unit is required";
-    if (!formData.stock && formData.stock !== 0)
-      errs.stock = "Stock is required";
+    if (!formData.name.trim())                errs.name     = t("productForm.nameError");
+    if (!formData.category)                   errs.category = t("productForm.categoryError");
+    if (!formData.price)                      errs.price    = t("productForm.priceError");
+    if (formData.price < 0)                   errs.price    = t("productForm.priceNegativeError");
+    if (!formData.unit)                       errs.unit     = t("productForm.unitError");
+    if (!formData.stock && formData.stock !== 0) errs.stock = t("productForm.stockError");
+    if (!formData.gst && formData.gst !== "0")   errs.gst   = t("productForm.gstError");
+    else if (formData.gst < 0 || formData.gst > 100) errs.gst = t("productForm.gstRangeError");
     return errs;
   };
 
@@ -99,233 +82,195 @@ const ProductForm = () => {
 
   return (
     <>
-    <TopNav/>
-    <div className="product-form-page page">
-      {/* Header */}
-      <div className="product-form-header">
-        <button className="back-btn" onClick={() => navigate("/products")}>
-          <FiArrowLeft size={20} />
-        </button>
-        <h2 className="product-form-title">
-          {isEdit ? "Edit Product" : "Add Product"}
-        </h2>
-      </div>
+      <TopNav />
+      <div className="product-form-page page">
 
-      <form className="product-form" onSubmit={handleSubmit}>
-        {/* Product Name */}
-        <div className="float-field">
-          <div className="input-with-icon">
-            <MdOutlineInventory2 className="input-icon" size={17} />
-            <input
-              className={`float-input has-icon ${formData.name ? "has-value" : ""} ${errors.name ? "input-error" : ""}`}
-              type="text"
-              name="name"
-              placeholder=" "
-              value={formData.name}
-              onChange={handleChange}
-              />
-            <label className="float-label icon-label">Product Name</label>
-          </div>
-          {errors.name && <p className="field-error">{errors.name}</p>}
+        {/* Header */}
+        <div className="product-form-header">
+          <button className="back-btn" onClick={() => navigate("/products")}>
+            <FiArrowLeft size={20} />
+          </button>
+          <h2 className="product-form-title">
+            {isEdit ? t("productForm.editTitle") : t("productForm.addTitle")}
+          </h2>
         </div>
 
-        {/* Category */}
-        <div className="float-field">
-          <label className="float-label-static">
-            <MdOutlineCategory
-              size={15}
-              style={{
-                  verticalAlign: "middle",
-                  marginRight: 6,
-                  color: "#667eea",
-                }}
-                />
-            Category
-          </label>
-          <select
-            className={`form-select ${errors.category ? "input-error" : ""}`}
-            name="category"
-            value={formData.category}
-            onChange={handleChange}
-          >
-            <option value="">Select category</option>
-            {categories.map((cat) => (
-                <option key={cat} value={cat}>
-                {cat}
-              </option>
-            ))}
-          </select>
-          {errors.category && <p className="field-error">{errors.category}</p>}
-        </div>
+        <form className="product-form" onSubmit={handleSubmit}>
 
-        {/* Price + Unit — side by side */}
-        <div className="form-row">
+          {/* Product Name */}
           <div className="float-field">
             <div className="input-with-icon">
-              <MdCurrencyRupee className="input-icon" size={17} />
+              <MdOutlineInventory2 className="input-icon" size={17} />
               <input
-                className={`float-input has-icon ${formData.price ? "has-value" : ""} ${errors.price ? "input-error" : ""}`}
-                type="number"
-                name="price"
-                placeholder=" "
-                min="0"
-                value={formData.price}
-                onChange={handleChange}
-                />
-              <label className="float-label icon-label">Price</label>
+                className={`float-input has-icon ${formData.name ? "has-value" : ""} ${errors.name ? "input-error" : ""}`}
+                type="text" name="name" placeholder=" "
+                value={formData.name} onChange={handleChange}
+              />
+              <label className="float-label icon-label">{t("productForm.productName")}</label>
             </div>
-            {errors.price && <p className="field-error">{errors.price}</p>}
+            {errors.name && <p className="field-error">{errors.name}</p>}
           </div>
 
+          {/* Category */}
           <div className="float-field">
+            <label className="float-label-static">
+              <MdOutlineCategory
+                size={15}
+                style={{ verticalAlign: "middle", marginRight: 6, color: "#667eea" }}
+              />
+              {t("productForm.category")}
+            </label>
             <select
-              className="form-select unit-select"
-              name="unit"
-              value={formData.unit}
-              onChange={handleChange}
-              >
-              {units.map((u) => (
-                <option key={u} value={u}>
-                  {u}
+              className={`form-select ${errors.category ? "input-error" : ""}`}
+              name="category" value={formData.category} onChange={handleChange}
+            >
+              <option value="">{t("productForm.selectCategory")}</option>
+              {categories.map((cat) => (
+                <option key={cat} value={cat}>
+                  {t(`productForm.categories.${cat}`)}
                 </option>
               ))}
             </select>
-            <label className="unit-float-label">Unit</label>
-          </div>
-        </div>
-        {/* GST */}
-        <div className="float-field">
-          <div className="input-with-icon">
-            <MdOutlinePercent className="input-icon" size={17} />
-            <select
-              className={`float-input has-icon has-value`}
-              name="gst"
-              value={
-                  ["0", "5", "12", "18", "28"].includes(formData.gst)
-                  ? formData.gst
-                  : "custom"
-                }
-                onChange={(e) => {
-                    if (e.target.value === "custom") {
-                        setFormData({ ...formData, gst: "" });
-                    } else {
-                        setFormData({ ...formData, gst: e.target.value });
-                    }
-                }}
-                style={{
-                    paddingTop: "20px",
-                    paddingBottom: "6px",
-                    cursor: "pointer",
-                }}
-            >
-              <option value="0">0%</option>
-              <option value="5">5%</option>
-              <option value="12">12%</option>
-              <option value="18">18%</option>
-              <option value="28">28%</option>
-              <option value="custom">Custom %</option>
-            </select>
-            <label
-              className="float-label icon-label"
-              style={{
-                  top: "6px",
-                  fontSize: "11px",
-                  color: "#667eea",
-                fontWeight: 600,
-            }}
-            >
-              GST Rate
-            </label>
+            {errors.category && <p className="field-error">{errors.category}</p>}
           </div>
 
-          {/* Custom GST input — shows only when custom is selected */}
-          {!["0", "5", "12", "18", "28"].includes(formData.gst) && (
-              <div className="input-with-icon" style={{ marginTop: "8px" }}>
-              <MdOutlinePercent className="input-icon" size={17} />
-              <input
-                className={`float-input has-icon ${formData.gst ? "has-value" : ""} ${errors.gst ? "input-error" : ""}`}
-                type="number"
-                name="gst"
-                placeholder=" "
-                min="0"
-                max="100"
-                value={formData.gst}
-                onChange={(e) => {
-                    setFormData({ ...formData, gst: e.target.value });
-                    setErrors({ ...errors, gst: "" });
-                }}
+          {/* Price + Unit */}
+          <div className="form-row">
+            <div className="float-field">
+              <div className="input-with-icon">
+                <MdCurrencyRupee className="input-icon" size={17} />
+                <input
+                  className={`float-input has-icon ${formData.price ? "has-value" : ""} ${errors.price ? "input-error" : ""}`}
+                  type="number" name="price" placeholder=" " min="0"
+                  value={formData.price} onChange={handleChange}
                 />
-              <label className="float-label icon-label">
-                Enter Custom GST %
+                <label className="float-label icon-label">{t("productForm.price")}</label>
+              </div>
+              {errors.price && <p className="field-error">{errors.price}</p>}
+            </div>
+
+            <div className="float-field">
+              <select
+                className="form-select unit-select"
+                name="unit" value={formData.unit} onChange={handleChange}
+              >
+                {units.map((u) => (
+                  <option key={u} value={u}>{u}</option>
+                ))}
+              </select>
+              <label className="unit-float-label">{t("productForm.unit")}</label>
+            </div>
+          </div>
+
+          {/* GST */}
+          <div className="float-field">
+            <div className="input-with-icon">
+              <MdOutlinePercent className="input-icon" size={17} />
+              <select
+                className="float-input has-icon has-value"
+                name="gst"
+                value={["0", "5", "12", "18", "28"].includes(formData.gst) ? formData.gst : "custom"}
+                onChange={(e) => {
+                  if (e.target.value === "custom") {
+                    setFormData({ ...formData, gst: "" });
+                  } else {
+                    setFormData({ ...formData, gst: e.target.value });
+                  }
+                }}
+                style={{ paddingTop: "20px", paddingBottom: "6px", cursor: "pointer" }}
+              >
+                <option value="0">0%</option>
+                <option value="5">5%</option>
+                <option value="12">12%</option>
+                <option value="18">18%</option>
+                <option value="28">28%</option>
+                <option value="custom">{t("productForm.customOption")}</option>
+              </select>
+              <label
+                className="float-label icon-label"
+                style={{ top: "6px", fontSize: "11px", color: "#667eea", fontWeight: 600 }}
+              >
+                {t("productForm.gstRate")}
               </label>
             </div>
-          )}
-          {errors.gst && <p className="field-error">{errors.gst}</p>}
-        </div>
-        {/* Stock */}
-        <div className="float-field">
-          <div className="input-with-icon">
-            <MdOutlineNumbers className="input-icon" size={17} />
-            <input
-              className={`float-input has-icon ${formData.stock ? "has-value" : ""} ${errors.stock ? "input-error" : ""}`}
-              type="number"
-              name="stock"
-              placeholder=" "
-              min="0"
-              value={formData.stock}
-              onChange={handleChange}
-              />
-            <label className="float-label icon-label">Stock Quantity</label>
-          </div>
-          {errors.stock && <p className="field-error">{errors.stock}</p>}
-        </div>
 
-        {/* Status */}
-        <div className="float-field">
-          <label className="float-label-static">Status</label>
-          <div className="status-options">
-            {statuses.map((s) => (
+            {/* Custom GST input */}
+            {!["0", "5", "12", "18", "28"].includes(formData.gst) && (
+              <div className="input-with-icon" style={{ marginTop: "8px" }}>
+                <MdOutlinePercent className="input-icon" size={17} />
+                <input
+                  className={`float-input has-icon ${formData.gst ? "has-value" : ""} ${errors.gst ? "input-error" : ""}`}
+                  type="number" name="gst" placeholder=" " min="0" max="100"
+                  value={formData.gst}
+                  onChange={(e) => {
+                    setFormData({ ...formData, gst: e.target.value });
+                    setErrors({ ...errors, gst: "" });
+                  }}
+                />
+                <label className="float-label icon-label">{t("productForm.customGst")}</label>
+              </div>
+            )}
+            {errors.gst && <p className="field-error">{errors.gst}</p>}
+          </div>
+
+          {/* Stock */}
+          <div className="float-field">
+            <div className="input-with-icon">
+              <MdOutlineNumbers className="input-icon" size={17} />
+              <input
+                className={`float-input has-icon ${formData.stock ? "has-value" : ""} ${errors.stock ? "input-error" : ""}`}
+                type="number" name="stock" placeholder=" " min="0"
+                value={formData.stock} onChange={handleChange}
+              />
+              <label className="float-label icon-label">{t("productForm.stock")}</label>
+            </div>
+            {errors.stock && <p className="field-error">{errors.stock}</p>}
+          </div>
+
+          {/* Status */}
+          <div className="float-field">
+            <label className="float-label-static">{t("productForm.status")}</label>
+            <div className="status-options">
+              {statuses.map((s) => (
                 <button
-                key={s}
-                type="button"
-                className={`status-option-btn ${formData.status === s ? `active ${s}` : ""}`}
-                onClick={() => setFormData({ ...formData, status: s })}
+                  key={s}
+                  type="button"
+                  className={`status-option-btn ${formData.status === s ? `active ${s}` : ""}`}
+                  onClick={() => setFormData({ ...formData, status: s })}
                 >
-                {s.charAt(0).toUpperCase() + s.slice(1)}
-              </button>
-            ))}
+                  {t(`productForm.statuses.${s}`)}
+                </button>
+              ))}
+            </div>
           </div>
-        </div>
 
-        {/* Description */}
-        <div className="float-field">
-          <div className="input-with-icon textarea-icon-wrapper">
-            <BsTag className="input-icon textarea-icon" size={16} />
-            <textarea
-              className={`float-textarea has-icon ${formData.description ? "has-value" : ""}`}
-              name="description"
-              placeholder=" "
-              value={formData.description}
-              onChange={handleChange}
+          {/* Description */}
+          <div className="float-field">
+            <div className="input-with-icon textarea-icon-wrapper">
+              <BsTag className="input-icon textarea-icon" size={16} />
+              <textarea
+                className={`float-textarea has-icon ${formData.description ? "has-value" : ""}`}
+                name="description" placeholder=" "
+                value={formData.description} onChange={handleChange}
               />
-            <label className="float-label icon-label">
-              Description (optional)
-            </label>
+              <label className="float-label icon-label">{t("productForm.description")}</label>
+            </div>
           </div>
-        </div>
 
-        {success && (
-          <div className="success-message">
-            Product {isEdit ? "updated" : "added"} successfully!
-          </div>
-        )}
+          {/* Success */}
+          {success && (
+            <div className="success-message">
+              {isEdit ? t("productForm.successEdit") : t("productForm.successAdd")}
+            </div>
+          )}
 
-        <button type="submit" className="product-submit-btn">
-          {isEdit ? "Update Product" : "Add Product"}
-        </button>
-      </form>
-    </div>
-  </>
+          <button type="submit" className="product-submit-btn">
+            {isEdit ? t("productForm.submitEdit") : t("productForm.submitAdd")}
+          </button>
+
+        </form>
+      </div>
+    </>
   );
 };
 
