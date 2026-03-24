@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import "./Profile.css";
 import { useNavigate } from "react-router-dom";
 import { validateProfile } from "../../utils/validations/profileValidation";
@@ -29,6 +29,8 @@ const toBase64 = (file) =>
 const Profile = () => {
   const navigate = useNavigate();
   const { t }    = useTranslation();
+
+  const formRef = useRef(null);
 
   const [errors, setErrors]                 = useState({});
   const [success, setSuccess]               = useState(false);
@@ -257,6 +259,49 @@ const Profile = () => {
   // ── Render (UI completely unchanged) ─────────────────────
   return (
     <div className="profile-page">
+      {/* Fixed top-right action toolbar */}
+      <div className="profile-top-actions">
+        {hasProfile && !isEditMode && (
+          <button
+            type="button"
+            className="profile-action-btn"
+            onClick={() => setIsEditMode(true)}
+          >
+            {t("Edit")}
+          </button>
+        )}
+
+        {isEditMode && (
+          <>
+            {hasProfile && (
+              <button
+                type="button"
+                className="profile-action-outline"
+                onClick={handleCancelEdit}
+              >
+                {t("profile.cancel")}
+              </button>
+            )}
+            <button
+              type="button"
+              className="profile-action-btn"
+              onClick={() => {
+                // submit the form programmatically
+                if (formRef.current) {
+                  if (typeof formRef.current.requestSubmit === 'function') {
+                    formRef.current.requestSubmit();
+                  } else {
+                    formRef.current.dispatchEvent(new Event('submit', { cancelable: true, bubbles: true }));
+                  }
+                }
+              }}
+            >
+              {hasProfile ? t("profile.updateProfile") : t("profile.saveProfile")}
+            </button>
+          </>
+        )}
+      </div>
+
       <div className="profile-avatar-section">
         <div className="profile-avatar-wrapper">
           {image ? (
@@ -282,21 +327,6 @@ const Profile = () => {
 
       <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between", marginBottom: "8px" }}>
         <h2 className="profile-heading" style={{ margin: 0 }}>{t("profile.heading")}</h2>
-        {hasProfile && !isEditMode && (
-          <button
-            type="button"
-            onClick={() => setIsEditMode(true)}
-            style={{
-              background: "linear-gradient(135deg, #667eea, #764ba2)",
-              color: "#fff", border: "none", borderRadius: "8px",
-              padding: "8px 18px", fontWeight: 600, cursor: "pointer",
-              fontSize: "13px", alignItems: "center",
-              gap: "6px", boxShadow: "0 2px 8px rgba(102,126,234,0.35)",
-            }}
-          >
-           {t ("Edit")}
-          </button>
-        )}
       </div>
 
       {hasProfile && !isEditMode && (
@@ -305,7 +335,7 @@ const Profile = () => {
         </p>
       )}
 
-      <form className="profile-form" onSubmit={handleSubmit}>
+      <form ref={formRef} className="profile-form" onSubmit={handleSubmit}>
         <div className="float-field">
           <div className="input-with-icon">
             <IoPersonSharp className="input-icon" size={16} />

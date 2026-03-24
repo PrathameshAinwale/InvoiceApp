@@ -196,6 +196,7 @@
   font-weight: 600;
   padding: 4px 10px;
   border-radius: 20px;
+  color: rgb(130, 130, 130);
   text-transform: capitalize;
 }
 
@@ -212,16 +213,21 @@
 /* Product Row */
 .sale-product-row {
   display: flex;
-  justify-content: space-between;
-  align-items: flex-start;
+  align-items: center;
   gap: 10px;
+  position: relative; /* allow absolute centering of amount */
 }
 
 .sale-product-name {
   font-size: 14px;
   font-weight: 600;
-  color: var(--text-primary);                    /* was: #333 */
+  color: var(--text-primary);
   margin: 0 0 4px;
+  flex: 1 1 auto;
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+  padding-right: 120px; /* reserve space so centered amount doesn't overlap long names */
 }
 
 .sale-product-meta {
@@ -231,14 +237,18 @@
 }
 
 .sale-amounts {
-  text-align: right;
+  position: absolute;
+  left: 50%;
+  transform: translateX(-50%);
+  text-align: center;
+  min-width: 110px;
 }
 
 .sale-final-amount {
   font-size: 15px;
   font-weight: 700;
-  color: var(--text-primary);                    /* was: #333 */
-  margin: 0 0 2px;
+  color: var(--text-primary);
+  margin: 0;
 }
 
 .sale-base-amount {

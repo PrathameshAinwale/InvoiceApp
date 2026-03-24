@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import { FiArrowLeft, FiTrendingUp } from "react-icons/fi";
 import { useTranslation } from "react-i18next";
@@ -6,12 +6,12 @@ import {
   BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip,
   ResponsiveContainer, PieChart, Pie, Cell, Legend, LabelList,
 } from "recharts";
-import sales from "../../data/sales.json";
+import API from "../../api/api";
 import "./Sales.css";
 import TopNav from "../../components/common/TopNav";
 
 const CURRENCY_SYMBOLS = {
-  USD: "$", EUR: "€", GBP: "£", INR: "₹", JPY: "¥", AUD: "A$",
+  USD: "$", EUR: "€", GBP: "£", INR: "Rs.", JPY: "¥", AUD: "A$",
 };
 
 const MONTHS = ["Jan","Feb","Mar","Apr","May","Jun","Jul","Aug","Sep","Oct","Nov","Dec"];
@@ -32,12 +32,12 @@ const renderCustomLabel = ({ cx, cy, midAngle, innerRadius, outerRadius, value }
 
 const BarTopLabel = (props) => {
   const { x, y, width, value } = props;
-  if (!value) return null;
+  if (!value && value !== 0) return null;
   const label = value >= 1000 ? (value / 1000).toFixed(1) + "k" : value;
   return (
     <text x={x + width / 2} y={y - 5} fill="#667eea"
       textAnchor="middle" fontSize={10} fontWeight={600}>
-      ${label}
+      Rs.{label}
     </text>
   );
 };
@@ -49,33 +49,157 @@ const Sales = () => {
   const [search, setSearch]           = useState("");
   const [activeChart, setActiveChart] = useState("monthly");
 
-  const filtered = sales.filter((item) => {
-    const matchesFilter = filter === "all" ? true : item.status === filter;
+  const [sales, setSales]     = useState([]); // flattened invoice items
+  const [loading, setLoading] = useState(true);
+  const [error, setError]     = useState(null);
+
+  useEffect(() => {
+    let mounted = true;
+    const fetchInvoices = async () => {
+      try {
+        const res = await API.get('/invoices');
+        const invoices = res.data?.invoices || [];
+
+        const initials = (name) => {
+          if (!name) return "--";
+          const parts = String(name).split(/\s+/).filter(Boolean);
+          return (parts[0]?.[0] || "") + (parts[1]?.[0] || "");
+        };
+        const colorFor = (str) => {
+          const colors = COLORS;
+          let h = 0; for (let i = 0; i < (str || "").length; i++) h = (h << 5) - h + str.charCodeAt(i);
+          return colors[Math.abs(h) % colors.length];
+        };
+
+        const mapped = [];
+        for (const inv of invoices) {
+          const items = inv.items || [];
+          if (items.length === 0) {
+            mapped.push({
+              id: inv.invoice_number || `INV-${inv.id}`,
+              customerName: inv.customer_name || 'Unknown',
+              avatar: initials(inv.customer_name || ''),
+              avatarColor: colorFor(inv.customer_name || ''),
+              product: 'Invoice',
+              quantity: 1,
+              unit: '',
+              amount: inv.grand_total || 0,
+              discount: 0,
+              gst: inv.gst || 0,
+              finalAmount: inv.grand_total || 0,
+              currency: inv.currency || 'USD',
+              date: inv.invoice_date || inv.created_at,
+              paymentMethod: inv.payment_method || '-',
+              status: inv.status || 'unpaid',
+            });
+          } else {
+            for (const it of items) {
+              mapped.push({
+                id: `${inv.invoice_number || `INV-${inv.id}`}#${it.id || Math.random().toString(36).slice(2,7)}`,
+                customerName: inv.customer_name || 'Unknown',
+                avatar: initials(inv.customer_name || ''),
+                avatarColor: colorFor(inv.customer_name || ''),
+                product: it.product_name || it.name || 'Item',
+                quantity: it.quantity || 1,
+                unit: it.unit || it.uom || '',
+                amount: (it.price || 0) * (it.quantity || 1),
+                discount: it.discount || 0,
+                gst: it.gst || inv.gst || 0,
+                finalAmount: it.total || (it.price || 0) * (it.quantity || 1),
+                currency: inv.currency || 'USD',
+                date: inv.invoice_date || inv.created_at,
+                paymentMethod: inv.payment_method || '-',
+                status: inv.status || 'unpaid',
+              });
+            }
+          }
+        }
+
+        if (mounted) {
+          setSales(mapped);
+          setLoading(false);
+        }
+      } catch (err) {
+        console.error('Failed to fetch invoices:', err?.response || err.message || err);
+        if (mounted) {
+          setError(err);
+          setSales([]);
+          setLoading(false);
+        }
+      }
+    };
+    fetchInvoices();
+    return () => { mounted = false; };
+  }, []);
+
+  const normalizeStatus = (s) => {
+    if (!s) return 'unpaid';
+    const st = String(s).toLowerCase();
+    if (st === 'completed' || st === 'paid') return 'paid';
+    if (st === 'refunded' || st === 'pending' || st === 'unpaid' || st === 'returned') return 'unpaid';
+    if (st === 'cancelled' || st === 'canceled') return 'cancelled';
+    return st;
+  };
+
+  const formatDate = (d) => {
+    if (!d) return "";
+    const dt = new Date(d);
+    if (isNaN(dt)) return String(d);
+    return dt.toLocaleDateString(undefined, { year: 'numeric', month: 'short', day: 'numeric' });
+  };
+
+  if (loading) {
+    return (
+      <>
+        <TopNav />
+        <div className="sales-page page">
+          <div className="empty-state">{t('common.loading') || 'Loading...'}</div>
+        </div>
+      </>
+    );
+  }
+
+  if (error) {
+    return (
+      <>
+        <TopNav />
+        <div className="sales-page page">
+          <div className="empty-state">{t('common.networkError') || 'Failed to load sales.'}</div>
+        </div>
+      </>
+    );
+  }
+
+  const dataSource = sales; // use fetched data only
+
+  const filtered = dataSource.filter((item) => {
+    const itemStatus = normalizeStatus(item.status);
+    const matchesFilter = filter === "all" ? true : itemStatus === filter;
     const matchesSearch =
-      item.customerName.toLowerCase().includes(search.toLowerCase()) ||
-      item.product.toLowerCase().includes(search.toLowerCase())      ||
-      item.id.toLowerCase().includes(search.toLowerCase());
+      String(item.customerName || '').toLowerCase().includes(search.toLowerCase()) ||
+      String(item.product || '').toLowerCase().includes(search.toLowerCase())      ||
+      String(item.id || '').toLowerCase().includes(search.toLowerCase());
     return matchesFilter && matchesSearch;
   });
 
   const monthlyData = MONTHS.map((month, i) => {
-    const monthSales = sales.filter((s) => {
+    const monthSales = dataSource.filter((s) => {
       const d = new Date(s.date);
-      return d.getMonth() === i && s.status === "completed";
+      return d.getMonth() === i && normalizeStatus(s.status) === 'paid';
     });
     return {
       month,
-      revenue: parseFloat(monthSales.reduce((sum, s) => sum + s.finalAmount, 0).toFixed(2)),
+      revenue: parseFloat(monthSales.reduce((sum, s) => sum + (Number(s.finalAmount) || 0), 0).toFixed(2)),
       count: monthSales.length,
     };
   }).filter((d) => d.revenue > 0);
 
   const yearlyMap = {};
-  sales.forEach((s) => {
+  dataSource.forEach((s) => {
     const year = String(new Date(s.date).getFullYear());
     if (!yearlyMap[year]) yearlyMap[year] = { revenue: 0, count: 0 };
-    if (s.status === "completed") {
-      yearlyMap[year].revenue = parseFloat((yearlyMap[year].revenue + s.finalAmount).toFixed(2));
+    if (normalizeStatus(s.status) === 'paid') {
+      yearlyMap[year].revenue = parseFloat((yearlyMap[year].revenue + (Number(s.finalAmount) || 0)).toFixed(2));
       yearlyMap[year].count += 1;
     }
   });
@@ -83,36 +207,47 @@ const Sales = () => {
     .sort(([a], [b]) => Number(a) - Number(b))
     .map(([year, d]) => ({ year, revenue: d.revenue, count: d.count }));
 
+  const statusCounts = dataSource.reduce((acc, s) => {
+    const st = normalizeStatus(s.status);
+    acc[st] = (acc[st] || 0) + 1;
+    return acc;
+  }, {});
+
   const statusData = [
-    { name: t("sales.status.completed"), value: sales.filter((s) => s.status === "completed").length },
-    { name: t("sales.status.refunded"),  value: sales.filter((s) => s.status === "refunded").length  },
-    { name: t("sales.status.cancelled"), value: sales.filter((s) => s.status === "cancelled").length },
-    { name: t("sales.status.pending"),   value: sales.filter((s) => s.status === "pending").length   },
+    { name: t("sales.status.paid") || 'Paid',    value: statusCounts.paid || 0 },
+    { name: t("sales.status.unpaid") || 'Unpaid',  value: statusCounts.unpaid || 0 },
+    { name: t("sales.status.cancelled") || 'Cancelled', value: statusCounts.cancelled || 0 },
   ].filter((d) => d.value > 0);
 
   const productMap = {};
-  sales.forEach((s) => {
-    if (!productMap[s.product]) {
-      productMap[s.product] = { name: s.product, revenue: 0, count: 0, months: new Set() };
+  dataSource.forEach((s) => {
+    const pname = s.product || 'Unknown Product';
+    if (!productMap[pname]) {
+      productMap[pname] = { name: pname, revenue: 0, count: 0, months: new Set() };
     }
-    if (s.status === "completed") {
-      productMap[s.product].revenue = parseFloat((productMap[s.product].revenue + s.finalAmount).toFixed(2));
-      productMap[s.product].count += 1;
-      productMap[s.product].months.add(new Date(s.date).getMonth());
+    if (normalizeStatus(s.status) === 'paid') {
+      productMap[pname].revenue = parseFloat((productMap[pname].revenue + (Number(s.finalAmount) || 0)).toFixed(2));
+      productMap[pname].count += 1;
+      const m = new Date(s.date).getMonth();
+      if (!isNaN(m)) productMap[pname].months.add(m);
     }
   });
-  const productData = Object.values(productMap)
+  // show only top 5 performing products in the chart
+  const productsArr = Object.values(productMap)
     .filter((p) => p.revenue > 0)
-    .sort((a, b) => b.revenue - a.revenue)
+    .sort((a, b) => b.revenue - a.revenue);
+  const TOP_N = 5;
+  const productData = productsArr
+    .slice(0, Math.min(TOP_N, productsArr.length))
     .map((p) => ({
       ...p,
       monthCount: p.months.size,
       shortName: p.name.length > 12 ? p.name.slice(0, 12) + "…" : p.name,
     }));
 
-  const totalRevenue = sales
-    .filter((s) => s.status === "completed")
-    .reduce((sum, s) => sum + s.finalAmount, 0);
+  const totalRevenue = dataSource
+    .filter((s) => normalizeStatus(s.status) === 'paid')
+    .reduce((sum, s) => sum + (Number(s.finalAmount) || 0), 0);
 
   const chartTabs = [
     { key: "monthly",  label: t("sales.charts.monthly")  },
@@ -121,7 +256,7 @@ const Sales = () => {
     { key: "products", label: t("sales.charts.products") },
   ];
 
-  const filterTabs = ["all", "completed", "refunded", "cancelled"];
+  const filterTabs = ["all", "paid", "unpaid", "cancelled"];
 
   return (
     <>
@@ -130,7 +265,7 @@ const Sales = () => {
 
         {/* Header */}
         <div className="sales-header">
-          <button className="back-btn" onClick={() => navigate("/")}>
+          <button className="back-btn" onClick={() => navigate("/")}> 
             <FiArrowLeft size={20} />
           </button>
           <h2 className="sales-title">{t("sales.title")}</h2>
@@ -161,7 +296,7 @@ const Sales = () => {
               {activeChart === "status"   && <p className="chart-title">{t("sales.charts.byStatus")}</p>}
               {activeChart === "products" && <p className="chart-title">{t("sales.charts.byProduct")}</p>}
               <p className="chart-total">
-                ${totalRevenue.toLocaleString(undefined, { maximumFractionDigits: 0 })}
+                Rs.{totalRevenue.toLocaleString(undefined, { maximumFractionDigits: 0 })}
               </p>
             </div>
             {activeChart === "monthly"  && <p className="chart-sub">{t("sales.charts.completedSales")}</p>}
@@ -172,7 +307,7 @@ const Sales = () => {
                   : t("sales.charts.yearsOfData_other", { count: yearlyData.length })}
               </p>
             )}
-            {activeChart === "status"   && <p className="chart-sub">{t("sales.charts.totalSales",   { count: sales.length })}</p>}
+            {activeChart === "status"   && <p className="chart-sub">{t("sales.charts.totalSales",   { count: dataSource.length })}</p>}
             {activeChart === "products" && <p className="chart-sub">{t("sales.charts.productsSold", { count: productData.length })}</p>}
           </div>
 
@@ -183,7 +318,7 @@ const Sales = () => {
                 <CartesianGrid strokeDasharray="3 3" stroke="#f0f0f0" />
                 <XAxis dataKey="month" tick={{ fontSize: 11 }} />
                 <YAxis tick={{ fontSize: 11 }} tickFormatter={(val) => val >= 1000 ? (val / 1000).toFixed(0) + "k" : val} />
-                <Tooltip formatter={(val) => [`$${val.toLocaleString()}`, t("sales.charts.revenue")]} contentStyle={{ borderRadius: 10, fontSize: 12 }} />
+                <Tooltip formatter={(val) => [`Rs.${val.toLocaleString()}`, t("sales.charts.revenue")]} contentStyle={{ borderRadius: 10, fontSize: 12 }} />
                 <Bar dataKey="revenue" fill="#667eea" radius={[6, 6, 0, 0]}>
                   <LabelList content={<BarTopLabel />} position="top" />
                 </Bar>
@@ -255,7 +390,7 @@ const Sales = () => {
                       const label = p.revenue >= 1000 ? (p.revenue / 1000).toFixed(1) + "k" : p.revenue;
                       return (
                         <text x={x + width / 2} y={y - 5} fill="#667eea" textAnchor="middle" fontSize={10} fontWeight={600}>
-                          ${label}
+                          Rs.{label}
                         </text>
                       );
                     }}
@@ -291,11 +426,11 @@ const Sales = () => {
                   </div>
                   <div>
                     <p className="sale-customer">{item.customerName}</p>
-                    <p className="sale-id">{item.id}</p>
+                    <p className="sale-id">{String(item.id).split('#')[0]}</p>
                   </div>
                 </div>
-                <span className={`sale-badge ${item.status}`}>
-                  {t(`sales.status.${item.status}`)}
+                <span className={`sale-badge ${normalizeStatus(item.status)}`}>
+                  {t(`sales.status.${normalizeStatus(item.status)}`) || normalizeStatus(item.status)}
                 </span>
               </div>
               <div className="sale-divider" />
@@ -303,12 +438,11 @@ const Sales = () => {
                 <p className="sale-product-name">{item.product}</p>
                 <p className="sale-final-amount">
                   {CURRENCY_SYMBOLS[item.currency] || item.currency + " "}
-                  {item.finalAmount.toLocaleString()}
+                  {Number(item.finalAmount || 0).toLocaleString()}
                 </p>
               </div>
               <div className="sale-bottom">
-                <p className="sale-date">{item.date}</p>
-                <p className="sale-payment">{item.paymentMethod}</p>
+                <p className="sale-date">{formatDate(item.date)}</p>
               </div>
             </div>
           ))}

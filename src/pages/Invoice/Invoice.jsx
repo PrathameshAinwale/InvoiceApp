@@ -194,10 +194,11 @@ const Invoice = () => {
             type="text"
             placeholder="Search by customer or invoice no..."
             value={search}
+            className="search-field"
             onChange={(e) => setSearch(e.target.value)}
             style={{
               width: "100%", padding: "10px 14px", borderRadius: "10px",
-              border: "1.5px solid #e0e0e0", fontSize: "14px", "margin-top":"16px",
+              border: "1.5px solid #e0e0e0", fontSize: "14px", "margin-top":"16px", 
               outline: "none", boxSizing: "border-box",
             }}
           />

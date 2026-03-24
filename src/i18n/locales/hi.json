@@ -227,86 +227,76 @@
     "sharing": "शेयर हो रहा है...",
     "shareInvoice": "चालान शेयर करें",
     "download": "डाउनलोड करें",
-    "saving": "सहेजा जा रहा है...",
-    "status": {
-      "paid": "भुगतान किया",
-      "unpaid": "अवैतनिक",
-      "followup": "फ़ॉलो अप"
-    }
+  "saving": "सहेजा जा रहा है...",
+  "status": {
+    "paid": "भुगतान किया",
+    "unpaid": "अवैतनिक",
+    "followup": "फ़ॉलो अप"
+  }
+},
+"productForm": {
+  "addTitle": "प्रोडक्ट जोड़ें",
+  "editTitle": "प्रोडक्ट संपादित करें",
+
+  "productName": "प्रोडक्ट का नाम",
+  "price": "कीमत",
+  "unit": "इकाई",
+  "stock": "मात्रा",
+  "status": "स्थिति",
+  "description": "विवरण",
+
+  "statuses": {
+    "in_stock": "स्टॉक में",
+    "out_of_stock": "स्टॉक में नहीं"
   },
-  "productForm": {
-    "addTitle": "उत्पाद जोड़ें",
-    "editTitle": "उत्पाद संपादित करें",
-    "productName": "उत्पाद का नाम",
-    "category": "श्रेणी",
-    "selectCategory": "श्रेणी चुनें",
-    "price": "कीमत",
-    "unit": "इकाई",
-    "gstRate": "जीएसटी दर",
-    "customGst": "कस्टम जीएसटी % दर्ज करें",
-    "customOption": "कस्टम %",
-    "stock": "स्टॉक मात्रा",
-    "status": "स्थिति",
-    "description": "विवरण (वैकल्पिक)",
-    "successAdd": "उत्पाद सफलतापूर्वक जोड़ा गया!",
-    "successEdit": "उत्पाद सफलतापूर्वक अपडेट किया गया!",
-    "submitAdd": "उत्पाद जोड़ें",
-    "submitEdit": "उत्पाद अपडेट करें",
-    "nameError": "उत्पाद का नाम आवश्यक है",
-    "categoryError": "श्रेणी आवश्यक है",
-    "priceError": "कीमत आवश्यक है",
-    "priceNegativeError": "कीमत नकारात्मक नहीं हो सकती",
-    "unitError": "इकाई आवश्यक है",
-    "stockError": "स्टॉक आवश्यक है",
-    "gstError": "जीएसटी दर आवश्यक है",
-    "gstRangeError": "जीएसटी 0 और 100 के बीच होना चाहिए",
-    "categories": {
-      "Design": "डिज़ाइन",
-      "Development": "डेवलपमेंट",
-      "Marketing": "मार्केटिंग",
-      "Content": "कंटेंट"
-    },
-    "statuses": {
-      "active": "सक्रिय",
-      "inactive": "निष्क्रिय"
-    }
-  },
-  "products": {
+
+  "submitAdd": "प्रोडक्ट जोड़ें",
+  "submitEdit": "प्रोडक्ट अपडेट करें",
+  "submitting": "सबमिट हो रहा है...",
+
+  "successAdd": "प्रोडक्ट सफलतापूर्वक जोड़ा गया!",
+  "successEdit": "प्रोडक्ट सफलतापूर्वक अपडेट किया गया!",
+
+  "nameError": "प्रोडक्ट का नाम आवश्यक है",
+  "priceError": "कीमत आवश्यक है",
+  "priceNegativeError": "कीमत नकारात्मक नहीं हो सकती",
+  "stockError": "मात्रा आवश्यक है",
+  "stockNegativeError": "मात्रा नकारात्मक नहीं हो सकती",
+  "unitError": "इकाई आवश्यक है"
+},
+"products": {
     "title": "उत्पाद",
-    "addProduct": "उत्पाद जोड़ें",
-    "productName": "उत्पाद का नाम",
-    "price": "कीमत",
-    "category": "श्रेणी",
-    "stock": "स्टॉक",
     "noProducts": "कोई उत्पाद नहीं मिला",
-    "gst": "जीएसटी",
+
     "summary": {
       "total": "कुल",
-      "active": "सक्रिय",
-      "inactive": "निष्क्रिय"
+      "active": "स्टॉक में",
+      "inactive": "स्टॉक में नहीं"
     },
+
     "actions": {
       "edit": "संपादित करें",
       "delete": "हटाएं"
     },
-    "filter": {
-      "title": "उत्पाद फ़िल्टर करें",
-      "clearAll": "सभी हटाएं",
-      "status": "स्थिति",
-      "productType": "उत्पाद प्रकार",
-      "all": "सभी",
-      "allTypes": "सभी प्रकार",
-      "active": "सक्रिय",
-      "inactive": "निष्क्रिय",
-      "showProducts": "{{count}} उत्पाद दिखाएं",
-      "showProductsPlural": "{{count}} उत्पाद दिखाएं"
-    },
+
     "status": {
-      "active": "सक्रिय",
-      "inactive": "निष्क्रिय"
-    }
+      "in_stock": "स्टॉक में",
+      "out_of_stock": "स्टॉक में नहीं"
+    },
+
+  "filter": {
+    "title": "उत्पाद फ़िल्टर करें",
+    "clearAll": "सभी हटाएं",
+    "status": "स्थिति",
+    "all": "सभी",
+    "showProducts": "{{count}} उत्पाद दिखाएं",
+    "showProductsPlural": "{{count}} उत्पाद दिखाएं"
   },
-  "profile": {
+  "deleteConfirm": "क्या आप इस उत्पाद को हटाना चाहते हैं?",
+  "deleteError": "उत्पाद हटाने में विफल",
+  "networkError": "नेटवर्क त्रुटि। उत्पाद लोड नहीं हो सके"
+},
+"profile": {
     "yourName": "आपका नाम",
     "heading": "आपकी प्रोफ़ाइल",
     "edit": "संपादित करें",

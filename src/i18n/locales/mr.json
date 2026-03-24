@@ -234,79 +234,73 @@
       "followup": "फॉलो अप"
     }
   },
-  "productForm": {
-    "addTitle": "उत्पाद जोडा",
-    "editTitle": "उत्पाद संपादित करा",
-    "productName": "उत्पादाचे नाव",
-    "category": "श्रेणी",
-    "selectCategory": "श्रेणी निवडा",
-    "price": "किंमत",
-    "unit": "एकक",
-    "gstRate": "जीएसटी दर",
-    "customGst": "कस्टम जीएसटी % प्रविष्ट करा",
-    "customOption": "कस्टम %",
-    "stock": "साठा प्रमाण",
+"productForm": {
+  "addTitle": "उत्पादन जोडा",
+  "editTitle": "उत्पादन संपादित करा",
+
+  "productName": "उत्पादनाचे नाव",
+  "price": "किंमत",
+  "unit": "एकक",
+  "stock": "प्रमाण",
+  "status": "स्थिती",
+  "description": "वर्णन",
+
+  "statuses": {
+    "in_stock": "स्टॉकमध्ये",
+    "out_of_stock": "स्टॉकमध्ये नाही"
+  },
+
+  "submitAdd": "उत्पादन जोडा",
+  "submitEdit": "उत्पादन अपडेट करा",
+  "submitting": "सबमिट करत आहे...",
+
+  "successAdd": "उत्पादन यशस्वीरित्या जोडले गेले!",
+  "successEdit": "उत्पादन यशस्वीरित्या अपडेट झाले!",
+
+  "nameError": "उत्पादनाचे नाव आवश्यक आहे",
+  "priceError": "किंमत आवश्यक आहे",
+  "priceNegativeError": "किंमत निगेटिव्ह असू शकत नाही",
+  "stockError": "प्रमाण आवश्यक आहे",
+  "stockNegativeError": "प्रमाण निगेटिव्ह असू शकत नाही",
+  "unitError": "एकक आवश्यक आहे"
+},
+"products": {
+  "title": "उत्पादने",
+  "noProducts": "कोणतेही उत्पादन सापडले नाही",
+
+  "summary": {
+    "total": "एकूण",
+    "active": "स्टॉकमध्ये",
+    "inactive": "स्टॉकमध्ये नाही"
+  },
+
+  "actions": {
+    "edit": "संपादित करा",
+    "delete": "हटवा"
+  },
+
+  "status": {
+    "in_stock": "स्टॉकमध्ये",
+    "out_of_stock": "स्टॉकमध्ये नाही"
+  },
+
+  "filter": {
+    "title": "उत्पादने फिल्टर करा",
+    "clearAll": "सर्व हटवा",
     "status": "स्थिती",
-    "description": "वर्णन (ऐच्छिक)",
-    "successAdd": "उत्पाद यशस्वीरित्या जोडले गेले!",
-    "successEdit": "उत्पाद यशस्वीरित्या अपडेट केले गेले!",
-    "submitAdd": "उत्पाद जोडा",
-    "submitEdit": "उत्पाद अपडेट करा",
-    "nameError": "उत्पादाचे नाव आवश्यक आहे",
-    "categoryError": "श्रेणी आवश्यक आहे",
-    "priceError": "किंमत आवश्यक आहे",
-    "priceNegativeError": "किंमत नकारात्मक असू शकत नाही",
-    "unitError": "एकक आवश्यक आहे",
-    "stockError": "साठा आवश्यक आहे",
-    "gstError": "जीएसटी दर आवश्यक आहे",
-    "gstRangeError": "जीएसटी 0 ते 100 दरम्यान असणे आवश्यक आहे",
-    "categories": {
-      "Design": "डिझाइन",
-      "Development": "डेव्हलपमेंट",
-      "Marketing": "मार्केटिंग",
-      "Content": "कंटेंट"
-    },
-    "statuses": {
-      "active": "सक्रिय",
-      "inactive": "निष्क्रिय"
-    }
+    "all": "सर्व",
+    "showProducts": "{{count}} उत्पादन दाखवा",
+    "showProductsPlural": "{{count}} उत्पादने दाखवा"
   },
-  "products": {
-    "title": "उत्पादने",
-    "addProduct": "उत्पाद जोडा",
-    "productName": "उत्पादाचे नाव",
-    "price": "किंमत",
-    "category": "श्रेणी",
-    "stock": "साठा",
-    "noProducts": "कोणतेही उत्पादन सापडले नाही",
-    "gst": "जीएसटी",
-    "summary": {
-      "total": "एकूण",
-      "active": "सक्रिय",
-      "inactive": "निष्क्रिय"
-    },
-    "actions": {
-      "edit": "संपादित करा",
-      "delete": "हटवा"
-    },
-    "filter": {
-      "title": "उत्पादने फिल्टर करा",
-      "clearAll": "सर्व हटवा",
-      "status": "स्थिती",
-      "productType": "उत्पाद प्रकार",
-      "all": "सर्व",
-      "allTypes": "सर्व प्रकार",
-      "active": "सक्रिय",
-      "inactive": "निष्क्रिय",
-      "showProducts": "{{count}} उत्पाद दाखवा",
-      "showProductsPlural": "{{count}} उत्पादने दाखवा"
-    },
-    "status": {
-      "active": "सक्रिय",
-      "inactive": "निष्क्रिय"
-    }
-  },
-  "profile": {
+
+  "common": {
+    "loading": "लोड होत आहे...",
+    "deleteConfirm": "तुम्हाला हे उत्पादन हटवायचे आहे का?",
+    "deleteError": "उत्पादन हटवण्यात अयशस्वी",
+    "networkError": "नेटवर्क त्रुटी. उत्पादने लोड करता आली नाहीत"
+  }
+},
+"profile": {
     "yourName": "तुमचे नाव",
     "heading": "तुमची प्रोफाइल",
     "edit": "संपादित करा",

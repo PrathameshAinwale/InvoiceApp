@@ -242,11 +242,15 @@
   border-radius: 20px;
   text-transform: capitalize;
 }
+.search-field{
+  background-color: var(--bg-card);
+  color: var(--text-primary);
+}
 
-.inv-badge.paid    { color: gainsboro; }  /* was: #e6f4ea / #2e7d32 */
-.inv-badge.pending { color: gainsboro; }  /* was: #fff8e1 / #f57f17 */
-.inv-badge.overdue {color: gainsboro; }  /* was: #fce4ec / #c62828 */
-.inv-badge.draft   { color:gainsboro; }  /* was: #e8f0fe / #1565c0 */
+.inv-badge.paid    { color: rgb(130,130,130); }  /* was: #e6f4ea / #2e7d32 */
+.inv-badge.pending { color: rgb(130,130,130); }  /* was: #fff8e1 / #f57f17 */
+.inv-badge.overdue {color: rgb(130,130,130); }  /* was: #fce4ec / #c62828 */
+.inv-badge.draft   { color:rgb(130,130,130)sbo; }  /* was: #e8f0fe / #1565c0 */
 
 /* Empty */
 .empty-state {

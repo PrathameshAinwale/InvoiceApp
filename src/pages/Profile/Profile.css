@@ -11,6 +11,42 @@
   padding-top: 0;
 }
 
+/* Fixed top-right action toolbar */
+.profile-top-actions {
+  position: fixed;
+  top: 12px;
+  right: 16px;
+  z-index: 9999; /* keep actions above the avatar */
+  display: flex;
+  flex-direction: column-reverse;
+  gap: 8px;
+  align-items: center;
+}
+
+.profile-action-btn {
+  background: linear-gradient(135deg, #667eea, #764ba2);
+  color: #fff;
+  border: none;
+  border-radius: 8px;
+  padding: 8px 14px;
+  font-weight: 600;
+  font-size: 13px;
+  cursor: pointer;
+  box-shadow: 0 2px 8px rgba(102,126,234,0.35);
+  margin-left: auto;
+}
+
+.profile-action-outline {
+  background: transparent;
+  color: var(--accent);
+  border: 1.5px solid var(--accent);
+  border-radius: 8px;
+  padding: 8px 12px;
+  font-weight: 600;
+  font-size: 13px;
+  cursor: pointer;
+}
+
 /* ── Avatar ── */
 .profile-avatar-section {
   display: flex;
@@ -23,6 +59,7 @@
   position: relative;
   width: 90px;
   height: 90px;
+  z-index: 1; /* keep avatar underneath the fixed action toolbar */
 }
 
 .profile-avatar-img {

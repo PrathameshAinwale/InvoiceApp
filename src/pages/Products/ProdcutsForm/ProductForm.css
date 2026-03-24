@@ -254,6 +254,7 @@
 .status-options {
   display: flex;
   gap: 10px;
+  flex-direction: row !important;
 }
 
 .status-option-btn {

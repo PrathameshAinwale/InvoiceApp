@@ -5,14 +5,14 @@ import { useTranslation } from 'react-i18next';
 import jsPDF from 'jspdf';
 import QRCode from 'qrcode';
 import { Filesystem, Directory } from '@capacitor/filesystem';
-import { Share } from '@capacitor/share';
+import { FaWhatsapp } from "react-icons/fa";
 import { Capacitor } from '@capacitor/core';
 import './PreviewInvoice.css';
 import { numberToWords } from '../../utils/numberToWords';
 import API from '../../api/api';
 
 const CURRENCY_SYMBOLS = {
-  USD: "$", EUR: "€", GBP: "£", INR: "₹",
+  USD: "$", EUR: "€", GBP: "£", INR: "Rs.",
   JPY: "¥", AUD: "A$", CAD: "C$", SGD: "S$",
 };
 
@@ -359,36 +359,56 @@ const InvoicePreview = () => {
   };
 
   const handleShare = async () => {
+    // New behavior: open WhatsApp web with customer's phone and invoice details
     setSharing(true);
     try {
-      const doc      = await generatePDF();
-      const filename = `Invoice-${invoice.invoice_number}.pdf`;
-      if (Capacitor.isNativePlatform()) {
-        const fileUri = await savePDFToDevice(doc, filename);
-        await Share.share({
-          title: `Invoice ${invoice.invoice_number}`,
-          text:  `Invoice from ${invoice.customer_name}`,
-          url: fileUri, dialogTitle: 'Share Invoice',
-        });
-      } else {
-        const blob = doc.output('blob');
-        const file = new File([blob], filename, { type: 'application/pdf' });
-        if (navigator.canShare && navigator.canShare({ files: [file] })) {
-          await navigator.share({
-            title: `Invoice ${invoice.invoice_number}`,
-            text:  `Invoice from ${invoice.customer_name}`,
-            files: [file],
-          });
-        } else {
-          doc.save(filename);
-          alert('Sharing not supported. PDF downloaded instead.');
+      // 1) fetch customer phone from backend (customers/:id)
+      let phone = null;
+      if (invoice.customer_id) {
+        try {
+          const resp = await API.get(`/customers/${invoice.customer_id}`);
+          phone = resp.data?.customer?.phone || null;
+        } catch (e) {
+          console.warn('Failed to fetch customer phone:', e?.response || e.message || e);
         }
       }
-    } catch (err) {
-      if (err.name !== 'AbortError') {
-        console.error('Share failed:', err);
-        alert('Share failed: ' + err.message);
+
+      if (!phone) {
+        alert('Customer phone number not found.');
+        return;
       }
+
+      // normalize phone (digits only, WhatsApp expects country code, no +)
+      phone = String(phone).replace(/\D/g, '');
+      if (!phone) {
+        alert('Invalid customer phone number.');
+        return;
+      }
+
+      // 2) build message text with invoice date, amount and items
+      const dateStr = invoice.invoice_date ? new Date(invoice.invoice_date).toLocaleDateString() : '';
+      let message = `Hi ${invoice.customer_name || ''},\n`;
+      message += `Your invoice ${invoice.invoice_number || invoice.id}\n`;
+      message += `Date: ${dateStr}\n`;
+      message += `Amount: ${symbol}${grand.toFixed(2)}\n\n`;
+      message += `Items:\n`;
+      (items || []).forEach((it) => {
+        const name = it.product_name || it.name || 'Item';
+        const qty  = it.quantity || 1;
+        // Use stored total from DB; avoid showing price calculation like "2000 = 2360"
+        const total = Number(it.total || 0).toFixed(2);
+        message += `- ${name} x ${qty} = ${symbol}${total}\n`;
+      });
+      message += `\nThank you!`;
+
+      // 3) open WhatsApp web URL
+      const encoded = encodeURIComponent(message);
+      const waUrl = `https://api.whatsapp.com/send/?phone=${phone}&text=${encoded}`;
+      window.open(waUrl, '_blank');
+
+    } catch (err) {
+      console.error('WhatsApp share failed:', err);
+      alert('Failed to open WhatsApp: ' + (err?.message || err));
     } finally {
       setSharing(false);
     }
@@ -516,7 +536,7 @@ const InvoicePreview = () => {
           // Paid — only share & download
           <div className="ip-bottom-btns">
             <button className="ip-share-btn" onClick={handleShare} disabled={sharing}>
-              <FiShare2 size={18} />
+              <FaWhatsapp size={18} />
               {sharing ? t("previewInvoice.sharing") : t("previewInvoice.shareInvoice")}
             </button>
             <button className="ip-download-btn" onClick={handleDownload} disabled={downloading}>
@@ -527,40 +547,8 @@ const InvoicePreview = () => {
         ) : (
           // Unpaid or Followup — show all action buttons
           <div className="ip-three-btns">
-            {/* ✅ Mark as Paid */}
-            <button className="ip-paid-btn" onClick={() => updateStatus('paid')}>
-              ✅ {t("previewInvoice.markPaid")}
-            </button>
-            {/* ✅ Mark as Follow Up — only if not already followup */}
-            {status !== 'followup' && (
-              <button
-                onClick={() => updateStatus('followup')}
-                style={{
-                  flex: 1, padding: "12px", borderRadius: "10px",
-                  border: "none", background: "#6a1b9a",
-                  color: "#fff", fontWeight: 600,
-                  fontSize: "14px", cursor: "pointer",
-                }}
-              >
-                📌 {t("previewInvoice.markFollowup") || "Follow Up"}
-              </button>
-            )}
-            {/* ✅ Mark as Unpaid — only if currently followup */}
-            {status === 'followup' && (
-              <button
-                onClick={() => updateStatus('unpaid')}
-                style={{
-                  flex: 1, padding: "12px", borderRadius: "10px",
-                  border: "none", background: "#f57f17",
-                  color: "#fff", fontWeight: 600,
-                  fontSize: "14px", cursor: "pointer",
-                }}
-              >
-                🔄 {t("previewInvoice.markUnpaid") || "Mark Unpaid"}
-              </button>
-            )}
             <button className="ip-share-btn" onClick={handleShare} disabled={sharing}>
-              <FiShare2 size={18} />
+              <FaWhatsapp size={18} />
               {sharing ? t("previewInvoice.sharing") : t("previewInvoice.share")}
             </button>
             <button className="ip-download-btn" onClick={handleDownload} disabled={downloading}>

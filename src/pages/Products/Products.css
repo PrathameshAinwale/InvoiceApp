@@ -223,6 +223,7 @@
   font-weight: 700;
   padding: 2px 6px;
   border-radius: 12px;
+  color: rgb(154, 154, 154);
   text-transform: uppercase;
 }
 .product-status-badge.active { 
@@ -257,7 +258,9 @@
   background: color-mix(in srgb, var(--accent) 15%, transparent);  /* was: #e8f0fe */
   border: none;
   border-radius: 8px;
-  width: 55px;
+  padding: 10px;
+  width: max-content;
+  min-width: 60px;
   height: 28px;
   display: flex;
   align-items: center;

@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import { FiArrowLeft, FiPlus, FiTrash2 } from "react-icons/fi";
 import "./CreateInvoice.css";
@@ -20,7 +20,7 @@ const resolveGst = (val) => {
   if (val === null || val === undefined || val === "") return 18;
   const parsed = parseFloat(val);
   if (isNaN(parsed)) return 18;
-  return parsed; // returns 0 only if user explicitly chose 0%
+  return parsed;
 };
 
 const CreateInvoice = () => {
@@ -33,10 +33,23 @@ const CreateInvoice = () => {
     customerName: "", invoiceDate: "",
     currency: "INR", notes: "",
   });
-  const [products, setProducts]     = useState([{ ...emptyProduct }]);
-  const [errors, setErrors]         = useState({});
-  const [loading, setLoading]       = useState(false);
-  const [currencies, setCurrencies] = useState([]);
+  const [products, setProducts]         = useState([{ ...emptyProduct }]);
+  const [errors, setErrors]             = useState({});
+  const [loading, setLoading]           = useState(false);
+  const [currencies, setCurrencies]     = useState([]);
+
+  // ── Product suggestions state ─────────────────────────────────────
+  const [dbProducts, setDbProducts]     = useState([]);   // all products from DB
+  const [suggestions, setSuggestions]   = useState([]);   // filtered suggestions
+  const [activeIndex, setActiveIndex]   = useState(null); // which product row is typing
+  const suggestionsRef                  = useRef([]);
+
+  // ── Fetch all DB products once on mount ───────────────────────────
+  useEffect(() => {
+    API.get("/products")
+      .then((res) => { if (res.data.success) setDbProducts(res.data.data); })
+      .catch(() => console.error("Failed to load products for suggestions"));
+  }, []);
 
   useEffect(() => {
     fetch("https://api.frankfurter.dev/v1/currencies")
@@ -55,10 +68,10 @@ const CreateInvoice = () => {
         const res = await API.get(`/invoices/${id}`);
         const inv = res.data.invoice;
         setFormData({
-          customerName: inv.customer_name            || "",
+          customerName: inv.customer_name               || "",
           invoiceDate:  inv.invoice_date?.split("T")[0] || "",
-          currency:     inv.currency                 || "INR",
-          notes:        inv.additional_notes         || "",
+          currency:     inv.currency                    || "INR",
+          notes:        inv.additional_notes            || "",
         });
         setProducts(inv.items.map((item) => ({
           productName: item.product_name || "",
@@ -80,10 +93,42 @@ const CreateInvoice = () => {
     setErrors({ ...errors, [e.target.name]: "" });
   };
 
+  // ── Product name change — show suggestions ────────────────────────
   const handleProductChange = (index, e) => {
+    const { name, value } = e.target;
     const updated = [...products];
-    updated[index][e.target.name] = e.target.value;
+    updated[index][name] = value;
     setProducts(updated);
+    setErrors({ ...errors, [`${name}_${index}`]: "" });
+
+    if (name === "productName") {
+      if (value.trim().length > 0) {
+        const filtered = dbProducts.filter((p) =>
+          p.name.toLowerCase().includes(value.toLowerCase())
+        );
+        setSuggestions(filtered);
+        setActiveIndex(index);
+      } else {
+        setSuggestions([]);
+        setActiveIndex(null);
+      }
+    }
+  };
+
+  // ── Select a suggestion — autofill price and unit ─────────────────
+  const handleSelectSuggestion = (index, dbProduct) => {
+    const updated = [...products];
+    updated[index].productName = dbProduct.name;
+    updated[index].price       = dbProduct.price;
+    updated[index].unit        = dbProduct.unit || "pcs";
+    setProducts(updated);
+    setSuggestions([]);
+    setActiveIndex(null);
+  };
+
+  const closeSuggestions = () => {
+    setSuggestions([]);
+    setActiveIndex(null);
   };
 
   const addProduct    = () => setProducts([...products, { ...emptyProduct }]);
@@ -105,18 +150,15 @@ const CreateInvoice = () => {
   const subtotal = products.reduce(
     (sum, p) => sum + (parseFloat(p.quantity) || 0) * (parseFloat(p.price) || 0), 0
   );
-
   const totalDiscount = products.reduce((sum, p) => {
     const base = (parseFloat(p.quantity) || 0) * (parseFloat(p.price) || 0);
     return sum + (base * (parseFloat(p.discount) || 0)) / 100;
   }, 0);
-
   const totalGST = products.reduce((sum, p) => {
     const base          = (parseFloat(p.quantity) || 0) * (parseFloat(p.price) || 0);
     const afterDiscount = base - (base * (parseFloat(p.discount) || 0)) / 100;
     return sum + (afterDiscount * resolveGst(p.gst)) / 100;
   }, 0);
-
   const grandTotal = products.reduce((sum, p) => sum + calcProductTotal(p), 0);
   const symbol     = CURRENCY_SYMBOLS[formData.currency] || formData.currency + " ";
 
@@ -152,15 +194,15 @@ const CreateInvoice = () => {
       additional_notes: formData.notes || null,
       subtotal:         parseFloat(subtotal.toFixed(2)),
       total_discount:   parseFloat(totalDiscount.toFixed(2)),
-      gst:              resolveGst(products[0]?.gst), // ✅ invoice-level gst not used — stored as % per item
-      grand_total:      parseFloat(grandTotal.toFixed(2)), // ✅ final calculated total
+      gst:              resolveGst(products[0]?.gst),
+      grand_total:      parseFloat(grandTotal.toFixed(2)),
       items: products.map((p) => ({
         product_name: p.productName,
         quantity:     parseFloat(p.quantity),
         unit:         p.unit,
         price:        parseFloat(p.price),
         discount:     parseFloat(p.discount) || 0,
-        gst:          resolveGst(p.gst),   // ✅ stores % e.g. 18
+        gst:          resolveGst(p.gst),
         total:        parseFloat(calcProductTotal(p).toFixed(2)),
       })),
     };
@@ -170,19 +212,19 @@ const CreateInvoice = () => {
       if (isEdit) {
         await API.put(`/invoices/${id}`, payload);
       } else {
-        await API.post('/invoices', payload);
+        await API.post("/invoices", payload);
       }
       setLoading(false);
-      navigate('/invoice');
+      navigate("/invoice");
     } catch (err) {
       setLoading(false);
-      setErrors({ general: err.response?.data?.message || 'Something went wrong. Please try again.' });
+      setErrors({ general: err.response?.data?.message || "Something went wrong. Please try again." });
     }
   };
 
   return (
     <>
-      <div className="ci-page">
+      <div className="ci-page" onClick={closeSuggestions}>
         <div className="ci-header">
           <button className="back-btn" onClick={() => navigate(-1)}>
             <FiArrowLeft size={20} />
@@ -250,7 +292,8 @@ const CreateInvoice = () => {
                   )}
                 </div>
 
-                <div className="form-field">
+                {/* Product Name with Autocomplete */}
+                <div className="form-field" style={{ position: "relative" }}>
                   <label className="form-label product-label">{t("createInvoice.productName")}</label>
                   <input
                     className={`form-input ${errors[`productName_${index}`] ? "input-error" : ""}`}
@@ -258,8 +301,45 @@ const CreateInvoice = () => {
                     placeholder={t("createInvoice.productNamePlaceholder")}
                     value={product.productName}
                     onChange={(e) => handleProductChange(index, e)}
+                    onClick={(e) => e.stopPropagation()}
+                    autoComplete="off"
                   />
                   {errors[`productName_${index}`] && <p className="field-error">{errors[`productName_${index}`]}</p>}
+
+                  {/* Suggestions Dropdown */}
+                  {activeIndex === index && suggestions.length > 0 && (
+                    <ul
+                      className="product-suggestions"
+                      onClick={(e) => e.stopPropagation()}
+                      style={{
+                        position: "absolute", top: "100%", left: 0, right: 0,
+                        background: "#fff", border: "1px solid #e2e8f0",
+                        borderRadius: "8px", boxShadow: "0 4px 16px rgba(0,0,0,0.10)",
+                        zIndex: 100, margin: 0, padding: 0, listStyle: "none",
+                        maxHeight: "180px", overflowY: "auto",
+                      }}
+                    >
+                      {suggestions.map((s) => (
+                        <li
+                          key={s.id}
+                          onClick={() => handleSelectSuggestion(index, s)}
+                          style={{
+                            padding: "10px 14px", cursor: "pointer",
+                            borderBottom: "1px solid #f1f5f9",
+                            display: "flex", justifyContent: "space-between",
+                            alignItems: "center", fontSize: "14px",
+                          }}
+                          onMouseEnter={(e) => e.currentTarget.style.background = "#f8faff"}
+                          onMouseLeave={(e) => e.currentTarget.style.background = "#fff"}
+                        >
+                          <span style={{ fontWeight: 500 }}>{s.name}</span>
+                          <span style={{ color: "#667eea", fontWeight: 600, fontSize: "13px" }}>
+                            ₹{Number(s.price).toLocaleString()} / {s.unit}
+                          </span>
+                        </li>
+                      ))}
+                    </ul>
+                  )}
                 </div>
 
                 <div className="ci-row">

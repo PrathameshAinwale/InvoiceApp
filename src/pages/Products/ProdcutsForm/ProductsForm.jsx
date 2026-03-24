@@ -1,85 +1,127 @@
 import React, { useState, useEffect } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import { FiArrowLeft } from "react-icons/fi";
-import { MdOutlineInventory2 } from "react-icons/md";
+import { MdOutlineInventory2, MdOutlineNumbers } from "react-icons/md";
 import { BsTag } from "react-icons/bs";
-import { MdOutlineNumbers } from "react-icons/md";
-import { MdOutlineCategory } from "react-icons/md";
 import { MdCurrencyRupee } from "react-icons/md";
-import { MdOutlinePercent } from "react-icons/md";
 import { useTranslation } from "react-i18next";
-import products from "../../../data/products.json";
 import "./ProductForm.css";
 import TopNav from "../../../components/common/TopNav";
 
-const units      = ["pcs", "kg", "gm", "ltr", "ml", "hr", "box", "set"];
-const categories = ["Design", "Development", "Marketing", "Content"];
-const statuses   = ["active", "inactive"];
+const units    = ["pcs", "kg", "gm", "ltr", "ml", "hr", "box", "set"];
+const statuses = ["in_stock", "out_of_stock"];
 
 const emptyForm = {
-  name: "", category: "", price: "",
-  unit: "pcs", gst: "18", stock: "",
-  status: "active", description: "",
+  name:        "",
+  price:       "",
+  quantity:    "",
+  unit:        "pcs",
+  status:      "in_stock",
+  description: "",
 };
 
+const BASE_URL = "http://localhost:5000/api"; // change to your backend URL
+
 const ProductForm = () => {
-  const navigate = useNavigate();
-  const { id }   = useParams();
-  const isEdit   = Boolean(id);
-  const { t }    = useTranslation();
+  const navigate  = useNavigate();
+  const { id }    = useParams();
+  const isEdit    = Boolean(id);
+  const { t }     = useTranslation();
 
   const [formData, setFormData] = useState(emptyForm);
-  const [errors, setErrors]     = useState({});
-  const [success, setSuccess]   = useState(false);
+  const [errors,   setErrors]   = useState({});
+  const [success,  setSuccess]  = useState(false);
+  const [loading,  setLoading]  = useState(false);
+  const [apiError, setApiError] = useState("");
 
+  // ── Fetch existing product when editing ──────────────────────────
   useEffect(() => {
     if (isEdit) {
-      const existing = products.find((p) => p.id === id);
-      if (existing) {
-        setFormData({
-          name:        existing.name,
-          category:    existing.category,
-          price:       existing.price,
-          unit:        existing.unit,
-          gst:         String(existing.gst),
-          stock:       existing.stock,
-          status:      existing.status,
-          description: existing.description || "",
-        });
-      }
+      fetch(`${BASE_URL}/products/${id}`)
+        .then((res) => res.json())
+        .then((data) => {
+          if (data.success) {
+            const p = data.data;
+            setFormData({
+              name:        p.name,
+              price:       p.price,
+              quantity:    p.quantity,
+              unit:        p.unit        || "pcs",
+              status:      p.status      || "in_stock",
+              description: p.description || "",
+            });
+          } else {
+            setApiError("Product not found.");
+          }
+        })
+        .catch(() => setApiError("Failed to load product."));
     }
   }, [id, isEdit]);
 
+  // ── Handlers ─────────────────────────────────────────────────────
   const handleChange = (e) => {
     setFormData({ ...formData, [e.target.name]: e.target.value });
     setErrors({  ...errors,   [e.target.name]: "" });
   };
 
+  // ── Validation ───────────────────────────────────────────────────
   const validate = () => {
     const errs = {};
-    if (!formData.name.trim())                errs.name     = t("productForm.nameError");
-    if (!formData.category)                   errs.category = t("productForm.categoryError");
-    if (!formData.price)                      errs.price    = t("productForm.priceError");
-    if (formData.price < 0)                   errs.price    = t("productForm.priceNegativeError");
-    if (!formData.unit)                       errs.unit     = t("productForm.unitError");
-    if (!formData.stock && formData.stock !== 0) errs.stock = t("productForm.stockError");
-    if (!formData.gst && formData.gst !== "0")   errs.gst   = t("productForm.gstError");
-    else if (formData.gst < 0 || formData.gst > 100) errs.gst = t("productForm.gstRangeError");
+    if (!formData.name.trim())                        errs.name     = t("productForm.nameError");
+    if (!formData.price && formData.price !== 0)      errs.price    = t("productForm.priceError");
+    else if (Number(formData.price) < 0)              errs.price    = t("productForm.priceNegativeError");
+    if (!formData.quantity && formData.quantity !== 0) errs.quantity = t("productForm.stockError");
+    else if (Number(formData.quantity) < 0)           errs.quantity = t("productForm.stockNegativeError");
+    if (!formData.unit)                               errs.unit     = t("productForm.unitError");
     return errs;
   };
 
-  const handleSubmit = (e) => {
+  // ── Submit ───────────────────────────────────────────────────────
+  const handleSubmit = async (e) => {
     e.preventDefault();
+    setApiError("");
+
     const validationErrors = validate();
     if (Object.keys(validationErrors).length > 0) {
       setErrors(validationErrors);
       return;
     }
-    console.log(isEdit ? "Updating product:" : "Adding product:", formData);
-    setSuccess(true);
-    setTimeout(() => navigate("/products"), 2000);
+
+    const payload = {
+      name:        formData.name.trim(),
+      price:       Number(formData.price),
+      quantity:    Number(formData.quantity),
+      unit:        formData.unit,
+      status:      formData.status,
+      description: formData.description.trim() || null,
+    };
+
+    setLoading(true);
+    try {
+      const url    = isEdit ? `${BASE_URL}/products/${id}` : `${BASE_URL}/products`;
+      const method = isEdit ? "PUT" : "POST";
+
+      const res  = await fetch(url, {
+        method,
+        headers: { "Content-Type": "application/json" },
+        body:    JSON.stringify(payload),
+      });
+      const data = await res.json();
+
+      if (data.success) {
+        setSuccess(true);
+        setTimeout(() => navigate("/products"), 1000);
+      } else {
+        setApiError(data.message || "Something went wrong.");
+      }
+    } catch (err) {
+      setApiError("Network error. Please try again.");
+    } finally {
+      setLoading(false);
+    }
   };
 
+  // ── Render ───────────────────────────────────────────────────────
   return (
     <>
       <TopNav />
@@ -111,29 +153,6 @@ const ProductForm = () => {
             {errors.name && <p className="field-error">{errors.name}</p>}
           </div>
 
-          {/* Category */}
-          <div className="float-field">
-            <label className="float-label-static">
-              <MdOutlineCategory
-                size={15}
-                style={{ verticalAlign: "middle", marginRight: 6, color: "#667eea" }}
-              />
-              {t("productForm.category")}
-            </label>
-            <select
-              className={`form-select ${errors.category ? "input-error" : ""}`}
-              name="category" value={formData.category} onChange={handleChange}
-            >
-              <option value="">{t("productForm.selectCategory")}</option>
-              {categories.map((cat) => (
-                <option key={cat} value={cat}>
-                  {t(`productForm.categories.${cat}`)}
-                </option>
-              ))}
-            </select>
-            {errors.category && <p className="field-error">{errors.category}</p>}
-          </div>
-
           {/* Price + Unit */}
           <div className="form-row">
             <div className="float-field">
@@ -162,69 +181,18 @@ const ProductForm = () => {
             </div>
           </div>
 
-          {/* GST */}
-          <div className="float-field">
-            <div className="input-with-icon">
-              <MdOutlinePercent className="input-icon" size={17} />
-              <select
-                className="float-input has-icon has-value"
-                name="gst"
-                value={["0", "5", "12", "18", "28"].includes(formData.gst) ? formData.gst : "custom"}
-                onChange={(e) => {
-                  if (e.target.value === "custom") {
-                    setFormData({ ...formData, gst: "" });
-                  } else {
-                    setFormData({ ...formData, gst: e.target.value });
-                  }
-                }}
-                style={{ paddingTop: "20px", paddingBottom: "6px", cursor: "pointer" }}
-              >
-                <option value="0">0%</option>
-                <option value="5">5%</option>
-                <option value="12">12%</option>
-                <option value="18">18%</option>
-                <option value="28">28%</option>
-                <option value="custom">{t("productForm.customOption")}</option>
-              </select>
-              <label
-                className="float-label icon-label"
-                style={{ top: "6px", fontSize: "11px", color: "#667eea", fontWeight: 600 }}
-              >
-                {t("productForm.gstRate")}
-              </label>
-            </div>
-
-            {/* Custom GST input */}
-            {!["0", "5", "12", "18", "28"].includes(formData.gst) && (
-              <div className="input-with-icon" style={{ marginTop: "8px" }}>
-                <MdOutlinePercent className="input-icon" size={17} />
-                <input
-                  className={`float-input has-icon ${formData.gst ? "has-value" : ""} ${errors.gst ? "input-error" : ""}`}
-                  type="number" name="gst" placeholder=" " min="0" max="100"
-                  value={formData.gst}
-                  onChange={(e) => {
-                    setFormData({ ...formData, gst: e.target.value });
-                    setErrors({ ...errors, gst: "" });
-                  }}
-                />
-                <label className="float-label icon-label">{t("productForm.customGst")}</label>
-              </div>
-            )}
-            {errors.gst && <p className="field-error">{errors.gst}</p>}
-          </div>
-
-          {/* Stock */}
+          {/* Quantity */}
           <div className="float-field">
             <div className="input-with-icon">
               <MdOutlineNumbers className="input-icon" size={17} />
               <input
-                className={`float-input has-icon ${formData.stock ? "has-value" : ""} ${errors.stock ? "input-error" : ""}`}
-                type="number" name="stock" placeholder=" " min="0"
-                value={formData.stock} onChange={handleChange}
+                className={`float-input has-icon ${formData.quantity ? "has-value" : ""} ${errors.quantity ? "input-error" : ""}`}
+                type="number" name="quantity" placeholder=" " min="0"
+                value={formData.quantity} onChange={handleChange}
               />
               <label className="float-label icon-label">{t("productForm.stock")}</label>
             </div>
-            {errors.stock && <p className="field-error">{errors.stock}</p>}
+            {errors.quantity && <p className="field-error">{errors.quantity}</p>}
           </div>
 
           {/* Status */}
@@ -238,7 +206,7 @@ const ProductForm = () => {
                   className={`status-option-btn ${formData.status === s ? `active ${s}` : ""}`}
                   onClick={() => setFormData({ ...formData, status: s })}
                 >
-                  {t(`productForm.statuses.${s}`)}
+                  {s === "in_stock" ? t("productForm.statuses.in_stock") : t("productForm.statuses.out_of_stock")}
                 </button>
               ))}
             </div>
@@ -257,6 +225,9 @@ const ProductForm = () => {
             </div>
           </div>
 
+          {/* API Error */}
+          {apiError && <div className="error-message">{apiError}</div>}
+
           {/* Success */}
           {success && (
             <div className="success-message">
@@ -264,8 +235,12 @@ const ProductForm = () => {
             </div>
           )}
 
-          <button type="submit" className="product-submit-btn">
-            {isEdit ? t("productForm.submitEdit") : t("productForm.submitAdd")}
+          <button type="submit" className="product-submit-btn" disabled={loading}>
+            {loading
+              ? t("productForm.submitting")
+              : isEdit
+              ? t("productForm.submitEdit")
+              : t("productForm.submitAdd")}
           </button>
 
         </form>
